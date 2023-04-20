@@ -20,4 +20,6 @@ public interface ICuenta {
     List<CuentaEntity> listarCuentaAgricultor(String nitAgricultor);
     
     String createCuenta(CuentaDto cuentaDto);
+    
+    CuentaEntity actualizarEstado(int state, int idCuenta);
 }
