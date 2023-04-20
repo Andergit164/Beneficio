@@ -70,5 +70,12 @@ public class CuentaImpl implements ICuenta{
         Id = cuentaRepository.requestNexVal();
         return Id;
     }
-    
+
+    @Override
+    public CuentaEntity actualizarEstado(int state, int idCuenta) {
+          final CuentaEntity updateState = cuentaRepository.findById(idCuenta).orElse(null);
+          updateState.setIdEstado(new EstadosEntity(state));
+          cuentaRepository.save(updateState);
+          return null;
+    }
 }

@@ -19,6 +19,7 @@ import com.cafetito.service.ICuenta;
 import com.cafetito.service.IParcialidad;
 import com.cafetito.service.ITransporte;
 import com.cafetito.service.ITransportista;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,7 @@ public class BeneficioController {
      */
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Crea un nuevo alcance masivo")
     public List<CuentaEntity> listarCuentas(
             @PathVariable("nitAgricultor") String nitAgricultor) {
         return cuenta.listarCuentaAgricultor(nitAgricultor);
@@ -150,5 +152,20 @@ public class BeneficioController {
             @RequestBody ParcialidadDto Dto) {
         return parcialidad.createParcialidad(Dto);
     }
+    
+    @RequestMapping(value = "/updateState/{idCuenta}/{state}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public CuentaEntity updateState(
+            @PathVariable("idCuenta") int idCuenta,
+            @PathVariable("state") int state) {
+        return cuenta.actualizarEstado(state, idCuenta);
+    }
+    
+//    @PutMapping(path = "/State/{noExpedienteTributa}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @ApiOperation(value = "Actualiza el estado del Expediente.")
+//    public void PutColaborator(@PathVariable(required = true) String noExpedienteTributa) {
+//        expedientesService.updateState(1, noExpedienteTributa);
+//    }
 
 }
