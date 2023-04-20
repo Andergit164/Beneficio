@@ -5,6 +5,7 @@
  */
 package com.cafetito.entity.peso;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,20 +18,20 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "parcialidad", schema = "public")
-public class CuentaBeneficioEntity {
+@Table(name = "cuentasBeneficio", schema = "public")
+public class CuentaBeneficioEntity implements Serializable{
     
     private int idCuenta;
     private int idPesaje;
     private String estadoCuenta;
 
-    public CuentaBeneficioEntity() {
+    public CuentaBeneficioEntity() { 
     }
 
     public CuentaBeneficioEntity(int idCuenta) {
         this.idCuenta = idCuenta;
     }
-
+    
     public CuentaBeneficioEntity(int idCuenta, int idPesaje, String estadoCuenta) {
         this.idCuenta = idCuenta;
         this.idPesaje = idPesaje;

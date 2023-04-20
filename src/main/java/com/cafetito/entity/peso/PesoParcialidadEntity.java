@@ -5,6 +5,7 @@
  */
 package com.cafetito.entity.peso;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ import lombok.Builder;
 @Builder
 @Entity
 @Table(name = "parcialidad", schema = "public")
-public class PesoParcialidadEntity {
+public class PesoParcialidadEntity implements Serializable{
     
     private int idParcialidad;
     private CuentaBeneficioEntity idCuenta;
@@ -58,7 +59,7 @@ public class PesoParcialidadEntity {
     }
 
     @Id
-    @Column(name = "id_parcialidad")
+    @Column(name = "id_parcialidad", unique=true, nullable=false)
     public int getIdParcialidad() {
         return idParcialidad;
     }
@@ -132,7 +133,7 @@ public class PesoParcialidadEntity {
         this.fechaPeso = fechaPeso;
     }
 
-    @Column(name = "boleta_generada")
+    @Column(nullable=true, name = "boleta_generada")
     public boolean isBoleta() {
         return boleta;
     }
