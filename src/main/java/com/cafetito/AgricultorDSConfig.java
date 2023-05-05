@@ -21,30 +21,30 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "pesoEntityManagerFactory",
-        transactionManagerRef = "pesoTransactionManager",
-        basePackages = {"com.cafetito.repository.peso"})
-public class PesoDSConfig {
-
+@EnableJpaRepositories(entityManagerFactoryRef = "agricultorEntityManagerFactory", 
+        transactionManagerRef = "agricultorTransactionManager", 
+        basePackages = {"com.cafetito.repository.agricultor"})
+public class AgricultorDSConfig {
+    
     @Autowired
     private Environment env;
-
-    @Bean(name = "pesoDataSource")
-    public DataSource pesoDataSource() {
+    
+    @Bean(name = "agricultorDataSource")
+    public DataSource agricultorDataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl(env.getProperty("peso.datasource.url"));
-        dataSource.setUsername(env.getProperty("peso.datasource.username"));
-        dataSource.setPassword(env.getProperty("peso.datasource.password"));
-        dataSource.setDriverClassName(env.getProperty("peso.datasource.driver-class-name"));
-
+        dataSource.setUrl(env.getProperty("agricultor.datasource.url"));
+        dataSource.setUsername(env.getProperty("agricultor.datasource.username"));
+        dataSource.setPassword(env.getProperty("agricultor.datasource.password"));
+        dataSource.setDriverClassName(env.getProperty("agricultor.datasource.driver-class-name"));
+        
         return dataSource;
     }
     
-    @Bean(name = "pesoEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean pesoEntityManagerFactory() {
+    @Bean(name = "agricultorEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean agricultorEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(pesoDataSource());
-        em.setPackagesToScan("com.cafetito.entity.peso");
+        em.setDataSource(agricultorDataSource());
+        em.setPackagesToScan("com.cafetito.entity.agricultor");
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -59,10 +59,10 @@ public class PesoDSConfig {
         return em;
     }
     
-    @Bean(name = "pesoTransactionManager")
-     public PlatformTransactionManager pesoTransactionManager(){
+    @Bean(name = "agricultorTransactionManager")
+     public PlatformTransactionManager agricultorTransactionManager(){
          JpaTransactionManager transactionManager = new JpaTransactionManager();
-         transactionManager.setEntityManagerFactory(pesoEntityManagerFactory().getObject());
+         transactionManager.setEntityManagerFactory(agricultorEntityManagerFactory().getObject());
          
          return transactionManager;
      }

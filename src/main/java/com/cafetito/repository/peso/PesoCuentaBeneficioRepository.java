@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.repository.agricultor;
+package com.cafetito.repository.peso;
 
-import com.cafetito.entity.agricultor.ParcialidadAgriEntity;
+import com.cafetito.entity.peso.CuentaBeneficioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Anderson
  */
 @Repository
-public interface ParcialidadAgriRepository extends JpaRepository<ParcialidadAgriEntity, Integer>{
+public interface PesoCuentaBeneficioRepository extends JpaRepository<CuentaBeneficioEntity, Integer>{
     
 }

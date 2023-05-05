@@ -5,7 +5,7 @@
  */
 package com.cafetito.repository.agricultor;
 
-import com.cafetito.entity.agricultor.ParcialidadAgriEntity;
+import com.cafetito.entity.agricultor.PesajeAgriEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Anderson
  */
 @Repository
-public interface ParcialidadAgriRepository extends JpaRepository<ParcialidadAgriEntity, Integer>{
+public interface PesajeAgriRepository extends JpaRepository<PesajeAgriEntity, Integer>{
     
 }

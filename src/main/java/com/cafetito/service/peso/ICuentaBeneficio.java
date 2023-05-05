@@ -5,16 +5,17 @@
  */
 package com.cafetito.service.peso;
 
-import com.cafetito.entity.peso.PesoParcialidadEntity;
+import com.cafetito.dtos.peso.PesoCuentaBeneficioDto;
+import com.cafetito.entity.peso.CuentaBeneficioEntity;
 import java.util.List;
 
 /**
  *
  * @author Anderson
  */
-public interface IPesoParcialidad {
+public interface ICuentaBeneficio {
     
-    List<PesoParcialidadEntity> listarParcialidades(Integer idCuenta);
-
-    PesoParcialidadEntity actualiarPeso(int idParcialidad, double peso);
+    String createCuenta(PesoCuentaBeneficioDto dto);
+    
+    List<CuentaBeneficioEntity> listarCuentas();
 }
