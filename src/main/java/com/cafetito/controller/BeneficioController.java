@@ -68,6 +68,7 @@ public class BeneficioController {
      * @return 
      * @url rutas para la entidad cuenta
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Crea un nuevo alcance masivo")
@@ -102,6 +103,7 @@ public class BeneficioController {
      * @url rutas para la entidad transporte
      */
     
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/transport/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String createTransport(
@@ -109,6 +111,7 @@ public class BeneficioController {
         return transporte.saveTransport(dto);
     }
     
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/transport/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TransporteEntity> listTransport(
@@ -122,6 +125,7 @@ public class BeneficioController {
      * @url rutas para la entidad transportista
      */
     
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/carrier/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String createCarrier(
@@ -129,6 +133,7 @@ public class BeneficioController {
         return transportista.createCarrier(dto);
     }
     
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/carrier/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TransportistaEntity> listCarrier(
@@ -141,6 +146,7 @@ public class BeneficioController {
      * @return 
      * @url rutas para la entidad parcialidad
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/count/parts/{idCuenta}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<ParcialidadEntity> listParts(
@@ -148,6 +154,7 @@ public class BeneficioController {
         return parcialidad.listarParcialidades(idCuenta);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String createCountPart(
@@ -155,6 +162,7 @@ public class BeneficioController {
         return parcialidad.createParcialidad(Dto);
     }
     
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/updateState/{idCuenta}/{state}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public CuentaEntity updateState(
