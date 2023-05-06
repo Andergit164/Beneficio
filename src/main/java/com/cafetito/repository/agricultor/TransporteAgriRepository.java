@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Anderson
  */
 @Repository
-@Transactional(transactionManager = "agricultorTransactionManager")
 public interface TransporteAgriRepository extends JpaRepository<TransporteAgriEntity, String>{
     
 }

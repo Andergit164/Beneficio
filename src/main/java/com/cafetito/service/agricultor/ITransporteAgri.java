@@ -8,6 +8,7 @@ package com.cafetito.service.agricultor;
 import com.cafetito.dtos.agricultor.TransporteAgriDto;
 import com.cafetito.entity.agricultor.TransporteAgriEntity;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *

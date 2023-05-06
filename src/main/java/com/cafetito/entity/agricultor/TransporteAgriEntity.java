@@ -20,7 +20,7 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "transporte", schema = "public")
+@Table(name = "transporte")
 public class TransporteAgriEntity {
     
     @Id

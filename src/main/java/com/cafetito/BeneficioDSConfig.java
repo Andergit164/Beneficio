@@ -1,4 +1,3 @@
-
 package com.cafetito;
 
 import java.util.HashMap;
@@ -7,6 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -22,25 +22,25 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "beneficioEntityManagerFactory", 
-        transactionManagerRef = "beneficioTransactionManager", 
-        basePackages = { "com.cafetito.repository" })
+@EnableJpaRepositories(entityManagerFactoryRef = "beneficioEntityManagerFactory",
+        transactionManagerRef = "beneficioTransactionManager",
+        basePackages = {"com.cafetito.repository"})
 public class BeneficioDSConfig {
-    
+
     @Autowired
     private Environment env;
-    
+
     @Bean(name = "beneficioDataSource")
-    public DataSource beneficioDataSource(){
+    public DataSource beneficioDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl(env.getProperty("beneficio.datasource.url"));
         dataSource.setUsername(env.getProperty("beneficio.datasource.username"));
         dataSource.setPassword(env.getProperty("beneficio.datasource.password"));
         dataSource.setDriverClassName(env.getProperty("beneficio.datasource.driver-class-name"));
-        
+
         return dataSource;
     }
-    
+
     @Bean(name = "beneficioEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -59,12 +59,12 @@ public class BeneficioDSConfig {
 
         return em;
     }
-    
-     @Bean(name = "beneficioTransactionManager")
-     public PlatformTransactionManager transactionManager(){
-         JpaTransactionManager transactionManager = new JpaTransactionManager();
-         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-         
-         return transactionManager;
-     }
+
+    @Bean(name = "beneficioTransactionManager")
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+
+        return transactionManager;
+    }
 }
