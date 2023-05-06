@@ -35,7 +35,7 @@ public class AgricultorDSConfig {
         dataSource.setUrl(env.getProperty("agricultor.datasource.url"));
         dataSource.setUsername(env.getProperty("agricultor.datasource.username"));
         dataSource.setPassword(env.getProperty("agricultor.datasource.password"));
-        dataSource.setDriverClassName(env.getProperty("agricultor.datasource.driver-class-name"));
+        dataSource.setDriverClassName(env.getProperty("agricultor.datasource.driverClassName"));
         
         return dataSource;
     }

@@ -8,12 +8,14 @@ package com.cafetito.repository.agricultor;
 import com.cafetito.entity.agricultor.TransporteAgriEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Anderson
  */
 @Repository
+@Transactional(transactionManager = "agricultorTransactionManager")
 public interface TransporteAgriRepository extends JpaRepository<TransporteAgriEntity, String>{
     
 }
