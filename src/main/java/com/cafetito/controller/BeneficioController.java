@@ -25,6 +25,7 @@ import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,6 +71,7 @@ public class BeneficioController {
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Crea un nuevo alcance masivo")
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<CuentaEntity> listarCuentas(
             @PathVariable("nitAgricultor") String nitAgricultor) {
         return cuenta.listarCuentaAgricultor(nitAgricultor);
@@ -77,6 +79,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/count/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public String createCount(
             @RequestBody CuentaDto cuentaDto) {
         return cuenta.createCuenta(cuentaDto);
@@ -89,6 +92,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/farmer/listar", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<List<AgricultorEntity>> listarAgricultores() {
         List<AgricultorEntity> farmers = agricultor.listaAgricultores();
         return ResponseEntity.ok(farmers);
@@ -102,6 +106,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/transport/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public String createTransport(
             @RequestBody TransporteDto dto) {
         return transporte.saveTransport(dto);
@@ -109,6 +114,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/transport/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<TransporteEntity> listTransport(
             @PathVariable("nitAgricultor") String nitAgricultor){
         return transporte.listTransport(nitAgricultor);
@@ -122,6 +128,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/carrier/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public String createCarrier(
             @RequestBody TransportistaDto dto) {
         return transportista.createCarrier(dto);
@@ -129,6 +136,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/carrier/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<TransportistaEntity> listCarrier(
             @PathVariable("nitAgricultor") String nitAgricultor){
         return transportista.listCarriers(nitAgricultor);
@@ -141,6 +149,7 @@ public class BeneficioController {
      */
     @RequestMapping(value = "/count/parts/{idCuenta}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<ParcialidadEntity> listParts(
             @PathVariable("idCuenta") int idCuenta) {
         return parcialidad.listarParcialidades(idCuenta);
@@ -148,6 +157,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public String createCountPart(
             @RequestBody ParcialidadDto Dto) {
         return parcialidad.createParcialidad(Dto);
@@ -155,6 +165,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/updateState/{idCuenta}/{state}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public CuentaEntity updateState(
             @PathVariable("idCuenta") int idCuenta,
             @PathVariable("state") int state) {
