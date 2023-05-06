@@ -20,7 +20,7 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "transporte")
+@Table(name = "transporteAgri")
 public class TransporteAgriEntity {
     
     @Id
