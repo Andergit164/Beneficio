@@ -27,12 +27,14 @@ import lombok.Builder;
 @Builder
 @Entity
 @Table(name = "parcialidad", schema = "public")
-public class ParcialidadEntity implements Serializable{
-    
+public class ParcialidadEntity implements Serializable {
+
     private int idParcialidad;
     private CuentaEntity idCuenta;
     private TransporteEntity idTransporte;
     private TransportistaEntity idTransportista;
+    private boolean valido;
+    private String recibido;
     private Date fechaRecepcionParcialidad;
     private double pesoEnviado;
     private double pesoBascula;
@@ -41,12 +43,19 @@ public class ParcialidadEntity implements Serializable{
 
     public ParcialidadEntity() {
     }
+
+    public ParcialidadEntity(int idParcialidad) {
+        this.idParcialidad = idParcialidad;
+    }
     
-    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula) {
+ 
+    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
         this.idTransportista = idTransportista;
+        this.valido = valido;
+        this.recibido = recibido;
         this.fechaRecepcionParcialidad = fechaRecepcionParcialidad;
         this.pesoEnviado = pesoEnviado;
         this.pesoBascula = pesoBascula;
@@ -55,7 +64,6 @@ public class ParcialidadEntity implements Serializable{
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_parcialidad")
     public int getIdParcialidad() {
         return idParcialidad;
@@ -141,5 +149,23 @@ public class ParcialidadEntity implements Serializable{
     public void setFechaPesoBascula(Date fechaPesoBascula) {
         this.fechaPesoBascula = fechaPesoBascula;
     }
-    
+
+    @Column(name = "valido")
+    public boolean isValido() {
+        return valido;
+    }
+
+    public void setValido(boolean valido) {
+        this.valido = valido;
+    }
+
+    @Column(name = "recibido")
+    public String getRecibido() {
+        return recibido;
+    }
+
+    public void setRecibido(String recibido) {
+        this.recibido = recibido;
+    }
+
 }

@@ -5,6 +5,7 @@
  */
 package com.cafetito.controller;
 
+import com.cafetito.dtos.AgricultorDto;
 import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.ParcialidadDto;
 import com.cafetito.dtos.TransporteDto;
@@ -92,6 +93,13 @@ public class BeneficioController {
     public ResponseEntity<List<AgricultorEntity>> listarAgricultores() {
         List<AgricultorEntity> farmers = agricultor.listaAgricultores();
         return ResponseEntity.ok(farmers);
+    }
+    
+    @RequestMapping(value = "/create/farmer", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public String crearAgricultor(
+            @RequestBody AgricultorDto dto) {
+        return agricultor.crearAgricultor(dto);
     }
     
     /**

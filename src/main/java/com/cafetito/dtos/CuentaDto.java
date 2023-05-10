@@ -21,8 +21,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CuentaDto implements Serializable{
-    private Integer idCuenta;
+ 
     private String nitAgricultor;
     private Integer idPesaje;
     private Double pesoEnviado;
+    private String usuarioAgrego;
 }

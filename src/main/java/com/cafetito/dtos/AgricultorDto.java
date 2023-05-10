@@ -25,5 +25,5 @@ public class AgricultorDto {
     private Boolean activo;
     private String observaciones;
     private String nombre;
-    private Date fecha;
+    private String usuarioAgrego;
 }

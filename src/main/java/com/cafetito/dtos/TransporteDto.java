@@ -24,4 +24,5 @@ public class TransporteDto {
     private String idTransporte;
     private String nitAgricultor;
     private String observaciones;
+    private String usuarioAgrego;
 }

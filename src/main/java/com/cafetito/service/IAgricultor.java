@@ -5,6 +5,7 @@
  */
 package com.cafetito.service;
 
+import com.cafetito.dtos.AgricultorDto;
 import com.cafetito.entity.AgricultorEntity;
 import java.util.List;
 
@@ -15,4 +16,6 @@ import java.util.List;
 public interface IAgricultor {
     
     public abstract List<AgricultorEntity> listaAgricultores();
+    
+    String crearAgricultor(AgricultorDto dto);
 }

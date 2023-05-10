@@ -6,12 +6,16 @@
 package com.cafetito.impl;
 
 
+import com.cafetito.dtos.AgricultorDto;
 import com.cafetito.entity.AgricultorEntity;
+import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.repository.AgricultorRepository;
-import com.cafetito.service.IAgricultor;import java.util.List;
+import com.cafetito.repository.HistoricoBitacoraRepository;
+import com.cafetito.service.IAgricultor;import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 ;
-import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;
 
 /**
  *
@@ -21,11 +25,38 @@ import org.springframework.stereotype.Service;import org.springframework.stereot
 public class AgricultorImpl implements IAgricultor {
     
     @Autowired
-    private AgricultorRepository agricultorRepository;
+    private AgricultorRepository agricultor;
+    
+    @Autowired
+    private HistoricoBitacoraRepository bitacora;
 
     @Override
     public List<AgricultorEntity> listaAgricultores() {
-       return agricultorRepository.findAll();
+       return agricultor.findAll();
+    }
+
+    @Override
+    public String crearAgricultor(AgricultorDto dto) {
+        agricultor.save(AgricultorEntity.builder()
+                .nitAgricultor(dto.getNitAgricultor())
+                .nombre(dto.getNombre())
+                .activo(dto.getActivo())
+                .observaciones(dto.getObservaciones())
+                .fecha(new Date())
+                .build()
+        );
+        
+        bitacora.save(
+                HistoricoBitacoraEntity.builder()
+                        .idRegistro(dto.getNitAgricultor())
+                        .accion("INSERT")
+                        .tabla("agricultor")
+                        .activo(true)
+                        .usuarioAgrego("localHost")
+                        .fechaAccion(new Date())
+                        .build()
+        );
+        return null;
     }
 
 }

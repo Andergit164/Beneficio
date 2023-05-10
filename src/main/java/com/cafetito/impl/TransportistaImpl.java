@@ -7,7 +7,9 @@ package com.cafetito.impl;
 
 import com.cafetito.dtos.TransportistaDto;
 import com.cafetito.entity.AgricultorEntity;
+import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.TransportistaEntity;
+import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.TransportistaRepository;
 import com.cafetito.service.ITransportista;
 import java.util.Date;
@@ -25,6 +27,9 @@ public class TransportistaImpl implements ITransportista{
     @Autowired
     private TransportistaRepository transportistaRepository;
     
+    @Autowired
+    private HistoricoBitacoraRepository bitacora;
+    
     @Override
     public String createCarrier(TransportistaDto dto) {
         transportistaRepository.save(
@@ -33,6 +38,17 @@ public class TransportistaImpl implements ITransportista{
                         .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
                         .observaciones(dto.getObservaciones())
                         .fechaCreacion(new Date())
+                        .build()
+        );
+        
+        bitacora.save(
+                HistoricoBitacoraEntity.builder()
+                        .idRegistro(String.valueOf(dto.getIdTransportista()))
+                        .accion("INSERT")
+                        .tabla("transportista")
+                        .activo(false)
+                        .usuarioAgrego("localHost")
+                        .fechaAccion(new Date())
                         .build()
         );
         return null;

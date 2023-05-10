@@ -38,6 +38,7 @@ public class CuentaEntity implements Serializable{
     private Double pesoTotalObtenido;
     private Double diferenciaTotal; 
     private AgricultorEntity nitAgricultor;
+    private String comentario;
 
     public CuentaEntity() {
     }
@@ -45,8 +46,8 @@ public class CuentaEntity implements Serializable{
     public CuentaEntity(Integer idCuenta) {
         this.idCuenta = idCuenta;
     }
-    
-    public CuentaEntity(int idCuenta, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, AgricultorEntity nitAgricultor) {
+
+    public CuentaEntity(int idCuenta, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, AgricultorEntity nitAgricultor, String comentario) {
         this.idCuenta = idCuenta;
         this.idPesaje = idPesaje;
         this.idEstado = idEstado;
@@ -55,8 +56,9 @@ public class CuentaEntity implements Serializable{
         this.pesoTotalObtenido = pesoTotalObtenido;
         this.diferenciaTotal = diferenciaTotal;
         this.nitAgricultor = nitAgricultor;
+        this.comentario = comentario;
     }
-
+    
     
     @Id
     @Column(name = "id_cuenta", unique=true, nullable=false)
@@ -136,6 +138,17 @@ public class CuentaEntity implements Serializable{
     public void setNitAgricultor(AgricultorEntity nitAgricultor) {
         this.nitAgricultor = nitAgricultor;
     }
+
+    @Column(name = "comentario")
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+    
+    
 
     @Override
     public String toString() {

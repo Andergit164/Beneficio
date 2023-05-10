@@ -10,6 +10,7 @@ import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoEstadoEntity;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.service.peso.ICuentaBeneficio;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,12 @@ public class PesoCuentaBeneficioImpl implements ICuentaBeneficio {
     @Override
     public String createCuenta(PesoCuentaBeneficioDto dto) {
         cuentaBeneficio.save(PesoCuentaEntity.builder()
-                        .idCuenta(dto.getIdCuenta())
-                        .idPesaje(dto.getIdPesaje())
-                        .idEstado(new PesoEstadoEntity(dto.getEstadoCuenta()))
-                        .build()
+                .idCuenta(dto.getIdCuenta())
+                .idPesaje(dto.getIdPesaje())
+                .idEstado(new PesoEstadoEntity(dto.getEstadoCuenta()))
+                .usuarioAgrega("localhost")
+                .fechaCreacion(new Date())
+                .build()
         );
         return null;
     }

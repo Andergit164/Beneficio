@@ -23,7 +23,8 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "estado", schema = "public")
+@Table(name = "estado",
+        schema = "pesocabal")
 public class PesoEstadoEntity implements Serializable {
 
     @Id
