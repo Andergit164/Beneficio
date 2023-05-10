@@ -5,6 +5,11 @@
  */
 package com.cafetito.impl.agricultor;
 
+import com.cafetito.entity.peso.AgricultorAgriEntity;
+import com.cafetito.repository.peso.AgricultorAgriRepository;
+import com.cafetito.service.agricultor.IAgricultorAgri;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,6 +17,14 @@ import org.springframework.stereotype.Service;
  * @author Anderson
  */
 @Service
-public class AgricultorAgriImpl {
+public class AgricultorAgriImpl implements IAgricultorAgri{
+    
+    @Autowired
+    private AgricultorAgriRepository agricultor;
+
+    @Override
+    public List<AgricultorAgriEntity> listarAgricultor() {
+        return agricultor.findAll();
+    }
     
 }

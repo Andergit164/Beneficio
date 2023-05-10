@@ -6,7 +6,7 @@
 package com.cafetito.service.agricultor;
 
 import com.cafetito.dtos.agricultor.TransportistaAgriDto;
-import com.cafetito.entity.agricultor.TransportistaAgriEntity;
+import com.cafetito.entity.peso.TransportistaAgriEntity;
 import java.util.List;
 
 /**

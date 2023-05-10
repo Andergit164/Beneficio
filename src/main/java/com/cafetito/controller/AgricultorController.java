@@ -5,12 +5,21 @@
  */
 package com.cafetito.controller;
 
+import com.cafetito.dtos.agricultor.ParcialidadAgriDto;
+import com.cafetito.dtos.agricultor.PesajeAgriDto;
 import com.cafetito.dtos.agricultor.TransporteAgriDto;
 import com.cafetito.dtos.agricultor.TransportistaAgriDto;
-import com.cafetito.entity.agricultor.TransporteAgriEntity;
-import com.cafetito.entity.agricultor.TransportistaAgriEntity;
+import com.cafetito.entity.peso.AgricultorAgriEntity;
+import com.cafetito.entity.peso.ParcialidadAgriEntity;
+import com.cafetito.entity.peso.PesajeAgriEntity;
+import com.cafetito.entity.peso.TransporteAgriEntity;
+import com.cafetito.entity.peso.TransportistaAgriEntity;
+import com.cafetito.service.agricultor.IAgricultorAgri;
+import com.cafetito.service.agricultor.IParcialidadAgri;
+import com.cafetito.service.agricultor.IPesajeAgri;
 import com.cafetito.service.agricultor.ITransporteAgri;
 import com.cafetito.service.agricultor.ITransportistaAgri;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +46,15 @@ public class AgricultorController {
     @Autowired
     private ITransportistaAgri transportista;
     
+    @Autowired
+    private IPesajeAgri pesaje;
+    
+    @Autowired
+    private IAgricultorAgri agricultor;
+    
+    @Autowired
+    private IParcialidadAgri parcialidad;
+    
     /**
      * @param dto
      * @return 
@@ -45,6 +63,7 @@ public class AgricultorController {
     
     @RequestMapping(value = "/create/transport", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Crea un nuevo transporte", notes = "Gets crc of all segments")
     public String createTransport(
             @RequestBody TransporteAgriDto dto) {
         return transporte.agregarTransporte(dto);
@@ -75,4 +94,58 @@ public class AgricultorController {
         return transportista.listarTransportistas();
     }
     
+    /**
+     * @param dto
+     * @return 
+     * @url rutas para la entidad pesaje
+     */
+    
+    @RequestMapping(value = "/create/weighing", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Crea un nuevo pesaje")
+    public String crearPesaje(
+            @RequestBody PesajeAgriDto dto) {
+        return pesaje.crearPesaje(dto);
+    }
+    
+    @RequestMapping(value = "/list/weighing", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Listar pesajes")
+    public List<PesajeAgriEntity> listarPesajes(){
+        return pesaje.listarPesaje();
+    }
+    
+    
+    /**
+     * @param dto
+     * @return 
+     * @url rutas para la entidad agricultor
+     */
+    @RequestMapping(value = "/show/farmer", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Muestra los datos del agricultor")
+    public List<AgricultorAgriEntity> mostrarAgricultor(){
+        return agricultor.listarAgricultor();
+    }
+    
+     /**
+     * @param idCuenta
+     * @return 
+     * @url rutas para la entidad parcialidad
+     */
+    @RequestMapping(value = "/count/parts/{idPesaje}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Listar las parcialidades en base a un pesaje")
+    public List<ParcialidadAgriEntity> listParts(
+            @PathVariable("idPesaje") int idPesaje) {
+        return parcialidad.listarParcialidades(idPesaje);
+    }
+
+    @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Crea una nueva parcialidad")
+    public String createCountPart(
+            @RequestBody ParcialidadAgriDto Dto) {
+        return parcialidad.crearParcialidad(Dto);
+    }
 }

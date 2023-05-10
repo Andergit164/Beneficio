@@ -6,7 +6,7 @@
 package com.cafetito.service.peso;
 
 import com.cafetito.dtos.peso.PesoCuentaBeneficioDto;
-import com.cafetito.entity.peso.CuentaBeneficioEntity;
+import com.cafetito.entity.peso.PesoCuentaEntity;
 import java.util.List;
 
 /**
@@ -17,5 +17,5 @@ public interface ICuentaBeneficio {
     
     String createCuenta(PesoCuentaBeneficioDto dto);
     
-    List<CuentaBeneficioEntity> listarCuentas();
+    List<PesoCuentaEntity> listarCuentas();
 }

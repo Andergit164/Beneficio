@@ -25,18 +25,58 @@ import lombok.Builder;
 @Builder
 @Entity
 @Table(name = "parcialidad", schema = "public")
-public class PesoParcialidadEntity implements Serializable{
-    
+public class PesoParcialidadEntity implements Serializable {
+
+    @Id
+    @Column(name = "id_parcialidad", unique = true, nullable = false)
     private int idParcialidad;
-    private CuentaBeneficioEntity idCuenta;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_cuenta")
+    private PesoCuentaEntity idCuenta;
+
+    @Column(name = "id_transporte")
     private String idTransporte;
+
+    @Column(name = "id_transportista")
     private int idTransportista;
+
+    @Column(name = "tipo_medida")
+    private String tipoMedida;
+
+    @Column(name = "aceptado")
     private boolean aceptado;
+
+    @Column(name = "observaciones")
     private String observaciones;
+
+    @Column(name = "peso_obtenido_kg")
     private double pesoObtenido;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_peso")
     private Date fechaPeso;
+
+    @Column(name = "boleta_generada")
     private boolean boleta;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_boleta")
     private Date fechaBoleta;
+
+    @Column(name = "usuario_agrego")
+    private String usuarioAgrega;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_creacion")
+    private Date fechaCreacion;
+
+    @Column(name = "usuario_modifico")
+    private String usuarioModifica;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_modifico")
+    private Date fechaModifico;
 
     public PesoParcialidadEntity() {
     }
@@ -45,21 +85,24 @@ public class PesoParcialidadEntity implements Serializable{
         this.idParcialidad = idParcialidad;
     }
 
-    public PesoParcialidadEntity(int idParcialidad, CuentaBeneficioEntity idCuenta, String idTransporte, int idTransportista, boolean aceptado, String observaciones, double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta) {
+    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, int idTransportista, String tipoMedida, boolean aceptado, String observaciones, double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
         this.idTransportista = idTransportista;
+        this.tipoMedida = tipoMedida;
         this.aceptado = aceptado;
         this.observaciones = observaciones;
         this.pesoObtenido = pesoObtenido;
         this.fechaPeso = fechaPeso;
         this.boleta = boleta;
         this.fechaBoleta = fechaBoleta;
+        this.usuarioAgrega = usuarioAgrega;
+        this.fechaCreacion = fechaCreacion;
+        this.usuarioModifica = usuarioModifica;
+        this.fechaModifico = fechaModifico;
     }
 
-    @Id
-    @Column(name = "id_parcialidad", unique=true, nullable=false)
     public int getIdParcialidad() {
         return idParcialidad;
     }
@@ -68,17 +111,14 @@ public class PesoParcialidadEntity implements Serializable{
         this.idParcialidad = idParcialidad;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_cuenta")
-    public CuentaBeneficioEntity getIdCuenta() {
+    public PesoCuentaEntity getIdCuenta() {
         return idCuenta;
     }
 
-    public void setIdCuenta(CuentaBeneficioEntity idCuenta) {
+    public void setIdCuenta(PesoCuentaEntity idCuenta) {
         this.idCuenta = idCuenta;
     }
 
-    @Column(name = "id_transporte")
     public String getIdTransporte() {
         return idTransporte;
     }
@@ -87,7 +127,6 @@ public class PesoParcialidadEntity implements Serializable{
         this.idTransporte = idTransporte;
     }
 
-    @Column(name = "id_transportista")
     public int getIdTransportista() {
         return idTransportista;
     }
@@ -96,7 +135,14 @@ public class PesoParcialidadEntity implements Serializable{
         this.idTransportista = idTransportista;
     }
 
-    @Column(name = "aceptado")
+    public String getTipoMedida() {
+        return tipoMedida;
+    }
+
+    public void setTipoMedida(String tipoMedida) {
+        this.tipoMedida = tipoMedida;
+    }
+
     public boolean isAceptado() {
         return aceptado;
     }
@@ -105,7 +151,6 @@ public class PesoParcialidadEntity implements Serializable{
         this.aceptado = aceptado;
     }
 
-    @Column(name = "observaciones")
     public String getObservaciones() {
         return observaciones;
     }
@@ -114,7 +159,6 @@ public class PesoParcialidadEntity implements Serializable{
         this.observaciones = observaciones;
     }
 
-    @Column(name = "peso_obtenido_kg")
     public double getPesoObtenido() {
         return pesoObtenido;
     }
@@ -123,8 +167,6 @@ public class PesoParcialidadEntity implements Serializable{
         this.pesoObtenido = pesoObtenido;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_peso")
     public Date getFechaPeso() {
         return fechaPeso;
     }
@@ -133,7 +175,6 @@ public class PesoParcialidadEntity implements Serializable{
         this.fechaPeso = fechaPeso;
     }
 
-    @Column(nullable=true, name = "boleta_generada")
     public boolean isBoleta() {
         return boleta;
     }
@@ -142,8 +183,6 @@ public class PesoParcialidadEntity implements Serializable{
         this.boleta = boleta;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_boleta")
     public Date getFechaBoleta() {
         return fechaBoleta;
     }
@@ -151,6 +190,37 @@ public class PesoParcialidadEntity implements Serializable{
     public void setFechaBoleta(Date fechaBoleta) {
         this.fechaBoleta = fechaBoleta;
     }
-    
-    
+
+    public String getUsuarioAgrega() {
+        return usuarioAgrega;
+    }
+
+    public void setUsuarioAgrega(String usuarioAgrega) {
+        this.usuarioAgrega = usuarioAgrega;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getUsuarioModifica() {
+        return usuarioModifica;
+    }
+
+    public void setUsuarioModifica(String usuarioModifica) {
+        this.usuarioModifica = usuarioModifica;
+    }
+
+    public Date getFechaModifico() {
+        return fechaModifico;
+    }
+
+    public void setFechaModifico(Date fechaModifico) {
+        this.fechaModifico = fechaModifico;
+    }
+
 }

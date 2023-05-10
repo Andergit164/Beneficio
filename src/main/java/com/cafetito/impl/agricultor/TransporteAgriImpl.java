@@ -6,8 +6,8 @@
 package com.cafetito.impl.agricultor;
 
 import com.cafetito.dtos.agricultor.TransporteAgriDto;
-import com.cafetito.entity.agricultor.TransporteAgriEntity;
-import com.cafetito.repository.agricultor.TransporteAgriRepository;
+import com.cafetito.entity.peso.TransporteAgriEntity;
+import com.cafetito.repository.peso.TransporteAgriRepository;
 import com.cafetito.service.agricultor.ITransporteAgri;
 import java.util.Date;
 import java.util.List;

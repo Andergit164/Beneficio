@@ -22,9 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ParcialidadAgriDto implements Serializable{
     
-    private Integer idParcialidad;
     private Integer idPesaje;
     private String idTransporte;
     private Double pesoParcialidad;
-    private Date fechaCreacion;
+    private String tipoMedida;
+
 }

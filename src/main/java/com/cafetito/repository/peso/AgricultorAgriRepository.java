@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.repository.agricultor;
+package com.cafetito.repository.peso;
 
-import com.cafetito.entity.agricultor.TransporteAgriEntity;
+import com.cafetito.entity.peso.AgricultorAgriEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Anderson
  */
 @Repository
-public interface TransporteAgriRepository extends JpaRepository<TransporteAgriEntity, String>{
+public interface AgricultorAgriRepository extends JpaRepository<AgricultorAgriEntity, String>{
     
 }

@@ -23,7 +23,5 @@ public class TransportistaDto {
 
     private Integer idTransportista;
     private String nitAgricultor;
-    private Boolean activo;
     private String observaciones;
-    private Date fechaCreacion;
 }

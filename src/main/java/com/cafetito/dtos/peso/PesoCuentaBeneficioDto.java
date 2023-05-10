@@ -23,5 +23,5 @@ public class PesoCuentaBeneficioDto implements Serializable{
 
     private Integer idCuenta;
     private Integer idPesaje;
-    private String estadoCuenta;
+    private Integer estadoCuenta;
 }

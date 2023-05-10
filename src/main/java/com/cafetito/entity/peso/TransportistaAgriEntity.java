@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.entity.agricultor;
+package com.cafetito.entity.peso;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
@@ -24,7 +24,8 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "transportistaAgri", schema = "public")
+@Table(name = "transportista",
+        schema = "agricultor")
 public class TransportistaAgriEntity {
     
     @Id
@@ -45,26 +46,37 @@ public class TransportistaAgriEntity {
     @Column(name = "activo")
     private boolean activo;
     
+    @Column(name = "usuario_agrego")
+    private String usuarioAgrega;
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_creacion_registro")
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
+
+    @Column(name = "usuario_modifico")
+    private String usuarioModifica;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_modifico")
+    private Date fechaModifico;
 
     public TransportistaAgriEntity() {
     }
 
-    
     public TransportistaAgriEntity(int idTransportista) {
         this.idTransportista = idTransportista;
     }
 
-
-    public TransportistaAgriEntity(int idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, Date fechaCreacion) {
+    public TransportistaAgriEntity(int idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idTransportista = idTransportista;
         this.idTransporte = idTransporte;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.activo = activo;
+        this.usuarioAgrega = usuarioAgrega;
         this.fechaCreacion = fechaCreacion;
+        this.usuarioModifica = usuarioModifica;
+        this.fechaModifico = fechaModifico;
     }
 
     public int getIdTransportista() {
@@ -107,6 +119,14 @@ public class TransportistaAgriEntity {
         this.activo = activo;
     }
 
+    public String getUsuarioAgrega() {
+        return usuarioAgrega;
+    }
+
+    public void setUsuarioAgrega(String usuarioAgrega) {
+        this.usuarioAgrega = usuarioAgrega;
+    }
+
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
@@ -114,7 +134,22 @@ public class TransportistaAgriEntity {
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+
+    public String getUsuarioModifica() {
+        return usuarioModifica;
+    }
+
+    public void setUsuarioModifica(String usuarioModifica) {
+        this.usuarioModifica = usuarioModifica;
+    }
+
+    public Date getFechaModifico() {
+        return fechaModifico;
+    }
+
+    public void setFechaModifico(Date fechaModifico) {
+        this.fechaModifico = fechaModifico;
+    }
     
-    
-    
+
 }

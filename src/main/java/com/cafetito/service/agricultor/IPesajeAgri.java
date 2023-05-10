@@ -5,10 +5,19 @@
  */
 package com.cafetito.service.agricultor;
 
+import com.cafetito.dtos.agricultor.PesajeAgriDto;
+import com.cafetito.entity.peso.PesajeAgriEntity;
+import java.util.List;
+
+
+
 /**
  *
  * @author Anderson
  */
 public interface IPesajeAgri {
     
+    String crearPesaje(PesajeAgriDto dto);
+    
+    List<PesajeAgriEntity> listarPesaje();
 }

@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ParcialidadDto implements Serializable{
     
-    private Integer idParcialidad;
     private Integer idCuenta;
     private String idTransporte;
     private Integer idTransportista;

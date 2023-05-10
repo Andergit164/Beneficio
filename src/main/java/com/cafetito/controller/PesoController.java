@@ -6,7 +6,7 @@
 package com.cafetito.controller;
 
 import com.cafetito.dtos.peso.PesoCuentaBeneficioDto;
-import com.cafetito.entity.peso.CuentaBeneficioEntity;
+import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
 import com.cafetito.service.peso.ICuentaBeneficio;
 import com.cafetito.service.peso.IPesoParcialidad;
@@ -64,7 +64,7 @@ public class PesoController {
     
     @RequestMapping(value = "/count", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<CuentaBeneficioEntity> listCounts() {
+    public List<PesoCuentaEntity> listCounts() {
         return cuenta.listarCuentas();
     }
     

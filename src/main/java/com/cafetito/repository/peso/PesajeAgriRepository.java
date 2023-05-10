@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.repository.agricultor;
+package com.cafetito.repository.peso;
 
-import com.cafetito.entity.agricultor.PesajeAgriEntity;
+import com.cafetito.entity.peso.PesajeAgriEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

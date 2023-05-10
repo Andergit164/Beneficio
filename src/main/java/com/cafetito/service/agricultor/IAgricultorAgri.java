@@ -5,10 +5,14 @@
  */
 package com.cafetito.service.agricultor;
 
+import com.cafetito.entity.peso.AgricultorAgriEntity;
+import java.util.List;
+
 /**
  *
  * @author Anderson
  */
 public interface IAgricultorAgri {
     
+    List<AgricultorAgriEntity> listarAgricultor();
 }

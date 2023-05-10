@@ -22,9 +22,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PesajeAgriDto implements Serializable{
    
-    private Integer idPesaje; 
     private String nitAgricultor;
     private Integer idCuenta;
     private Double pesoTotal;
-    private Date fechaCreacion;
+
 }

@@ -5,10 +5,17 @@
  */
 package com.cafetito.service.agricultor;
 
+import com.cafetito.dtos.agricultor.ParcialidadAgriDto;
+import com.cafetito.entity.peso.ParcialidadAgriEntity;
+import java.util.List;
+
 /**
  *
  * @author Anderson
  */
 public interface IParcialidadAgri {
     
+    public abstract String crearParcialidad(ParcialidadAgriDto dto);
+    
+    List<ParcialidadAgriEntity> listarParcialidades(Integer idPesaje);
 }

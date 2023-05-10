@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.entity.agricultor;
+package com.cafetito.entity.peso;
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -25,7 +25,8 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "parcialidadAgri", schema = "public")
+@Table(name = "parcialidad",
+        schema = "agricultor")
 public class ParcialidadAgriEntity {
     
     @Id
@@ -44,9 +45,22 @@ public class ParcialidadAgriEntity {
     @Column(name = "peso_parcialidad_kg")
     private double pesoParcialidad;
     
+    @Column(name = "tipo_medida")
+    private String tipoMedida;
+    
+    @Column(name = "usuario_agrego")
+    private String usuarioAgrega;
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_creacion_registro")
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
+
+    @Column(name = "usuario_modifico")
+    private String usuarioModifica;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_modifico")
+    private Date fechaModifico;
 
     public ParcialidadAgriEntity() {
     }
@@ -55,12 +69,16 @@ public class ParcialidadAgriEntity {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, double pesoParcialidad, Date fechaCreacion) {
+    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, double pesoParcialidad, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idParcialidad = idParcialidad;
         this.idPesaje = idPesaje;
         this.idTransporte = idTransporte;
         this.pesoParcialidad = pesoParcialidad;
+        this.tipoMedida = tipoMedida;
+        this.usuarioAgrega = usuarioAgrega;
         this.fechaCreacion = fechaCreacion;
+        this.usuarioModifica = usuarioModifica;
+        this.fechaModifico = fechaModifico;
     }
 
     public int getIdParcialidad() {
@@ -95,6 +113,22 @@ public class ParcialidadAgriEntity {
         this.pesoParcialidad = pesoParcialidad;
     }
 
+    public String getTipoMedida() {
+        return tipoMedida;
+    }
+
+    public void setTipoMedida(String tipoMedida) {
+        this.tipoMedida = tipoMedida;
+    }
+
+    public String getUsuarioAgrega() {
+        return usuarioAgrega;
+    }
+
+    public void setUsuarioAgrega(String usuarioAgrega) {
+        this.usuarioAgrega = usuarioAgrega;
+    }
+
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
@@ -102,7 +136,24 @@ public class ParcialidadAgriEntity {
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+
+    public String getUsuarioModifica() {
+        return usuarioModifica;
+    }
+
+    public void setUsuarioModifica(String usuarioModifica) {
+        this.usuarioModifica = usuarioModifica;
+    }
+
+    public Date getFechaModifico() {
+        return fechaModifico;
+    }
+
+    public void setFechaModifico(Date fechaModifico) {
+        this.fechaModifico = fechaModifico;
+    }
     
     
     
+   
 }

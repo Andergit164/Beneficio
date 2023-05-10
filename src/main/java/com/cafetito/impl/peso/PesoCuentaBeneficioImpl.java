@@ -6,7 +6,8 @@
 package com.cafetito.impl.peso;
 
 import com.cafetito.dtos.peso.PesoCuentaBeneficioDto;
-import com.cafetito.entity.peso.CuentaBeneficioEntity;
+import com.cafetito.entity.peso.PesoCuentaEntity;
+import com.cafetito.entity.peso.PesoEstadoEntity;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.service.peso.ICuentaBeneficio;
 import java.util.List;
@@ -25,18 +26,17 @@ public class PesoCuentaBeneficioImpl implements ICuentaBeneficio {
 
     @Override
     public String createCuenta(PesoCuentaBeneficioDto dto) {
-        cuentaBeneficio.save(
-                CuentaBeneficioEntity.builder()
+        cuentaBeneficio.save(PesoCuentaEntity.builder()
                         .idCuenta(dto.getIdCuenta())
                         .idPesaje(dto.getIdPesaje())
-                        .estadoCuenta(dto.getEstadoCuenta())
+                        .idEstado(new PesoEstadoEntity(dto.getEstadoCuenta()))
                         .build()
         );
         return null;
     }
 
     @Override
-    public List<CuentaBeneficioEntity> listarCuentas() {
+    public List<PesoCuentaEntity> listarCuentas() {
         return cuentaBeneficio.findAll();
     }
 
