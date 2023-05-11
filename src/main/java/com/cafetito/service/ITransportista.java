@@ -19,4 +19,6 @@ public interface ITransportista {
     
     public abstract List<TransportistaEntity> listCarriers(String nitAgricultor);
     
+    TransportistaEntity activarInactivarTransportista(Integer dpi, Boolean estado);
+    
 }

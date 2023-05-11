@@ -20,4 +20,6 @@ public interface ITransporte {
     public abstract String saveTransport(TransporteDto transporteDto);
     
     public abstract List<TransporteEntity> listTransport(String nitAgricultor);
+    
+    TransporteEntity activarInactivarTransporte(String placa, Boolean estado);
 }

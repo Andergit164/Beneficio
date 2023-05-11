@@ -172,6 +172,22 @@ public class BeneficioController {
         return cuenta.actualizarEstado(state, idCuenta);
     }
     
+    @RequestMapping(value = "/updateTransport/{placa}/{state}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public TransporteEntity updateTransport(
+            @PathVariable("placa") String placa,
+            @PathVariable("state") boolean state) {
+        return transporte.activarInactivarTransporte(placa, state);
+    }
+    
+    @RequestMapping(value = "/updateCarrier/{DPI}/{state}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public TransportistaEntity updateCarrier(
+            @PathVariable("DPI") int DPI,
+            @PathVariable("state") boolean state) {
+        return transportista.activarInactivarTransportista(DPI, state);
+    }
+    
 //    @PutMapping(path = "/State/{noExpedienteTributa}", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
 //    @ApiOperation(value = "Actualiza el estado del Expediente.")

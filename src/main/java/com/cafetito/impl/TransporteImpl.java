@@ -59,4 +59,27 @@ public class TransporteImpl implements ITransporte {
         return transporteRepository.listTransport(nitAgricultor);
     }
 
+    @Override
+    public TransporteEntity activarInactivarTransporte(String placa, Boolean estado) {
+        final TransporteEntity updateTransporte = transporteRepository.findById(placa).orElse(null);
+        if (updateTransporte != null) {
+            updateTransporte.setActivo(estado);
+            transporteRepository.save(updateTransporte);
+
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(updateTransporte.getIdTransporte())
+                            .accion("UPDATE")
+                            .tabla("transporte")
+                            .activo(estado)
+                            .usuarioAgrego("localHost")
+                            .fechaAccion(new Date())
+                            .build()
+            );
+        } else {
+            return null;
+        }
+        return updateTransporte;
+    }
+
 }

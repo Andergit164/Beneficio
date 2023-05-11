@@ -22,14 +22,14 @@ import org.springframework.stereotype.Service;
  * @author Anderson
  */
 @Service
-public class TransportistaImpl implements ITransportista{
+public class TransportistaImpl implements ITransportista {
 
     @Autowired
     private TransportistaRepository transportistaRepository;
-    
+
     @Autowired
     private HistoricoBitacoraRepository bitacora;
-    
+
     @Override
     public String createCarrier(TransportistaDto dto) {
         transportistaRepository.save(
@@ -40,7 +40,7 @@ public class TransportistaImpl implements ITransportista{
                         .fechaCreacion(new Date())
                         .build()
         );
-        
+
         bitacora.save(
                 HistoricoBitacoraEntity.builder()
                         .idRegistro(String.valueOf(dto.getIdTransportista()))
@@ -58,5 +58,29 @@ public class TransportistaImpl implements ITransportista{
     public List<TransportistaEntity> listCarriers(String nitAgricultor) {
         return transportistaRepository.listCarriersByAgricultor(nitAgricultor);
     }
-    
+
+    @Override
+    public TransportistaEntity activarInactivarTransportista(Integer dpi, Boolean estado) {
+        final TransportistaEntity updateTransportista = transportistaRepository.findById(dpi).orElse(null);
+        if (updateTransportista != null) {
+            updateTransportista.setActivo(estado);
+            transportistaRepository.save(updateTransportista);
+
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(String.valueOf(updateTransportista.getIdTransportista()))
+                            .accion("UPTDATE")
+                            .tabla("transportista")
+                            .activo(estado)
+                            .usuarioAgrego("localHost")
+                            .fechaAccion(new Date())
+                            .build()
+            );
+        } else {
+
+        }
+
+        return updateTransportista;
+    }
+
 }
