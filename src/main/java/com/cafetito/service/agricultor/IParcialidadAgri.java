@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface IParcialidadAgri {
     
-    public abstract String crearParcialidad(ParcialidadAgriDto dto);
+    public abstract Boolean crearParcialidad(ParcialidadAgriDto dto);
     
     List<ParcialidadAgriEntity> listarParcialidades(Integer idPesaje);
 }

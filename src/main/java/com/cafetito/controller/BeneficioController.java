@@ -72,18 +72,19 @@ public class BeneficioController {
      */
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Crea un nuevo alcance masivo")
+    @ApiOperation(value = "Lista las cuenta de un agricultor en base a su nit")
     public List<CuentaEntity> listarCuentas(
             @PathVariable("nitAgricultor") String nitAgricultor) {
         return cuenta.listarCuentaAgricultor(nitAgricultor);
     }
 
-    @RequestMapping(value = "/count/create", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createCount(
-            @RequestBody CuentaDto cuentaDto) {
-        return cuenta.createCuenta(cuentaDto);
-    }
+//    @RequestMapping(value = "/count/create", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @ApiOperation(value = "Crear una nueva cuenta")
+//    public String createCount(
+//            @RequestBody CuentaDto cuentaDto) {
+//        return cuenta.createCuenta(cuentaDto);
+//    }
     
     /**
      * @return 
@@ -156,12 +157,12 @@ public class BeneficioController {
         return parcialidad.listarParcialidades(idCuenta);
     }
 
-    @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createCountPart(
-            @RequestBody ParcialidadDto Dto) {
-        return parcialidad.createParcialidad(Dto);
-    }
+//    @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public String createCountPart(
+//            @RequestBody ParcialidadDto Dto) {
+//        return parcialidad.createParcialidad(Dto);
+//    }
     
     @RequestMapping(value = "/updateState/{idCuenta}/{state}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)

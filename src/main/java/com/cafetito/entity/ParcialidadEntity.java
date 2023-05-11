@@ -33,6 +33,7 @@ public class ParcialidadEntity implements Serializable {
     private CuentaEntity idCuenta;
     private TransporteEntity idTransporte;
     private TransportistaEntity idTransportista;
+    private int idParcialidadAgricultor;
     private boolean valido;
     private String recibido;
     private Date fechaRecepcionParcialidad;
@@ -47,13 +48,13 @@ public class ParcialidadEntity implements Serializable {
     public ParcialidadEntity(int idParcialidad) {
         this.idParcialidad = idParcialidad;
     }
-    
- 
-    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula) {
+
+    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
         this.idTransportista = idTransportista;
+        this.idParcialidadAgricultor = idParcialidadAgricultor;
         this.valido = valido;
         this.recibido = recibido;
         this.fechaRecepcionParcialidad = fechaRecepcionParcialidad;
@@ -62,6 +63,7 @@ public class ParcialidadEntity implements Serializable {
         this.diferenciaPeso = diferenciaPeso;
         this.fechaPesoBascula = fechaPesoBascula;
     }
+    
 
     @Id
     @Column(name = "id_parcialidad")
@@ -167,5 +169,16 @@ public class ParcialidadEntity implements Serializable {
     public void setRecibido(String recibido) {
         this.recibido = recibido;
     }
+
+    @Column(name = "id_parcialidad_agricultor")
+    public int getIdParcialidadAgricultor() {
+        return idParcialidadAgricultor;
+    }
+
+    public void setIdParcialidadAgricultor(int idParcialidadAgricultor) {
+        this.idParcialidadAgricultor = idParcialidadAgricultor;
+    }
+    
+    
 
 }

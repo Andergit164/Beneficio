@@ -31,13 +31,13 @@ import lombok.Builder;
 public class CuentaEntity implements Serializable{
     
     private int idCuenta;
+    private AgricultorEntity nitAgricultor;
     private int idPesaje;
-    private EstadosEntity idEstado;
+    private EstadosEntity idEstado; 
     private Date fechaCreacion;
     private Double pesoEnviado;
     private Double pesoTotalObtenido;
     private Double diferenciaTotal; 
-    private AgricultorEntity nitAgricultor;
     private String comentario;
 
     public CuentaEntity() {
@@ -47,19 +47,18 @@ public class CuentaEntity implements Serializable{
         this.idCuenta = idCuenta;
     }
 
-    public CuentaEntity(int idCuenta, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, AgricultorEntity nitAgricultor, String comentario) {
+    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario) {
         this.idCuenta = idCuenta;
+        this.nitAgricultor = nitAgricultor;
         this.idPesaje = idPesaje;
         this.idEstado = idEstado;
         this.fechaCreacion = fechaCreacion;
         this.pesoEnviado = pesoEnviado;
         this.pesoTotalObtenido = pesoTotalObtenido;
         this.diferenciaTotal = diferenciaTotal;
-        this.nitAgricultor = nitAgricultor;
         this.comentario = comentario;
     }
-    
-    
+  
     @Id
     @Column(name = "id_cuenta", unique=true, nullable=false)
     public int getIdCuenta() {

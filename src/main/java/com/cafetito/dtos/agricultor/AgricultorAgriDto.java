@@ -26,4 +26,5 @@ public class AgricultorAgriDto implements Serializable{
     private String nombre;
     private String direccion;
     private Date fecha;
+    private String usuarioAgrego;
 }

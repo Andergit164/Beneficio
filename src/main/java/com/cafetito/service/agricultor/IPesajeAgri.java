@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface IPesajeAgri {
     
-    String crearPesaje(PesajeAgriDto dto);
+    public abstract Boolean crearPesaje(PesajeAgriDto dto);
     
     List<PesajeAgriEntity> listarPesaje();
 }

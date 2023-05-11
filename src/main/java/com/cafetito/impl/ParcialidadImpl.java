@@ -39,39 +39,38 @@ public class ParcialidadImpl implements IParcialidad {
         return parcialidadRepository.listParcialidad(idCuenta);
     }
 
-    Integer id;
-
-    @Override
-    public String createParcialidad(ParcialidadDto dto) {
-        this.id = getId();
-        log.debug("id para la parcialidad: " + this.id);
-        parcialidadRepository.save(
-                ParcialidadEntity.builder()
-                        .idParcialidad(this.id)
-                        .idCuenta(new CuentaEntity(dto.getIdCuenta()))
-                        .idTransporte(new TransporteEntity(dto.getIdTransporte()))
-                        .idTransportista(new TransportistaEntity(dto.getIdTransportista()))
-                        .pesoEnviado(dto.getPesoEnviado()).recibido("Espera recepción")
-                        .build()
-        );
-
-        bitacora.save(
-                HistoricoBitacoraEntity.builder()
-                        .idRegistro(String.valueOf(this.id))
-                        .accion("INSERT")
-                        .tabla("parcialidad")
-                        .activo(false)
-                        .usuarioAgrego("localHost")
-                        .fechaAccion(new Date())
-                        .build() 
-        );
-        return null;
-    }
-
-    public Integer getId() {
-        Integer id;
-        id = parcialidadRepository.requestNexVal();
-        return id;
-    }
+//    Integer id;
+//
+//    @Override
+//    public String createParcialidad(ParcialidadDto dto) {
+//        this.id = getId();
+//        parcialidadRepository.save(
+//                ParcialidadEntity.builder()
+//                        .idParcialidad(this.id)
+//                        .idCuenta(new CuentaEntity(dto.getIdCuenta()))
+//                        .idTransporte(new TransporteEntity(dto.getIdTransporte()))
+//                        .idTransportista(new TransportistaEntity(dto.getIdTransportista()))
+//                        .pesoEnviado(dto.getPesoEnviado()).recibido("Espera recepción")
+//                        .build()
+//        );
+//
+//        bitacora.save(
+//                HistoricoBitacoraEntity.builder()
+//                        .idRegistro(String.valueOf(this.id))
+//                        .accion("INSERT")
+//                        .tabla("parcialidad")
+//                        .activo(false)
+//                        .usuarioAgrego("localHost")
+//                        .fechaAccion(new Date())
+//                        .build() 
+//        );
+//        return null;
+//    }
+//
+//    public Integer getId() {
+//        Integer id;
+//        id = parcialidadRepository.requestNexVal();
+//        return id;
+//    }
 
 }

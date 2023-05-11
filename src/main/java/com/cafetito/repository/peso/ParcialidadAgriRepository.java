@@ -23,4 +23,7 @@ public interface ParcialidadAgriRepository extends JpaRepository<ParcialidadAgri
     
      @Query("SELECT p FROM ParcialidadAgriEntity p WHERE id_pesaje = :idPesaje")
     List<ParcialidadAgriEntity> listarParcialidades(@Param("idPesaje") Integer idPesaje);
+    
+     @Query(value = "SELECT count(cu)+1 FROM ParcialidadAgriEntity cu")
+    int requestNexValAgricultor();
 }

@@ -20,6 +20,8 @@ import com.cafetito.service.agricultor.IPesajeAgri;
 import com.cafetito.service.agricultor.ITransporteAgri;
 import com.cafetito.service.agricultor.ITransportistaAgri;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +107,7 @@ public class AgricultorController {
     @RequestMapping(value = "/create/weighing", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Crea un nuevo pesaje")
-    public String crearPesaje(
+    public Boolean crearPesaje(
             @RequestBody PesajeAgriDto dto) {
         return pesaje.crearPesaje(dto);
     }
@@ -146,7 +148,9 @@ public class AgricultorController {
     @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Crea una nueva parcialidad")
-    public String createCountPart(
+    @ApiResponses(value = {
+        @ApiResponse(code = 500, message = "Ocurrior un error al insertar los datos")})
+    public Boolean createCountPart(
             @RequestBody ParcialidadAgriDto Dto) {
         return parcialidad.crearParcialidad(Dto);
     }

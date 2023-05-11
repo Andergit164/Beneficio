@@ -17,6 +17,6 @@ public interface IParcialidad {
     
     List<ParcialidadEntity> listarParcialidades(Integer idCuenta);
     
-    String createParcialidad(ParcialidadDto Dto);
+//    String createParcialidad(ParcialidadDto Dto);
     
 }

@@ -31,8 +31,7 @@ import lombok.Builder;
 public class PesajeAgriEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pesaje", unique = true, nullable = false)
+    @Column(name = "id_pesaje", unique = true)
     private int idPesaje;
 
     @ManyToOne(fetch = FetchType.EAGER)

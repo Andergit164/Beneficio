@@ -30,7 +30,6 @@ import lombok.Builder;
 public class ParcialidadAgriEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_parcialidad")
     private int idParcialidad;
     
@@ -41,6 +40,13 @@ public class ParcialidadAgriEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_transporte")
     private TransporteAgriEntity idTransporte;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_transportista")
+    private TransportistaAgriEntity idTransportista;
+    
+    @Column(name = "id_parcialidad_beneficio")
+    private int idParcialidadBeneficio;
     
     @Column(name = "peso_parcialidad_kg")
     private double pesoParcialidad;
@@ -69,10 +75,12 @@ public class ParcialidadAgriEntity {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, double pesoParcialidad, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, TransportistaAgriEntity idTransportista, int idParcialidadBeneficio, double pesoParcialidad, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idParcialidad = idParcialidad;
         this.idPesaje = idPesaje;
         this.idTransporte = idTransporte;
+        this.idTransportista = idTransportista;
+        this.idParcialidadBeneficio = idParcialidadBeneficio;
         this.pesoParcialidad = pesoParcialidad;
         this.tipoMedida = tipoMedida;
         this.usuarioAgrega = usuarioAgrega;
@@ -152,8 +160,23 @@ public class ParcialidadAgriEntity {
     public void setFechaModifico(Date fechaModifico) {
         this.fechaModifico = fechaModifico;
     }
+
+    public TransportistaAgriEntity getIdTransportista() {
+        return idTransportista;
+    }
+
+    public void setIdTransportista(TransportistaAgriEntity idTransportista) {
+        this.idTransportista = idTransportista;
+    }
+
+    public int getIdParcialidadBeneficio() {
+        return idParcialidadBeneficio;
+    }
+
+    public void setIdParcialidadBeneficio(int idParcialidadBeneficio) {
+        this.idParcialidadBeneficio = idParcialidadBeneficio;
+    }
     
     
     
-   
 }

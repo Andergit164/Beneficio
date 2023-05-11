@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 public class CuentaImpl implements ICuenta {
 
     @Autowired
-    //@Qualifier("cuentaRepository")
     private CuentaRepository cuentaRepository;
 
     @Autowired
@@ -51,39 +50,6 @@ public class CuentaImpl implements ICuenta {
         return "Activo";
     }
 
-    /**
-     * @param dto
-     * @param cuentaDto
-     * @return Servicio para crear una nueva cuenta.
-     */
-    @Override
-    public String createCuenta(CuentaDto dto) {
-        this.id = getId();
-        cuentaRepository.save(
-                CuentaEntity.builder()
-                        .idCuenta(this.id)
-                        .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
-                        .idPesaje(dto.getIdPesaje())
-                        .idEstado(new EstadosEntity(1))
-                        .fechaCreacion(new Date())
-                        .pesoEnviado(dto.getPesoEnviado())
-                        .build()
-        );
-        
-         bitacora.save(
-                HistoricoBitacoraEntity.builder()
-                        .idRegistro(String.valueOf(this.id))
-                        .accion("INSERT")
-                        .tabla("cuenta")
-                        .estadoAnterior(0)
-                        .estadoNuevo(1)
-                        .usuarioAgrego("localHost")
-                        .fechaAccion(new Date())
-                        .build()
-        );
-        return null;
-    }
-
     public Integer getId() {
         return cuentaRepository.requestNexVal();
     }
@@ -95,4 +61,35 @@ public class CuentaImpl implements ICuenta {
         cuentaRepository.save(updateState);
         return null;
     }
+    
+    
+//
+//    @Override
+//    public String createCuenta(CuentaDto dto) {
+//        this.id = getId();
+//        cuentaRepository.save(
+//                CuentaEntity.builder()
+//                        .idCuenta(this.id)
+//                        .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
+//                        .idPesaje(dto.getIdPesaje())
+//                        .idEstado(new EstadosEntity(1))
+//                        .fechaCreacion(new Date())
+//                        .pesoEnviado(dto.getPesoEnviado())
+//                        .build()
+//        );
+//        
+//         bitacora.save(
+//                HistoricoBitacoraEntity.builder()
+//                        .idRegistro(String.valueOf(this.id))
+//                        .accion("INSERT")
+//                        .tabla("cuenta")
+//                        .estadoAnterior(0)
+//                        .estadoNuevo(1)
+//                        .usuarioAgrego("localHost")
+//                        .fechaAccion(new Date())
+//                        .build()
+//        );
+//
+//        return null;
+//    }
 }
