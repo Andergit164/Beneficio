@@ -9,6 +9,7 @@ import com.cafetito.dtos.TransportistaDto;
 import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.TransportistaEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -16,12 +17,12 @@ import java.util.List;
  */
 public interface ITransportista {
     
-    public abstract String createCarrier(TransportistaDto dto);
+//    public abstract String createCarrier(TransportistaDto dto);
     
     public abstract List<TransportistaEntity> listCarriers(String nitAgricultor);
     
-    TransportistaEntity activarInactivarTransportista(Integer dpi, updateTransDto dto);
+    ResponseEntity<TransportistaEntity> activarInactivarTransportista(Integer dpi, updateTransDto dto);
     
-    TransportistaEntity deleteTransportista(Integer dpi);
+    ResponseEntity<TransportistaEntity> deleteTransportista(Integer dpi);
     
 }

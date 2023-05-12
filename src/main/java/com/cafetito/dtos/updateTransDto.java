@@ -22,4 +22,5 @@ public class updateTransDto {
     
     private String observaciones;
     private Boolean activo;
+    private String usuarioModifico;
 }

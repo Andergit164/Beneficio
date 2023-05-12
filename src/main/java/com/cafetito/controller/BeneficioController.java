@@ -10,6 +10,7 @@ import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.ParcialidadDto;
 import com.cafetito.dtos.TransporteDto;
 import com.cafetito.dtos.TransportistaDto;
+import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.AgricultorEntity;
 import com.cafetito.entity.CuentaEntity;
@@ -108,12 +109,12 @@ public class BeneficioController {
      * @return
      * @url rutas para la entidad transporte
      */
-    @RequestMapping(value = "/transport/create", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createTransport(
-            @RequestBody TransporteDto dto) {
-        return transporte.saveTransport(dto);
-    }
+//    @RequestMapping(value = "/transport/create", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public String createTransport(
+//            @RequestBody TransporteDto dto) {
+//        return transporte.saveTransport(dto);
+//    }
 
     @RequestMapping(value = "/transport/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -124,7 +125,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/updateTransport/{placa}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public TransporteEntity updateTransport(
+    public ResponseEntity<TransporteEntity> updateTransport(
             @PathVariable("placa") String placa,
             @RequestBody(required = true) updateTransDto dto) {
         return transporte.activarInactivarTransporte(placa, dto);
@@ -132,7 +133,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/deleteTransport/{placa}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public TransporteEntity deleteTransport(
+    public ResponseEntity<TransporteEntity> deleteTransport(
             @PathVariable("placa") String placa) {
         return transporte.deleteTransporte(placa);
     }
@@ -142,12 +143,12 @@ public class BeneficioController {
      * @return
      * @url rutas para la entidad transportista
      */
-    @RequestMapping(value = "/carrier/create", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createCarrier(
-            @RequestBody TransportistaDto dto) {
-        return transportista.createCarrier(dto);
-    }
+//    @RequestMapping(value = "/carrier/create", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public String createCarrier(
+//            @RequestBody TransportistaDto dto) {
+//        return transportista.createCarrier(dto);
+//    }
 
     @RequestMapping(value = "/carrier/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -158,7 +159,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/updateCarrier/{DPI}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public TransportistaEntity updateCarrier(
+    public ResponseEntity<TransportistaEntity> updateCarrier(
             @PathVariable("DPI") int DPI,
             @RequestBody(required = true) updateTransDto dto) {
         return transportista.activarInactivarTransportista(DPI, dto);
@@ -166,7 +167,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/deleteCarrier/{DPI}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public TransportistaEntity deleteCarrier(
+    public ResponseEntity<TransportistaEntity> deleteCarrier(
             @PathVariable("DPI") Integer DPI) {
         return transportista.deleteTransportista(DPI);
     }
@@ -181,6 +182,14 @@ public class BeneficioController {
     public List<ParcialidadEntity> listParts(
             @PathVariable("idCuenta") int idCuenta) {
         return parcialidad.listarParcialidades(idCuenta);
+    }
+    
+    @RequestMapping(value = "/income/parts", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Actuliza el ingreso de la parcialidad")
+    public ResponseEntity<ParcialidadEntity> updatePart(
+             @RequestBody updateParcialidadDto dto) {
+        return parcialidad.ingresoParcialidad(dto);
     }
 
 //    @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)

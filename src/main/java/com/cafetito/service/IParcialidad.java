@@ -6,8 +6,10 @@
 package com.cafetito.service;
 
 import com.cafetito.dtos.ParcialidadDto;
+import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.entity.ParcialidadEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -16,6 +18,8 @@ import java.util.List;
 public interface IParcialidad {
     
     List<ParcialidadEntity> listarParcialidades(Integer idCuenta);
+    
+     ResponseEntity<ParcialidadEntity> ingresoParcialidad(updateParcialidadDto dto);
     
 //    String createParcialidad(ParcialidadDto Dto);
     

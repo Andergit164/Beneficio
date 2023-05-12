@@ -26,6 +26,7 @@ import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,7 +69,7 @@ public class AgricultorController {
     @RequestMapping(value = "/create/transport", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Crea un nuevo transporte", notes = "Gets crc of all segments")
-    public String createTransport(
+    public ResponseEntity<TransporteAgriEntity> createTransport(
             @RequestBody TransporteAgriDto dto) {
         return transporte.agregarTransporte(dto);
     }
@@ -87,7 +88,7 @@ public class AgricultorController {
     
     @RequestMapping(value = "/create/carrier", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public String createCarrier(
+    public ResponseEntity<TransportistaAgriEntity> createCarrier(
             @RequestBody TransportistaAgriDto dto) {
         return transportista.crearTransportista(dto);
     }

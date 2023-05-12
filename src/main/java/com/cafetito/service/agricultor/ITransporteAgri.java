@@ -8,6 +8,7 @@ package com.cafetito.service.agricultor;
 import com.cafetito.dtos.agricultor.TransporteAgriDto;
 import com.cafetito.entity.peso.TransporteAgriEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -16,6 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface ITransporteAgri {
     
-    public abstract String agregarTransporte(TransporteAgriDto dto);
+    ResponseEntity<TransporteAgriEntity> agregarTransporte(TransporteAgriDto dto);
     public abstract List <TransporteAgriEntity> listarTransporte();
 }

@@ -75,7 +75,8 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                         .idTransportista(new TransportistaEntity(dto.getIdTransportista()))
                         .idParcialidadAgricultor(this.idParcialidadAgricultor)
                         .pesoEnviado(dto.getPesoParcialidad())
-                        .recibido("Espera recepción")
+                        .valido(false)
+                        .recibido("Espera de ingreso")
                         .build()
         );
 

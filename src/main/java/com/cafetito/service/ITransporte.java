@@ -9,6 +9,7 @@ import com.cafetito.dtos.TransporteDto;
 import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.TransporteEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 
 
@@ -18,11 +19,11 @@ import java.util.List;
  */
 public interface ITransporte {
     
-    public abstract String saveTransport(TransporteDto transporteDto);
+//    public abstract String saveTransport(TransporteDto transporteDto);
     
     public abstract List<TransporteEntity> listTransport(String nitAgricultor);
     
-    TransporteEntity activarInactivarTransporte(String placa, updateTransDto dto);
+    ResponseEntity<TransporteEntity> activarInactivarTransporte(String placa, updateTransDto dto);
     
-    TransporteEntity deleteTransporte(String placa);
+    ResponseEntity<TransporteEntity> deleteTransporte(String placa);
 }

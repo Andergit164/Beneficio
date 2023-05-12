@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.dtos.agricultor;
+package com.cafetito.dtos;
 
-import java.io.Serializable;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,12 +18,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransporteAgriDto{
-
-    private String placa;
-    private String marca;
-    private String color;
-    private Integer modelo;
-    private String nitAgricultor;
-    private String usuarioAgrego;
+public class updateParcialidadDto {
+    
+    private Integer idCuenta;
+    private Integer idParcialidad;
+    private String usuarioModifico;
+    
 }

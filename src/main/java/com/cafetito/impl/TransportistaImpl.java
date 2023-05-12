@@ -16,6 +16,8 @@ import com.cafetito.service.ITransportista;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,30 +33,30 @@ public class TransportistaImpl implements ITransportista {
     @Autowired
     private HistoricoBitacoraRepository bitacora;
 
-    @Override
-    public String createCarrier(TransportistaDto dto) {
-        transportistaRepository.save(
-                TransportistaEntity.builder()
-                        .idTransportista(dto.getIdTransportista())
-                        .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
-                        .nombre(dto.getNombre())
-                        .estado("Activo")
-                        .fechaCreacion(new Date())
-                        .build()
-        );
-
-        bitacora.save(
-                HistoricoBitacoraEntity.builder()
-                        .idRegistro(String.valueOf(dto.getIdTransportista()))
-                        .accion("INSERT")
-                        .tabla("transportista")
-                        .activo(false)
-                        .usuarioAgrego("localHost")
-                        .fechaAccion(new Date())
-                        .build()
-        );
-        return null;
-    }
+//    @Override
+//    public String createCarrier(TransportistaDto dto) {
+//        transportistaRepository.save(
+//                TransportistaEntity.builder()
+//                        .idTransportista(dto.getIdTransportista())
+//                        .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
+//                        .nombre(dto.getNombre())
+//                        .estado("Activo")
+//                        .fechaCreacion(new Date())
+//                        .build()
+//        );
+//
+//        bitacora.save(
+//                HistoricoBitacoraEntity.builder()
+//                        .idRegistro(String.valueOf(dto.getIdTransportista()))
+//                        .accion("INSERT")
+//                        .tabla("transportista")
+//                        .activo(false)
+//                        .usuarioAgrego("localHost")
+//                        .fechaAccion(new Date())
+//                        .build()
+//        );
+//        return null;
+//    }
 
     @Override
     public List<TransportistaEntity> listCarriers(String nitAgricultor) {
@@ -62,7 +64,7 @@ public class TransportistaImpl implements ITransportista {
     }
 
     @Override
-    public TransportistaEntity activarInactivarTransportista(Integer dpi, updateTransDto dto) {
+    public ResponseEntity<TransportistaEntity> activarInactivarTransportista(Integer dpi, updateTransDto dto) {
         final TransportistaEntity updateTransportista = transportistaRepository.findById(dpi).orElse(null);
         if (updateTransportista != null) {
             updateTransportista.setActivo(dto.getActivo());
@@ -80,14 +82,13 @@ public class TransportistaImpl implements ITransportista {
                             .build()
             );
         } else {
-
+            return new ResponseEntity("No se encontro información del DIP: " + dpi , HttpStatus.NO_CONTENT);
         }
-
-        return updateTransportista;
+                return new ResponseEntity("Se actualizo correctamente", HttpStatus.OK);
     }
 
     @Override
-    public TransportistaEntity deleteTransportista(Integer dpi) {
+    public ResponseEntity<TransportistaEntity> deleteTransportista(Integer dpi) {
           final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElse(null);
         if (deleteTransportista != null) {
             deleteTransportista.setActivo(false);
@@ -105,10 +106,9 @@ public class TransportistaImpl implements ITransportista {
                             .build()
             );
         } else {
-
+            return new ResponseEntity("No se encontro información del DPI : " + dpi , HttpStatus.NO_CONTENT);
         }
-
-        return deleteTransportista;
+        return new ResponseEntity("Transportista Eliminado", HttpStatus.OK);
     }
 
 }

@@ -16,6 +16,8 @@ import com.cafetito.service.ITransporte;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,29 +33,29 @@ public class TransporteImpl implements ITransporte {
     @Autowired
     private HistoricoBitacoraRepository bitacora;
 
-    @Override
-    public String saveTransport(TransporteDto Dto) {
-        transporteRepository.save(
-                TransporteEntity.builder()
-                        .idTransporte(Dto.getIdTransporte())
-                        .nitAgricultor(new AgricultorEntity(Dto.getNitAgricultor()))
-                        .fechaCreacion(new Date())
-                        .estado("Activo")
-                        .build()
-        );
-
-        bitacora.save(
-                HistoricoBitacoraEntity.builder()
-                        .idRegistro(Dto.getIdTransporte())
-                        .accion("INSERT")
-                        .tabla("transporte")
-                        .activo(false)
-                        .usuarioAgrego("localHost")
-                        .fechaAccion(new Date())
-                        .build()
-        );
-        return null;
-    }
+//    @Override
+//    public String saveTransport(TransporteDto Dto) {
+//        transporteRepository.save(
+//                TransporteEntity.builder()
+//                        .idTransporte(Dto.getIdTransporte())
+//                        .nitAgricultor(new AgricultorEntity(Dto.getNitAgricultor()))
+//                        .fechaCreacion(new Date())
+//                        .estado("Activo")
+//                        .build()
+//        );
+//
+//        bitacora.save(
+//                HistoricoBitacoraEntity.builder()
+//                        .idRegistro(Dto.getIdTransporte())
+//                        .accion("INSERT")
+//                        .tabla("transporte")
+//                        .activo(false)
+//                        .usuarioAgrego("localHost")
+//                        .fechaAccion(new Date())
+//                        .build()
+//        );
+//        return null;
+//    }
 
     @Override
     public List<TransporteEntity> listTransport(String nitAgricultor) {
@@ -61,7 +63,7 @@ public class TransporteImpl implements ITransporte {
     }
 
     @Override
-    public TransporteEntity activarInactivarTransporte(String placa, updateTransDto dto) {
+    public ResponseEntity<TransporteEntity> activarInactivarTransporte(String placa, updateTransDto dto) {
         final TransporteEntity updateTransporte = transporteRepository.findById(placa).orElse(null);
         if (updateTransporte != null) {
             updateTransporte.setActivo(dto.getActivo());
@@ -79,13 +81,13 @@ public class TransporteImpl implements ITransporte {
                             .build()
             );
         } else {
-            return null;
+            return new ResponseEntity("No se encontro información para la placa: " + placa , HttpStatus.NO_CONTENT);
         }
-        return updateTransporte;
+                return new ResponseEntity("Se actualizo correctamente", HttpStatus.OK);
     }
 
     @Override
-    public TransporteEntity deleteTransporte(String placa) {
+    public ResponseEntity<TransporteEntity> deleteTransporte(String placa) {
          final TransporteEntity deleteTransporte = transporteRepository.findById(placa).orElse(null);
         if (deleteTransporte != null) {
             deleteTransporte.setActivo(false);
@@ -103,9 +105,9 @@ public class TransporteImpl implements ITransporte {
                             .build()
             );
         } else {
-            return null;
+            return new ResponseEntity("No se encontro información para la placa: " + placa , HttpStatus.NO_CONTENT);
         }
-        return deleteTransporte;
+        return new ResponseEntity("Transporte Eliminado", HttpStatus.OK);
     }
 
 }
