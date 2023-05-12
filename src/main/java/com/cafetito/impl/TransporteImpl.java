@@ -6,6 +6,7 @@
 package com.cafetito.impl;
 
 import com.cafetito.dtos.TransporteDto;
+import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.AgricultorEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.TransporteEntity;
@@ -36,8 +37,8 @@ public class TransporteImpl implements ITransporte {
                 TransporteEntity.builder()
                         .idTransporte(Dto.getIdTransporte())
                         .nitAgricultor(new AgricultorEntity(Dto.getNitAgricultor()))
-                        .observaciones(Dto.getObservaciones())
                         .fechaCreacion(new Date())
+                        .estado("Activo")
                         .build()
         );
 
@@ -60,10 +61,11 @@ public class TransporteImpl implements ITransporte {
     }
 
     @Override
-    public TransporteEntity activarInactivarTransporte(String placa, Boolean estado) {
+    public TransporteEntity activarInactivarTransporte(String placa, updateTransDto dto) {
         final TransporteEntity updateTransporte = transporteRepository.findById(placa).orElse(null);
         if (updateTransporte != null) {
-            updateTransporte.setActivo(estado);
+            updateTransporte.setActivo(dto.getActivo());
+            updateTransporte.setObservaciones(dto.getObservaciones());
             transporteRepository.save(updateTransporte);
 
             bitacora.save(
@@ -71,7 +73,7 @@ public class TransporteImpl implements ITransporte {
                             .idRegistro(updateTransporte.getIdTransporte())
                             .accion("UPDATE")
                             .tabla("transporte")
-                            .activo(estado)
+                            .activo(dto.getActivo())
                             .usuarioAgrego("localHost")
                             .fechaAccion(new Date())
                             .build()
@@ -80,6 +82,30 @@ public class TransporteImpl implements ITransporte {
             return null;
         }
         return updateTransporte;
+    }
+
+    @Override
+    public TransporteEntity deleteTransporte(String placa) {
+         final TransporteEntity deleteTransporte = transporteRepository.findById(placa).orElse(null);
+        if (deleteTransporte != null) {
+            deleteTransporte.setActivo(false);
+            deleteTransporte.setEstado("Inactivo");
+            transporteRepository.save(deleteTransporte);
+
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(placa)
+                            .accion("DELETE")
+                            .tabla("transporte")
+                            .activo(false)
+                            .usuarioAgrego("localHost")
+                            .fechaAccion(new Date())
+                            .build()
+            );
+        } else {
+            return null;
+        }
+        return deleteTransporte;
     }
 
 }

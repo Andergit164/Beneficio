@@ -31,6 +31,7 @@ public class TransporteEntity implements Serializable{
     private AgricultorEntity nitAgricultor;
     private boolean activo;
     private String observaciones;
+    private String estado;
     private Date fechaCreacion;
 
     public TransporteEntity() {
@@ -40,11 +41,12 @@ public class TransporteEntity implements Serializable{
         this.idTransporte = idTransporte;
     }
 
-    public TransporteEntity(String idTransporte, AgricultorEntity nitAgricultor, boolean activo, String observaciones, Date fechaCreacion) {
+    public TransporteEntity(String idTransporte, AgricultorEntity nitAgricultor, boolean activo, String observaciones, String estado, Date fechaCreacion) {
         this.idTransporte = idTransporte;
         this.nitAgricultor = nitAgricultor;
         this.activo = activo;
         this.observaciones = observaciones;
+        this.estado = estado;
         this.fechaCreacion = fechaCreacion;
     }
 
@@ -94,6 +96,15 @@ public class TransporteEntity implements Serializable{
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    @Column(name = "estado")
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
    

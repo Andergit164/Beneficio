@@ -10,6 +10,7 @@ import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.ParcialidadDto;
 import com.cafetito.dtos.TransporteDto;
 import com.cafetito.dtos.TransportistaDto;
+import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.AgricultorEntity;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.ParcialidadEntity;
@@ -47,16 +48,16 @@ public class BeneficioController {
 
     @Autowired
     private ICuenta cuenta;
-    
+
     @Autowired
     private IAgricultor agricultor;
-    
+
     @Autowired
     private ITransporte transporte;
-    
+
     @Autowired
     private ITransportista transportista;
-    
+
     @Autowired
     private IParcialidad parcialidad;
 
@@ -67,7 +68,7 @@ public class BeneficioController {
 
     /**
      * @param nitAgricultor
-     * @return 
+     * @return
      * @url rutas para la entidad cuenta
      */
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
@@ -85,69 +86,94 @@ public class BeneficioController {
 //            @RequestBody CuentaDto cuentaDto) {
 //        return cuenta.createCuenta(cuentaDto);
 //    }
-    
     /**
-     * @return 
-     * @url rutas para la entidad agricultor
+     * @return @url rutas para la entidad agricultor
      */
-    
     @RequestMapping(value = "/farmer/listar", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<AgricultorEntity>> listarAgricultores() {
         List<AgricultorEntity> farmers = agricultor.listaAgricultores();
         return ResponseEntity.ok(farmers);
     }
-    
+
     @RequestMapping(value = "/create/farmer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String crearAgricultor(
             @RequestBody AgricultorDto dto) {
         return agricultor.crearAgricultor(dto);
     }
-    
+
     /**
      * @param dto
-     * @return 
+     * @return
      * @url rutas para la entidad transporte
      */
-    
     @RequestMapping(value = "/transport/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String createTransport(
             @RequestBody TransporteDto dto) {
         return transporte.saveTransport(dto);
     }
-    
+
     @RequestMapping(value = "/transport/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TransporteEntity> listTransport(
-            @PathVariable("nitAgricultor") String nitAgricultor){
+            @PathVariable("nitAgricultor") String nitAgricultor) {
         return transporte.listTransport(nitAgricultor);
     }
+
+    @RequestMapping(value = "/updateTransport/{placa}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public TransporteEntity updateTransport(
+            @PathVariable("placa") String placa,
+            @RequestBody(required = true) updateTransDto dto) {
+        return transporte.activarInactivarTransporte(placa, dto);
+    }
     
+    @RequestMapping(value = "/deleteTransport/{placa}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public TransporteEntity deleteTransport(
+            @PathVariable("placa") String placa) {
+        return transporte.deleteTransporte(placa);
+    }
+
     /**
      * @param dto
-     * @return 
+     * @return
      * @url rutas para la entidad transportista
      */
-    
     @RequestMapping(value = "/carrier/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String createCarrier(
             @RequestBody TransportistaDto dto) {
         return transportista.createCarrier(dto);
     }
-    
+
     @RequestMapping(value = "/carrier/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TransportistaEntity> listCarrier(
-            @PathVariable("nitAgricultor") String nitAgricultor){
+            @PathVariable("nitAgricultor") String nitAgricultor) {
         return transportista.listCarriers(nitAgricultor);
     }
+
+    @RequestMapping(value = "/updateCarrier/{DPI}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public TransportistaEntity updateCarrier(
+            @PathVariable("DPI") int DPI,
+            @RequestBody(required = true) updateTransDto dto) {
+        return transportista.activarInactivarTransportista(DPI, dto);
+    }
     
-     /**
+    @RequestMapping(value = "/deleteCarrier/{DPI}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public TransportistaEntity deleteCarrier(
+            @PathVariable("DPI") Integer DPI) {
+        return transportista.deleteTransportista(DPI);
+    }
+
+    /**
      * @param idCuenta
-     * @return 
+     * @return
      * @url rutas para la entidad parcialidad
      */
     @RequestMapping(value = "/count/parts/{idCuenta}", method = RequestMethod.GET)
@@ -163,7 +189,6 @@ public class BeneficioController {
 //            @RequestBody ParcialidadDto Dto) {
 //        return parcialidad.createParcialidad(Dto);
 //    }
-    
     @RequestMapping(value = "/updateState/{idCuenta}/{state}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public CuentaEntity updateState(
@@ -171,28 +196,11 @@ public class BeneficioController {
             @PathVariable("state") int state) {
         return cuenta.actualizarEstado(state, idCuenta);
     }
-    
-    @RequestMapping(value = "/updateTransport/{placa}/{state}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public TransporteEntity updateTransport(
-            @PathVariable("placa") String placa,
-            @PathVariable("state") boolean state) {
-        return transporte.activarInactivarTransporte(placa, state);
-    }
-    
-    @RequestMapping(value = "/updateCarrier/{DPI}/{state}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public TransportistaEntity updateCarrier(
-            @PathVariable("DPI") int DPI,
-            @PathVariable("state") boolean state) {
-        return transportista.activarInactivarTransportista(DPI, state);
-    }
-    
+
 //    @PutMapping(path = "/State/{noExpedienteTributa}", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
 //    @ApiOperation(value = "Actualiza el estado del Expediente.")
 //    public void PutColaborator(@PathVariable(required = true) String noExpedienteTributa) {
 //        expedientesService.updateState(1, noExpedienteTributa);
 //    }
-
 }

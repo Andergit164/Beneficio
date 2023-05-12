@@ -5,7 +5,6 @@
  */
 package com.cafetito.dtos;
 
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +18,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransportistaDto {
-
-    private Integer idTransportista;
-    private String nitAgricultor;
-    private String nombre;
-    private String usuarioAgrego;
+public class updateTransDto {
+    
+    private String observaciones;
+    private Boolean activo;
 }

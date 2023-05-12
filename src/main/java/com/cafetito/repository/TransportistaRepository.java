@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransportistaRepository extends JpaRepository<TransportistaEntity, Integer>{
     
-     @Query("SELECT t3 FROM TransportistaEntity t3 WHERE nit_agricultor = :nitAgricultor")
+     @Query("SELECT t3 FROM TransportistaEntity t3 WHERE nit_agricultor = :nitAgricultor AND estado = 'Activo'")
     List<TransportistaEntity> listCarriersByAgricultor(@Param("nitAgricultor") String nitAgricultor);
     
 }

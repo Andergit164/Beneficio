@@ -6,6 +6,7 @@
 package com.cafetito.impl;
 
 import com.cafetito.dtos.TransportistaDto;
+import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.AgricultorEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.TransportistaEntity;
@@ -36,7 +37,8 @@ public class TransportistaImpl implements ITransportista {
                 TransportistaEntity.builder()
                         .idTransportista(dto.getIdTransportista())
                         .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
-                        .observaciones(dto.getObservaciones())
+                        .nombre(dto.getNombre())
+                        .estado("Activo")
                         .fechaCreacion(new Date())
                         .build()
         );
@@ -60,10 +62,11 @@ public class TransportistaImpl implements ITransportista {
     }
 
     @Override
-    public TransportistaEntity activarInactivarTransportista(Integer dpi, Boolean estado) {
+    public TransportistaEntity activarInactivarTransportista(Integer dpi, updateTransDto dto) {
         final TransportistaEntity updateTransportista = transportistaRepository.findById(dpi).orElse(null);
         if (updateTransportista != null) {
-            updateTransportista.setActivo(estado);
+            updateTransportista.setActivo(dto.getActivo());
+            updateTransportista.setObservaciones(dto.getObservaciones());
             transportistaRepository.save(updateTransportista);
 
             bitacora.save(
@@ -71,7 +74,7 @@ public class TransportistaImpl implements ITransportista {
                             .idRegistro(String.valueOf(updateTransportista.getIdTransportista()))
                             .accion("UPTDATE")
                             .tabla("transportista")
-                            .activo(estado)
+                            .activo(dto.getActivo())
                             .usuarioAgrego("localHost")
                             .fechaAccion(new Date())
                             .build()
@@ -81,6 +84,31 @@ public class TransportistaImpl implements ITransportista {
         }
 
         return updateTransportista;
+    }
+
+    @Override
+    public TransportistaEntity deleteTransportista(Integer dpi) {
+          final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElse(null);
+        if (deleteTransportista != null) {
+            deleteTransportista.setActivo(false);
+            deleteTransportista.setEstado("Inactivo");
+            transportistaRepository.save(deleteTransportista);
+
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(String.valueOf(deleteTransportista.getIdTransportista()))
+                            .accion("DELETE")
+                            .tabla("transportista")
+                            .activo(false)
+                            .usuarioAgrego("localHost")
+                            .fechaAccion(new Date())
+                            .build()
+            );
+        } else {
+
+        }
+
+        return deleteTransportista;
     }
 
 }

@@ -6,6 +6,7 @@
 package com.cafetito.service;
 
 import com.cafetito.dtos.TransportistaDto;
+import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.TransportistaEntity;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface ITransportista {
     
     public abstract List<TransportistaEntity> listCarriers(String nitAgricultor);
     
-    TransportistaEntity activarInactivarTransportista(Integer dpi, Boolean estado);
+    TransportistaEntity activarInactivarTransportista(Integer dpi, updateTransDto dto);
+    
+    TransportistaEntity deleteTransportista(Integer dpi);
     
 }
