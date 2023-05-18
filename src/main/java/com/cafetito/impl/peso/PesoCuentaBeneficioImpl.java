@@ -25,22 +25,22 @@ public class PesoCuentaBeneficioImpl implements ICuentaBeneficio {
     @Autowired
     private PesoCuentaBeneficioRepository cuentaBeneficio;
 
-    @Override
-    public String createCuenta(PesoCuentaBeneficioDto dto) {
-        cuentaBeneficio.save(PesoCuentaEntity.builder()
-                .idCuenta(dto.getIdCuenta())
-                .idPesaje(dto.getIdPesaje())
-                .idEstado(new PesoEstadoEntity(dto.getEstadoCuenta()))
-                .usuarioAgrega("localhost")
-                .fechaCreacion(new Date())
-                .build()
-        );
-        return null;
-    }
+//    @Override
+//    public String createCuenta(PesoCuentaBeneficioDto dto) {
+//        cuentaBeneficio.save(PesoCuentaEntity.builder()
+//                .idCuenta(dto.getIdCuenta())
+//                .idPesaje(dto.getIdPesaje())
+//                .idEstado(new PesoEstadoEntity(dto.getEstadoCuenta()))
+//                .usuarioAgrega("localhost")
+//                .fechaCreacion(new Date())
+//                .build()
+//        );
+//        return null;
+//    }
 
     @Override
     public List<PesoCuentaEntity> listarCuentas() {
-        return cuentaBeneficio.findAll();
+        return cuentaBeneficio.listCuentas();
     }
 
 }

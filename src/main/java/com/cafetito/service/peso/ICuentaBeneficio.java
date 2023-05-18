@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface ICuentaBeneficio {
     
-    String createCuenta(PesoCuentaBeneficioDto dto);
+//    String createCuenta(PesoCuentaBeneficioDto dto);
     
     List<PesoCuentaEntity> listarCuentas();
 }

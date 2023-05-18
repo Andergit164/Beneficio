@@ -19,12 +19,8 @@ public class PesoParcialidadDto implements Serializable{
     
     private Integer idParcialidad;
     private Integer idCuenta;
-    private String idTransporte;
-    private Integer idTransportista;
-    private Boolean aceptado;
     private String observaciones;
     private Double pesoObtenido;
     private Date fechaPeso;
-    private Boolean boleta;
-    private Date fechaBoleta;
+    private String usuarioModifico;
 }

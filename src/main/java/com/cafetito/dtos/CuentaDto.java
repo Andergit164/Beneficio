@@ -24,6 +24,5 @@ public class CuentaDto implements Serializable{
  
     private String nitAgricultor;
     private Integer idPesaje;
-    private Double pesoEnviado;
     private String usuarioAgrego;
 }

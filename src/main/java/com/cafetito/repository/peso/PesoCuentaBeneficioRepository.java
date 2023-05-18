@@ -6,7 +6,9 @@
 package com.cafetito.repository.peso;
 
 import com.cafetito.entity.peso.PesoCuentaEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,4 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PesoCuentaBeneficioRepository extends JpaRepository<PesoCuentaEntity, Integer>{
     
+    @Query("SELECT p FROM PesoCuentaEntity p WHERE id_estado = 2 or id_estado = 3")
+    List<PesoCuentaEntity> listCuentas();
 }

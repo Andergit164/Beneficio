@@ -14,6 +14,8 @@ import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.service.IAgricultor;import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 ;
 import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class AgricultorImpl implements IAgricultor {
     }
 
     @Override
-    public String crearAgricultor(AgricultorDto dto) {
+    public ResponseEntity<AgricultorEntity> crearAgricultor(AgricultorDto dto) {
         agricultor.save(AgricultorEntity.builder()
                 .nitAgricultor(dto.getNitAgricultor())
                 .nombre(dto.getNombre())
@@ -56,7 +58,8 @@ public class AgricultorImpl implements IAgricultor {
                         .fechaAccion(new Date())
                         .build()
         );
-        return null;
+        return new ResponseEntity("Agricultor creado con exito.", 
+                HttpStatus.CREATED);
     }
 
 }

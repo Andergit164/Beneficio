@@ -39,6 +39,9 @@ public class CuentaEntity implements Serializable{
     private Double pesoTotalObtenido;
     private Double diferenciaTotal; 
     private String comentario;
+    private int totalParcialidades;
+    private boolean tolerancia;
+    private String resultadoTolerancia;
 
     public CuentaEntity() {
     }
@@ -47,7 +50,7 @@ public class CuentaEntity implements Serializable{
         this.idCuenta = idCuenta;
     }
 
-    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario) {
+    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario, int totalParcialidades, boolean tolerancia, String resultadoTolerancia) {
         this.idCuenta = idCuenta;
         this.nitAgricultor = nitAgricultor;
         this.idPesaje = idPesaje;
@@ -57,8 +60,11 @@ public class CuentaEntity implements Serializable{
         this.pesoTotalObtenido = pesoTotalObtenido;
         this.diferenciaTotal = diferenciaTotal;
         this.comentario = comentario;
+        this.totalParcialidades = totalParcialidades;
+        this.tolerancia = tolerancia;
+        this.resultadoTolerancia = resultadoTolerancia;
     }
-  
+
     @Id
     @Column(name = "id_cuenta", unique=true, nullable=false)
     public int getIdCuenta() {
@@ -146,7 +152,33 @@ public class CuentaEntity implements Serializable{
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
-    
+
+    @Column(name = "total_parcialidades")
+    public int getTotalParcialidades() {
+        return totalParcialidades;
+    }
+
+    public void setTotalParcialidades(int totalParcialidades) {
+        this.totalParcialidades = totalParcialidades;
+    }
+
+    @Column(name = "tolerancia")
+    public boolean isTolerancia() {
+        return tolerancia;
+    }
+
+    public void setTolerancia(boolean tolerancia) {
+        this.tolerancia = tolerancia;
+    }
+
+     @Column(name = "resultado_tolerancia")
+    public String getResultadoTolerancia() {
+        return resultadoTolerancia;
+    }
+
+    public void setResultadoTolerancia(String resultadoTolerancia) {
+        this.resultadoTolerancia = resultadoTolerancia;
+    }
     
 
     @Override

@@ -19,10 +19,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParcialidadRepository extends JpaRepository<ParcialidadEntity, Integer>{
     
+    @Query("SELECT p FROM ParcialidadEntity p "
+            + "WHERE id_cuenta = :idCuenta "
+            + "AND fecha_peso is not null")
+    List<ParcialidadEntity> listParcialidadPeso(@Param("idCuenta") Integer idCuenta);
+    
     @Query("SELECT p FROM ParcialidadEntity p WHERE id_cuenta = :idCuenta")
     List<ParcialidadEntity> listParcialidad(@Param("idCuenta") Integer idCuenta);
     
     @Query(value = "SELECT count(cu)+1 FROM ParcialidadEntity cu")
     int requestNexVal();
+    
+    @Query(value = "SELECT count(cu) FROM ParcialidadEntity cu "
+            + "WHERE id_cuenta = :idCuenta "
+            + "AND fecha_peso is not null")
+    int requestCountParts(@Param("idCuenta") Integer idCuenta);
     
 }

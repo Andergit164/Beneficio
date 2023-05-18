@@ -15,9 +15,11 @@ import com.cafetito.entity.peso.ParcialidadAgriEntity;
 import com.cafetito.entity.peso.PesajeAgriEntity;
 import com.cafetito.entity.peso.TransporteAgriEntity;
 import com.cafetito.entity.peso.TransportistaAgriEntity;
+import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.ParcialidadRepository;
 import com.cafetito.repository.peso.ParcialidadAgriRepository;
+import com.cafetito.repository.peso.PesajeAgriRepository;
 import com.cafetito.service.agricultor.IParcialidadAgri;
 import java.util.Date;
 import java.util.List;
@@ -38,61 +40,95 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
 
     @Autowired
     private ParcialidadRepository parcialidadBeneficio;
-    
+
     @Autowired
     private HistoricoBitacoraRepository bitacora;
 
+    @Autowired
+    private CuentaRepository beneficioCuenta;
+
+    @Autowired
+    private PesajeAgriRepository pesaje;
+
     Integer idParcialidadAgricultor;
     Integer idParcialidadBeneficio;
+    Integer totalParcialidades;
+    Double pesoTotal = 0.0;
 
     @Override
-    public Boolean crearParcialidad(ParcialidadAgriDto dto) {
-        
-        this.idParcialidadAgricultor = getIdAgricultor();
-        this.idParcialidadBeneficio = getIdBeneficio();
+    public ResponseEntity<ParcialidadAgriEntity> crearParcialidad(ParcialidadAgriDto dto) {
 
-        //Metodo utilizado para crear una parcialidad en el Agricultor
-        parcialidad.save(
-                ParcialidadAgriEntity.builder()
-                        .idParcialidad(this.idParcialidadAgricultor)
-                        .idPesaje(new PesajeAgriEntity(dto.getIdPesaje()))
-                        .idTransporte(new TransporteAgriEntity(dto.getIdTransporte()))
-                        .idTransportista(new TransportistaAgriEntity(dto.getIdTransportista()))
-                        .idParcialidadBeneficio(this.idParcialidadBeneficio)
-                        .pesoParcialidad(dto.getPesoParcialidad())
-                        .tipoMedida(dto.getTipoMedida())
-                        .fechaCreacion(new Date())
-                        .usuarioAgrega("localhost")
-                        .build()
-        );
-        
-        //Metodo utilizado para crear una parcialidad en el Beneficio
-         parcialidadBeneficio.save(
-                ParcialidadEntity.builder()
-                        .idParcialidad(this.idParcialidadBeneficio)
-                        .idCuenta(new CuentaEntity(dto.getIdCuenta()))
-                        .idTransporte(new TransporteEntity(dto.getIdTransporte()))
-                        .idTransportista(new TransportistaEntity(dto.getIdTransportista()))
-                        .idParcialidadAgricultor(this.idParcialidadAgricultor)
-                        .pesoEnviado(dto.getPesoParcialidad())
-                        .valido(false)
-                        .recibido("Espera de ingreso")
-                        .build()
-        );
+        final CuentaEntity beneficioCount = beneficioCuenta.findById(dto.getIdCuenta()).orElse(null);
+        final PesajeAgriEntity pesajeAgri = pesaje.findById(dto.getIdPesaje()).orElse(null);
+        final CuentaEntity countBene = beneficioCuenta.findById(dto.getIdCuenta()).orElse(null);
 
-         //Metodo utilizado para guardar en bitacora la creacion de la parcialidad en el beneficio
-        bitacora.save(
-                HistoricoBitacoraEntity.builder()
-                        .idRegistro(String.valueOf(this.idParcialidadBeneficio))
-                        .accion("INSERT")
-                        .tabla("parcialidad")
-                        .activo(false)
-                        .usuarioAgrego("localHost")
-                        .fechaAccion(new Date())
-                        .build() 
-        );
+        if (beneficioCount.getIdEstado().getIdEstado() == 1) {
 
-        return true;
+            this.idParcialidadAgricultor = getIdAgricultor();
+            this.idParcialidadBeneficio = getIdBeneficio();
+            this.totalParcialidades = getCountPart(dto.getIdPesaje());
+
+            //Metodo utilizado para crear una parcialidad en el Agricultor
+            parcialidad.save(
+                    ParcialidadAgriEntity.builder()
+                            .idParcialidad(this.idParcialidadAgricultor)
+                            .idPesaje(new PesajeAgriEntity(dto.getIdPesaje()))
+                            .idTransporte(new TransporteAgriEntity(dto.getIdTransporte()))
+                            .idTransportista(new TransportistaAgriEntity(dto.getIdTransportista()))
+                            .idParcialidadBeneficio(this.idParcialidadBeneficio)
+                            .pesoParcialidad(dto.getPesoParcialidad())
+                            .tipoMedida(dto.getTipoMedida())
+                            .fechaCreacion(new Date())
+                            .usuarioAgrega(dto.getUsuarioAgrego())
+                            .build()
+            );
+
+            this.listarParcialidades(dto.getIdPesaje()).forEach(peso -> {
+                this.pesoTotal += peso.getPesoParcialidad();
+            });
+            
+            pesajeAgri.setTotalParcialidades(this.totalParcialidades);
+            pesajeAgri.setPesoTotal(this.pesoTotal);
+            pesajeAgri.setUsuarioModifica(dto.getUsuarioAgrego());
+            pesajeAgri.setFechaModifico(new Date());
+            pesaje.save(pesajeAgri);
+
+            //Metodo utilizado para crear una parcialidad en el Beneficio
+            parcialidadBeneficio.save(
+                    ParcialidadEntity.builder()
+                            .idParcialidad(this.idParcialidadBeneficio)
+                            .idCuenta(new CuentaEntity(dto.getIdCuenta()))
+                            .idTransporte(new TransporteEntity(dto.getIdTransporte()))
+                            .idTransportista(new TransportistaEntity(dto.getIdTransportista()))
+                            .idParcialidadAgricultor(this.idParcialidadAgricultor)
+                            .pesoEnviado(dto.getPesoParcialidad())
+                            .valido(false)
+                            .tipoMedida(dto.getTipoMedida())
+                            .recibido("Espera de ingreso")
+                            .build()
+            );
+
+            countBene.setTotalParcialidades(this.totalParcialidades);
+            countBene.setPesoEnviado(this.pesoTotal);
+            beneficioCuenta.save(countBene);
+
+            //Metodo utilizado para guardar en bitacora la creacion de la parcialidad en el beneficio
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(String.valueOf(this.idParcialidadBeneficio))
+                            .accion("INSERT")
+                            .tabla("parcialidad")
+                            .activo(false)
+                            .usuarioAgrego(dto.getUsuarioAgrego())
+                            .fechaAccion(new Date())
+                            .build()
+            );
+        } else {
+            return new ResponseEntity("La cuenta se encuentra en estado: " + beneficioCount.getIdEstado().getNombre() + " nos es posible agregar mas parcialidades",
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity("Parcialidad Ingresada",
+                HttpStatus.CREATED);
     }
 
     //Metodo utilizado para obtener el id de la parcialidad para el Beneficio
@@ -106,6 +142,13 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
     public Integer getIdAgricultor() {
         Integer id;
         id = parcialidad.requestNexValAgricultor();
+        return id;
+    }
+
+    //Metodo utilizado para obtener el total de parcialidades
+    public Integer getCountPart(Integer idPesaje) {
+        Integer id;
+        id = parcialidad.requestNexValPart(idPesaje);
         return id;
     }
 

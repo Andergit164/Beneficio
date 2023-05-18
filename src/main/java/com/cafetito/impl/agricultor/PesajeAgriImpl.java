@@ -51,9 +51,8 @@ public class PesajeAgriImpl implements IPesajeAgri{
                         .idPesaje(this.idPesaje)
                         .nitAgricultor(new AgricultorAgriEntity(dto.getNitAgricultor()))
                         .idCuenta(this.idCuenta)
-                        .pesoTotal(dto.getPesoTotal())
                         .fechaCreacion(new Date())
-                        .usuarioAgrega("localhost")
+                        .usuarioAgrega(dto.getUsuarioAgrego())
                         .build()
                         
         ); 
@@ -66,7 +65,6 @@ public class PesajeAgriImpl implements IPesajeAgri{
                         .idPesaje(this.idPesaje)
                         .idEstado(new EstadosEntity(1))
                         .fechaCreacion(new Date())
-                        .pesoEnviado(dto.getPesoTotal())
                         .build()
         );
         
@@ -78,7 +76,7 @@ public class PesajeAgriImpl implements IPesajeAgri{
                         .tabla("cuenta")
                         .estadoAnterior(0)
                         .estadoNuevo(1)
-                        .usuarioAgrego("localHost")
+                        .usuarioAgrego(dto.getUsuarioAgrego())
                         .fechaAccion(new Date())
                         .build()
         );

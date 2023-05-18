@@ -10,8 +10,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,6 +39,7 @@ public class ParcialidadEntity implements Serializable {
     private double pesoBascula;
     private double diferenciaPeso;
     private Date fechaPesoBascula;
+    private String tipoMedida;
 
     public ParcialidadEntity() {
     }
@@ -49,7 +48,7 @@ public class ParcialidadEntity implements Serializable {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula) {
+    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula, String tipoMedida) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
@@ -62,8 +61,8 @@ public class ParcialidadEntity implements Serializable {
         this.pesoBascula = pesoBascula;
         this.diferenciaPeso = diferenciaPeso;
         this.fechaPesoBascula = fechaPesoBascula;
+        this.tipoMedida = tipoMedida;
     }
-    
 
     @Id
     @Column(name = "id_parcialidad")
@@ -177,6 +176,15 @@ public class ParcialidadEntity implements Serializable {
 
     public void setIdParcialidadAgricultor(int idParcialidadAgricultor) {
         this.idParcialidadAgricultor = idParcialidadAgricultor;
+    }
+
+    @Column(name = "tipo_medida")
+    public String getTipoMedida() {
+        return tipoMedida;
+    }
+
+    public void setTipoMedida(String tipoMedida) {
+        this.tipoMedida = tipoMedida;
     }
     
     

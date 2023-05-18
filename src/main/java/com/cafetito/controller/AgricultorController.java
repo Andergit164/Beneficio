@@ -151,7 +151,7 @@ public class AgricultorController {
     @ApiOperation(value = "Crea una nueva parcialidad")
     @ApiResponses(value = {
         @ApiResponse(code = 500, message = "Ocurrior un error al insertar los datos")})
-    public Boolean createCountPart(
+    public ResponseEntity<ParcialidadAgriEntity> createCountPart(
             @RequestBody ParcialidadAgriDto Dto) {
         return parcialidad.crearParcialidad(Dto);
     }

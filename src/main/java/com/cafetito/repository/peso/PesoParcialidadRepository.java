@@ -19,6 +19,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PesoParcialidadRepository extends JpaRepository<PesoParcialidadEntity, Integer> {
 
-    @Query("SELECT p FROM PesoParcialidadEntity p WHERE id_cuenta = :idCuenta")
+    @Query("SELECT p FROM PesoParcialidadEntity p WHERE id_cuenta = :idCuenta AND aceptado = true")
     List<PesoParcialidadEntity> listParcialidad(@Param("idCuenta") Integer idCuenta);
 }

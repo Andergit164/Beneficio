@@ -6,8 +6,10 @@
 package com.cafetito.service;
 
 import com.cafetito.dtos.CuentaDto;
+import com.cafetito.dtos.RechazoDto;
 import com.cafetito.entity.CuentaEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -21,5 +23,9 @@ public interface ICuenta {
     
 //    String createCuenta(CuentaDto cuentaDto);
     
-    CuentaEntity actualizarEstado(int state, int idCuenta);
+    ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta);
+    
+    ResponseEntity<CuentaEntity> stateConfirmedAccount(int idCuenta);
+    
+    ResponseEntity<CuentaEntity> declineAccount(RechazoDto dto);
 }

@@ -6,6 +6,7 @@
 package com.cafetito.controller;
 
 import com.cafetito.dtos.peso.PesoCuentaBeneficioDto;
+import com.cafetito.dtos.peso.PesoParcialidadDto;
 import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
 import com.cafetito.service.peso.ICuentaBeneficio;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,12 +52,11 @@ public class PesoController {
         return peso.listarParcialidades(idCuenta);
     }
     
-    @RequestMapping(value = "/update/weigth/{idParcialidad}/{wigth}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update/weigth", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public PesoParcialidadEntity updateState(
-            @PathVariable("idParcialidad") int idParcialidad,
-            @PathVariable("wigth") double wigth) {
-        return peso.actualiarPeso(idParcialidad, wigth);
+    public ResponseEntity<PesoParcialidadEntity> updateState(
+            @RequestBody PesoParcialidadDto dto) {
+        return peso.actualiarPeso(dto);
     }
     
     /**
@@ -70,10 +71,10 @@ public class PesoController {
         return cuenta.listarCuentas();
     }
     
-    @RequestMapping(value = "/create/count", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createCount(
-            @RequestBody PesoCuentaBeneficioDto dto) {
-        return cuenta.createCuenta(dto);
-    }
+//    @RequestMapping(value = "/create/count", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public String createCount(
+//            @RequestBody PesoCuentaBeneficioDto dto) {
+//        return cuenta.createCuenta(dto);
+//    }
 }

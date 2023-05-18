@@ -8,6 +8,7 @@ package com.cafetito.service.agricultor;
 import com.cafetito.dtos.agricultor.ParcialidadAgriDto;
 import com.cafetito.entity.peso.ParcialidadAgriEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface IParcialidadAgri {
     
-    public abstract Boolean crearParcialidad(ParcialidadAgriDto dto);
+    public abstract ResponseEntity<ParcialidadAgriEntity> crearParcialidad(ParcialidadAgriDto dto);
     
     List<ParcialidadAgriEntity> listarParcialidades(Integer idPesaje);
 }

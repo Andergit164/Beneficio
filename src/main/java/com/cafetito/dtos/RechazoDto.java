@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.cafetito.dtos.agricultor;
+package com.cafetito.dtos;
 
 import java.io.Serializable;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +19,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PesajeAgriDto implements Serializable{
-   
-    private String nitAgricultor;
+public class RechazoDto implements Serializable{
+    
+    private Integer idCuenta;
+    private String comentario;
     private String usuarioAgrego;
-
+    
 }

@@ -5,8 +5,11 @@
  */
 package com.cafetito.service.peso;
 
+import com.cafetito.dtos.peso.PesoParcialidadDto;
+import com.cafetito.entity.ParcialidadEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -16,5 +19,7 @@ public interface IPesoParcialidad {
     
     List<PesoParcialidadEntity> listarParcialidades(Integer idCuenta);
 
-    PesoParcialidadEntity actualiarPeso(int idParcialidad, double peso);
+    ResponseEntity<PesoParcialidadEntity> actualiarPeso(PesoParcialidadDto dto);
+    
+    List<ParcialidadEntity> listParcialidadPesadas(Integer idPesaje);
 }

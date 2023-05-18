@@ -55,6 +55,9 @@ public class HistoricoBitacoraEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_accion")
     private Date fechaAccion;
+    
+    @Column(name = "data_json")
+    private String data;
 
     public HistoricoBitacoraEntity() {
     }
@@ -63,7 +66,7 @@ public class HistoricoBitacoraEntity implements Serializable {
         this.idBitacora = idBitacora;
     }
 
-    public HistoricoBitacoraEntity(int idBitacora, String idRegistro, int estadoAnterior, String accion, String tabla, int estadoNuevo, boolean activo, String usuarioAgrego, Date fechaAccion) {
+    public HistoricoBitacoraEntity(int idBitacora, String idRegistro, int estadoAnterior, String accion, String tabla, int estadoNuevo, boolean activo, String usuarioAgrego, Date fechaAccion, String data) {
         this.idBitacora = idBitacora;
         this.idRegistro = idRegistro;
         this.estadoAnterior = estadoAnterior;
@@ -73,6 +76,7 @@ public class HistoricoBitacoraEntity implements Serializable {
         this.activo = activo;
         this.usuarioAgrego = usuarioAgrego;
         this.fechaAccion = fechaAccion;
+        this.data = data;
     }
 
     public int getIdBitacora() {
@@ -147,6 +151,12 @@ public class HistoricoBitacoraEntity implements Serializable {
         this.fechaAccion = fechaAccion;
     }
 
-    
-    
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
 }

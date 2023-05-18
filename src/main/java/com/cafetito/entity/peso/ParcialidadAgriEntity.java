@@ -67,7 +67,7 @@ public class ParcialidadAgriEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_modifico")
     private Date fechaModifico;
-
+    
     public ParcialidadAgriEntity() {
     }
 
@@ -88,6 +88,8 @@ public class ParcialidadAgriEntity {
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
     }
+
+    
 
     public int getIdParcialidad() {
         return idParcialidad;
@@ -176,7 +178,5 @@ public class ParcialidadAgriEntity {
     public void setIdParcialidadBeneficio(int idParcialidadBeneficio) {
         this.idParcialidadBeneficio = idParcialidadBeneficio;
     }
-    
-    
-    
+
 }

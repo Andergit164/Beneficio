@@ -5,21 +5,22 @@
  */
 package com.cafetito.impl;
 
-import com.cafetito.dtos.ParcialidadDto;
 import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.EstadosEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.ParcialidadEntity;
-import com.cafetito.entity.TransporteEntity;
-import com.cafetito.entity.TransportistaEntity;
+import com.cafetito.entity.peso.PesoCuentaEntity;
+import com.cafetito.entity.peso.PesoEstadoEntity;
+import com.cafetito.entity.peso.PesoParcialidadEntity;
 import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.ParcialidadRepository;
+import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
+import com.cafetito.repository.peso.PesoParcialidadRepository;
 import com.cafetito.service.IParcialidad;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,12 @@ public class ParcialidadImpl implements IParcialidad {
     @Autowired
     private CuentaRepository cuentaRepository;
 
+    @Autowired
+    private PesoCuentaBeneficioRepository cuentaBeneficio;
+
+    @Autowired
+    private PesoParcialidadRepository pesoParcialidadRepository;
+
     @Override
     public List<ParcialidadEntity> listarParcialidades(Integer idCuenta) {
         return parcialidadRepository.listParcialidad(idCuenta);
@@ -54,60 +61,93 @@ public class ParcialidadImpl implements IParcialidad {
         final ParcialidadEntity part = parcialidadRepository.findById(dto.getIdParcialidad()).orElse(null);
 
         if (part != null) {
-            if (part.isValido() == false) {
-                if (part.getIdTransporte().isActivo() == true) {
-                    if (part.getIdTransportista().isActivo() == true) {
+            if (count != null) {
+                if (part.isValido() == false) {
+                    if (part.getIdTransporte().isActivo() == true) {
+                        if (part.getIdTransportista().isActivo() == true) {
 
-                        part.setValido(true);
-                        part.setRecibido("Ingresado");
-                        part.setFechaRecepcionParcialidad(new Date());
-                        parcialidadRepository.save(part);
+                            //Metodo para actualizar la parcialidad a recibida
+                            part.setValido(true);
+                            part.setRecibido("Ingresado");
+                            part.setFechaRecepcionParcialidad(new Date());
+                            parcialidadRepository.save(part);
 
-                        bitacora.save(
-                                HistoricoBitacoraEntity.builder()
-                                        .idRegistro(String.valueOf(dto.getIdParcialidad()))
-                                        .accion("UPDATE")
-                                        .tabla("parcialidad")
-                                        .activo(true)
-                                        .usuarioAgrego(dto.getUsuarioModifico())
-                                        .fechaAccion(new Date())
-                                        .build()
-                        );
-
-                        if (count.getIdEstado().getIdEstado() == 1) {
-                            count.setIdEstado(new EstadosEntity(2));
-                            cuentaRepository.save(count);
-
+                            //Metodo para guardar en bitacora del Beneficio
                             bitacora.save(
                                     HistoricoBitacoraEntity.builder()
                                             .idRegistro(String.valueOf(dto.getIdParcialidad()))
                                             .accion("UPDATE")
-                                            .tabla("cuenta")
-                                            .estadoAnterior(1)
-                                            .estadoNuevo(2)
-                                            .usuarioAgrego("localHost")
+                                            .tabla("parcialidad")
+                                            .activo(true)
+                                            .usuarioAgrego(dto.getUsuarioModifico())
                                             .fechaAccion(new Date())
                                             .build()
                             );
+                            
+                            //Metodo para crear la cuenta en PESO CABAL
+                                cuentaBeneficio.save(PesoCuentaEntity.builder()
+                                        .idCuenta(count.getIdCuenta())
+                                        .idPesaje(count.getIdPesaje())
+                                        .idEstado(new PesoEstadoEntity(2))
+                                        .usuarioAgrega(dto.getUsuarioModifico())
+                                        .fechaCreacion(new Date())
+                                        .build()
+                                );
+
+                            //Metodo para crear la parcialidad en PESO CABAL
+                            pesoParcialidadRepository.save(
+                                    PesoParcialidadEntity.builder()
+                                            .idParcialidad(dto.getIdParcialidad())
+                                            .idCuenta(new PesoCuentaEntity(dto.getIdCuenta()))
+                                            .idTransporte(part.getIdTransporte().getIdTransporte())
+                                            .idTransportista(part.getIdTransportista().getIdTransportista())
+                                            .tipoMedida(part.getTipoMedida())
+                                            .aceptado(true)
+                                            .usuarioAgrega(dto.getUsuarioModifico())
+                                            .fechaCreacion(new Date())
+                                            .build()
+                            );
+
+                            if (count.getIdEstado().getIdEstado() == 1) {
+
+                                //Metodo para actualizar la cuenta al estado "Cuenta Abierta (2)"
+                                count.setIdEstado(new EstadosEntity(2));
+                                cuentaRepository.save(count);
+
+                                //Metodo para guardar en bitacora del Beneficio
+                                bitacora.save(
+                                        HistoricoBitacoraEntity.builder()
+                                                .idRegistro(String.valueOf(dto.getIdParcialidad()))
+                                                .accion("UPDATE")
+                                                .tabla("cuenta")
+                                                .estadoAnterior(1)
+                                                .estadoNuevo(2)
+                                                .usuarioAgrego(dto.getUsuarioModifico())
+                                                .fechaAccion(new Date())
+                                                .build()
+                                );
+                            }
+                        } else {
+                            return new ResponseEntity("El transportista: " + part.getIdTransportista().getIdTransportista() + "No se cuentra activo",
+                                    HttpStatus.NOT_FOUND);
                         }
                     } else {
-                        return new ResponseEntity("El transportista: " + part.getIdTransportista() + "No se cuentra activo",
+                        return new ResponseEntity("El transporte: " + part.getIdTransporte().getIdTransporte() + "No se cuentra activo",
                                 HttpStatus.NOT_FOUND);
                     }
                 } else {
-                    return new ResponseEntity("El transporte: " + part.getIdTransporte() + "No se cuentra activo",
+                    return new ResponseEntity("La parcialidad: "+ dto.getIdParcialidad()+  " ya fue recibida" ,
                             HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity("La parcialidad ya fue recibida: " + dto.getIdParcialidad(),
-                        HttpStatus.NOT_FOUND);
+                return new ResponseEntity("No se encontro la cuenta ingresada",
+                        HttpStatus.NO_CONTENT);
             }
         } else {
             return new ResponseEntity("No se encontro la parcialidad ingresada",
                     HttpStatus.NO_CONTENT);
         }
-
-        return new ResponseEntity("Parcialida Recibida", 
+        return new ResponseEntity("Parcialida Recibida",
                 HttpStatus.OK);
     }
 }

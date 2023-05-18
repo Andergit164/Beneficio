@@ -8,6 +8,7 @@ package com.cafetito.controller;
 import com.cafetito.dtos.AgricultorDto;
 import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.ParcialidadDto;
+import com.cafetito.dtos.RechazoDto;
 import com.cafetito.dtos.TransporteDto;
 import com.cafetito.dtos.TransportistaDto;
 import com.cafetito.dtos.updateParcialidadDto;
@@ -99,7 +100,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/create/farmer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public String crearAgricultor(
+    public ResponseEntity<AgricultorEntity> crearAgricultor(
             @RequestBody AgricultorDto dto) {
         return agricultor.crearAgricultor(dto);
     }
@@ -198,12 +199,25 @@ public class BeneficioController {
 //            @RequestBody ParcialidadDto Dto) {
 //        return parcialidad.createParcialidad(Dto);
 //    }
-    @RequestMapping(value = "/updateState/{idCuenta}/{state}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/state/close/account/{idCuenta}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public CuentaEntity updateState(
-            @PathVariable("idCuenta") int idCuenta,
-            @PathVariable("state") int state) {
-        return cuenta.actualizarEstado(state, idCuenta);
+    public ResponseEntity<CuentaEntity> closeAccount(
+            @PathVariable("idCuenta") int idCuenta) {
+        return cuenta.stateCloseAccount(idCuenta);
+    }
+    
+    @RequestMapping(value = "/state/confirmed/account/{idCuenta}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CuentaEntity> confirmedAccount(
+            @PathVariable("idCuenta") int idCuenta) {
+        return cuenta.stateConfirmedAccount(idCuenta);
+    }
+    
+    @RequestMapping(value = "/decline/account/", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CuentaEntity> declineAccount(
+            @RequestBody RechazoDto dto) {
+        return cuenta.declineAccount(dto);
     }
 
 //    @PutMapping(path = "/State/{noExpedienteTributa}", produces = MediaType.APPLICATION_JSON_VALUE)

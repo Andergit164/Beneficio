@@ -24,7 +24,7 @@ import lombok.Builder;
  */
 @Builder
 @Entity
-@Table(name = "parcialidad",
+@Table(name = "pesoparcialidad",
         schema = "pesocabal")
 public class PesoParcialidadEntity implements Serializable {
 
@@ -52,7 +52,7 @@ public class PesoParcialidadEntity implements Serializable {
     private String observaciones;
 
     @Column(name = "peso_obtenido_kg")
-    private double pesoObtenido;
+    private Double pesoObtenido;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_peso")
@@ -86,7 +86,7 @@ public class PesoParcialidadEntity implements Serializable {
         this.idParcialidad = idParcialidad;
     }
 
-    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, int idTransportista, String tipoMedida, boolean aceptado, String observaciones, double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, int idTransportista, String tipoMedida, boolean aceptado, String observaciones, Double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
@@ -160,11 +160,11 @@ public class PesoParcialidadEntity implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public double getPesoObtenido() {
+    public Double getPesoObtenido() {
         return pesoObtenido;
     }
 
-    public void setPesoObtenido(double pesoObtenido) {
+    public void setPesoObtenido(Double pesoObtenido) {
         this.pesoObtenido = pesoObtenido;
     }
 
