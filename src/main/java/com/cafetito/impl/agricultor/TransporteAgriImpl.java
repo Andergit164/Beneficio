@@ -5,6 +5,7 @@
  */
 package com.cafetito.impl.agricultor;
 
+import com.google.gson.Gson;
 import com.cafetito.dtos.agricultor.TransporteAgriDto;
 import com.cafetito.entity.AgricultorEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
@@ -55,7 +56,7 @@ public class TransporteAgriImpl implements ITransporteAgri {
             );
 
             //Metodo para crear un transporte en el Beneficio
-            transporteRepository.save(
+            final TransporteEntity transporte = transporteRepository.save(
                     TransporteEntity.builder()
                             .idTransporte(dto.getPlaca())
                             .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
@@ -71,8 +72,9 @@ public class TransporteAgriImpl implements ITransporteAgri {
                             .accion("INSERT")
                             .tabla("transporte")
                             .activo(false)
-                            .usuarioAgrego("localHost")
+                            .usuarioAgrego(dto.getUsuarioAgrego())
                             .fechaAccion(new Date())
+                            .data(new Gson().toJson(transporte))
                             .build()
             );
         } catch (Exception e) {

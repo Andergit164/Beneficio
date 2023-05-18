@@ -138,6 +138,7 @@ public class CuentaImpl implements ICuenta {
                 } else {
                     //validación si el peso obtenido es menor al -5%
                     if (updateAccount.getPesoTotalObtenido() < min) {
+                        updateAccount.setIdEstado(new EstadosEntity(6));
                         updateAccount.setTolerancia(false);
                         updateAccount.setResultadoTolerancia("Faltante");
                         cuentaRepository.save(updateAccount);
@@ -158,6 +159,7 @@ public class CuentaImpl implements ICuenta {
                     }
                     //validación si el peso obtenido es mayor al -5%
                     if (updateAccount.getPesoTotalObtenido() > max) {
+                        updateAccount.setIdEstado(new EstadosEntity(6));
                         updateAccount.setTolerancia(false);
                         updateAccount.setResultadoTolerancia("Sobrante");
                         cuentaRepository.save(updateAccount);
