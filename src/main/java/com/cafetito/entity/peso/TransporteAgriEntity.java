@@ -53,6 +53,9 @@ public class TransporteAgriEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_modifico")
     private Date fechaModifico;
+    
+    @Column(name = "disponible")
+    private Boolean disponible;
 
     public TransporteAgriEntity() {
     }
@@ -61,7 +64,7 @@ public class TransporteAgriEntity {
         this.placa = placa;
     }
 
-    public TransporteAgriEntity(String placa, String marca, String color, int modelo, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public TransporteAgriEntity(String placa, String marca, String color, int modelo, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible) {
         this.placa = placa;
         this.marca = marca;
         this.color = color;
@@ -71,6 +74,7 @@ public class TransporteAgriEntity {
         this.fechaCreacion = fechaCreacion;
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
+        this.disponible = disponible;
     }
 
     public String getPlaca() {
@@ -144,7 +148,13 @@ public class TransporteAgriEntity {
     public void setFechaModifico(Date fechaModifico) {
         this.fechaModifico = fechaModifico;
     }
-    
-    
 
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
+    }
+    
 }

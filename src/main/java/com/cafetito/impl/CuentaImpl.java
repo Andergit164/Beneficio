@@ -259,4 +259,9 @@ public class CuentaImpl implements ICuenta {
 //
 //        return null;
 //    }
+
+    @Override
+    public List<CuentaEntity> listarCuentaAgricultorPorEstado(String nitAgricultor, Integer state) {
+       return cuentaRepository.listarCuentasEstado(nitAgricultor, state);
+    }
 }

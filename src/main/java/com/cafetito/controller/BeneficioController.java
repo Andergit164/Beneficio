@@ -80,6 +80,15 @@ public class BeneficioController {
             @PathVariable("nitAgricultor") String nitAgricultor) {
         return cuenta.listarCuentaAgricultor(nitAgricultor);
     }
+    
+     @RequestMapping(value = "/counts/agricultor/{nitAgricultor}/{estado}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Lista las cuenta de un agricultor en base a su nit")
+    public List<CuentaEntity> listarCuentasEstado(
+            @PathVariable("nitAgricultor") String nitAgricultor,
+            @PathVariable("estado") Integer estado) {
+        return cuenta.listarCuentaAgricultorPorEstado(nitAgricultor, estado);
+    }
 
 //    @RequestMapping(value = "/count/create", method = RequestMethod.POST)
 //    @ResponseStatus(HttpStatus.CREATED)

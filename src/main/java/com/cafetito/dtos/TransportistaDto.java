@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransportistaDto {
 
-    private Integer idTransportista;
+    private String idTransportista;
     private String nitAgricultor;
     private String nombre;
     private String usuarioAgrego;

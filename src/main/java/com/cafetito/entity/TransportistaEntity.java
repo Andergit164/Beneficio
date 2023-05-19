@@ -27,40 +27,42 @@ import lombok.Builder;
 @Builder
 @Entity
 @Table(name = "transportista", schema = "public")
-public class TransportistaEntity implements Serializable{
+public class TransportistaEntity implements Serializable {
 
-    private int idTransportista;
+    private String idTransportista;
     private AgricultorEntity nitAgricultor;
     private String nombre;
     private boolean activo;
     private String observaciones;
     private String estado;
+    private Boolean disponible;
     private Date fechaCreacion;
 
     public TransportistaEntity() {
     }
 
-    public TransportistaEntity(Integer idTransportista) {
+    public TransportistaEntity(String idTransportista) {
         this.idTransportista = idTransportista;
     }
 
-    public TransportistaEntity(int idTransportista, AgricultorEntity nitAgricultor, String nombre, boolean activo, String observaciones, String estado, Date fechaCreacion) {
+    public TransportistaEntity(String idTransportista, AgricultorEntity nitAgricultor, String nombre, boolean activo, String observaciones, String estado, Boolean disponible, Date fechaCreacion) {
         this.idTransportista = idTransportista;
         this.nitAgricultor = nitAgricultor;
         this.nombre = nombre;
         this.activo = activo;
         this.observaciones = observaciones;
         this.estado = estado;
+        this.disponible = disponible;
         this.fechaCreacion = fechaCreacion;
     }
 
     @Id
-    @Column(name = "id_transportista", unique=true, nullable=false)
-    public int getIdTransportista() {
+    @Column(name = "id_transportista", unique = true, nullable = false)
+    public String getIdTransportista() {
         return idTransportista;
     }
 
-    public void setIdTransportista(int idTransportista) {
+    public void setIdTransportista(String idTransportista) {
         this.idTransportista = idTransportista;
     }
 
@@ -68,6 +70,15 @@ public class TransportistaEntity implements Serializable{
     @JoinColumn(name = "nit_agricultor")
     public AgricultorEntity getNitAgricultor() {
         return nitAgricultor;
+    }
+
+    @Column(name = "disponible")
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 
     public void setNitAgricultor(AgricultorEntity nitAgricultor) {
@@ -82,7 +93,7 @@ public class TransportistaEntity implements Serializable{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     @Column(name = "activo")
     public boolean isActivo() {
         return activo;
@@ -119,7 +130,5 @@ public class TransportistaEntity implements Serializable{
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
 
 }

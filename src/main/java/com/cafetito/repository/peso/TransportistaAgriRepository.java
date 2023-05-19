@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Anderson
  */
 @Repository
-public interface TransportistaAgriRepository extends JpaRepository<TransportistaAgriEntity, Integer>{
+public interface TransportistaAgriRepository extends JpaRepository<TransportistaAgriEntity, String>{
     
 }

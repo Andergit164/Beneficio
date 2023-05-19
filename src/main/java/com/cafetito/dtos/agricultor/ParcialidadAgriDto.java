@@ -25,7 +25,7 @@ public class ParcialidadAgriDto implements Serializable{
     private Integer idPesaje;
     private Integer idCuenta;
     private String idTransporte;
-    private Integer idTransportista;
+    private String idTransportista;
     private Double pesoParcialidad;
     private String tipoMedida;
     private String usuarioAgrego;

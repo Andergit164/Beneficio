@@ -21,6 +21,8 @@ public interface ICuenta {
     
     List<CuentaEntity> listarCuentaAgricultor(String nitAgricultor);
     
+    List<CuentaEntity> listarCuentaAgricultorPorEstado(String nitAgricultor, Integer state);
+    
 //    String createCuenta(CuentaDto cuentaDto);
     
     ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta);

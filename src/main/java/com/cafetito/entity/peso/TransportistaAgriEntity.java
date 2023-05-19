@@ -30,7 +30,7 @@ public class TransportistaAgriEntity {
     
     @Id
     @Column(name = "id_transportista", unique=true)
-    private int idTransportista;
+    private String idTransportista;
   
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_transporte")
@@ -59,15 +59,18 @@ public class TransportistaAgriEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_modifico")
     private Date fechaModifico;
+    
+    @Column(name = "disponible")
+    private Boolean disponible;
 
     public TransportistaAgriEntity() {
     }
 
-    public TransportistaAgriEntity(int idTransportista) {
+    public TransportistaAgriEntity(String idTransportista) {
         this.idTransportista = idTransportista;
     }
 
-    public TransportistaAgriEntity(int idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public TransportistaAgriEntity(String idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible) {
         this.idTransportista = idTransportista;
         this.idTransporte = idTransporte;
         this.nombre = nombre;
@@ -77,14 +80,23 @@ public class TransportistaAgriEntity {
         this.fechaCreacion = fechaCreacion;
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
+        this.disponible = disponible;
     }
 
-    public int getIdTransportista() {
+    public String getIdTransportista() {
         return idTransportista;
     }
 
-    public void setIdTransportista(int idTransportista) {
+    public void setIdTransportista(String idTransportista) {
         this.idTransportista = idTransportista;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 
     public TransporteAgriEntity getIdTransporte() {

@@ -51,6 +51,7 @@ public class TransporteAgriImpl implements ITransporteAgri {
                             .color(dto.getColor())
                             .modelo(dto.getModelo())
                             .activo(true)
+                            .disponible(true)
                             .fechaCreacion(new Date())
                             .build()
             );

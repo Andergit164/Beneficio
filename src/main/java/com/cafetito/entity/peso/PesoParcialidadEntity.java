@@ -40,7 +40,7 @@ public class PesoParcialidadEntity implements Serializable {
     private String idTransporte;
 
     @Column(name = "id_transportista")
-    private int idTransportista;
+    private String idTransportista;
 
     @Column(name = "tipo_medida")
     private String tipoMedida;
@@ -86,7 +86,7 @@ public class PesoParcialidadEntity implements Serializable {
         this.idParcialidad = idParcialidad;
     }
 
-    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, int idTransportista, String tipoMedida, boolean aceptado, String observaciones, Double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, String idTransportista, String tipoMedida, boolean aceptado, String observaciones, Double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
@@ -128,11 +128,11 @@ public class PesoParcialidadEntity implements Serializable {
         this.idTransporte = idTransporte;
     }
 
-    public int getIdTransportista() {
+    public String getIdTransportista() {
         return idTransportista;
     }
 
-    public void setIdTransportista(int idTransportista) {
+    public void setIdTransportista(String idTransportista) {
         this.idTransportista = idTransportista;
     }
 

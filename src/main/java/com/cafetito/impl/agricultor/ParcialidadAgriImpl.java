@@ -20,6 +20,8 @@ import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.ParcialidadRepository;
 import com.cafetito.repository.peso.ParcialidadAgriRepository;
 import com.cafetito.repository.peso.PesajeAgriRepository;
+import com.cafetito.repository.peso.TransporteAgriRepository;
+import com.cafetito.repository.peso.TransportistaAgriRepository;
 import com.cafetito.service.agricultor.IParcialidadAgri;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,12 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
 
     @Autowired
     private PesajeAgriRepository pesaje;
+    
+    @Autowired
+    private TransporteAgriRepository Atransporte;
+    
+    @Autowired
+    private TransportistaAgriRepository Atransportista;
 
     Integer idParcialidadAgricultor;
     Integer idParcialidadBeneficio;
@@ -60,7 +68,8 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
 
         final CuentaEntity beneficioCount = beneficioCuenta.findById(dto.getIdCuenta()).orElse(null);
         final PesajeAgriEntity pesajeAgri = pesaje.findById(dto.getIdPesaje()).orElse(null);
-        final CuentaEntity countBene = beneficioCuenta.findById(dto.getIdCuenta()).orElse(null);
+        final TransporteAgriEntity AgriTransporte = Atransporte.findById(dto.getIdTransporte()).orElse(null);
+        final TransportistaAgriEntity AgriTransportista = Atransportista.findById(dto.getIdTransportista()).orElse(null);
 
         if (beneficioCount.getIdEstado().getIdEstado() == 1) {
 
@@ -92,6 +101,16 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
             pesajeAgri.setUsuarioModifica(dto.getUsuarioAgrego());
             pesajeAgri.setFechaModifico(new Date());
             pesaje.save(pesajeAgri);
+            
+            AgriTransporte.setDisponible(false);
+            AgriTransporte.setUsuarioModifica(dto.getUsuarioAgrego());
+            AgriTransporte.setFechaModifico(new Date());
+            Atransporte.save(AgriTransporte);
+            
+            AgriTransportista.setDisponible(false);
+            AgriTransportista.setUsuarioModifica(dto.getUsuarioAgrego());
+            AgriTransportista.setFechaModifico(new Date());
+            Atransportista.save(AgriTransportista);
 
             //Metodo utilizado para crear una parcialidad en el Beneficio
             parcialidadBeneficio.save(
@@ -108,9 +127,9 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                             .build()
             );
 
-            countBene.setTotalParcialidades(this.totalParcialidades);
-            countBene.setPesoEnviado(this.pesoTotal);
-            beneficioCuenta.save(countBene);
+            beneficioCount.setTotalParcialidades(this.totalParcialidades);
+            beneficioCount.setPesoEnviado(this.pesoTotal);
+            beneficioCuenta.save(beneficioCount);
 
             //Metodo utilizado para guardar en bitacora la creacion de la parcialidad en el beneficio
             bitacora.save(
@@ -123,6 +142,7 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                             .fechaAccion(new Date())
                             .build()
             );
+            this.pesoTotal = 0.0;
         } else {
             return new ResponseEntity("La cuenta se encuentra en estado: " + beneficioCount.getIdEstado().getNombre() + " nos es posible agregar mas parcialidades",
                     HttpStatus.NOT_FOUND);

@@ -13,11 +13,15 @@ import com.cafetito.entity.ParcialidadEntity;
 import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoEstadoEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
+import com.cafetito.entity.peso.TransporteAgriEntity;
+import com.cafetito.entity.peso.TransportistaAgriEntity;
 import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.ParcialidadRepository;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.repository.peso.PesoParcialidadRepository;
+import com.cafetito.repository.peso.TransporteAgriRepository;
+import com.cafetito.repository.peso.TransportistaAgriRepository;
 import com.cafetito.service.IParcialidad;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +54,12 @@ public class ParcialidadImpl implements IParcialidad {
     @Autowired
     private PesoParcialidadRepository pesoParcialidadRepository;
 
+    @Autowired
+    private TransporteAgriRepository Atransporte;
+
+    @Autowired
+    private TransportistaAgriRepository Atransportista;
+
     @Override
     public List<ParcialidadEntity> listarParcialidades(Integer idCuenta) {
         return parcialidadRepository.listParcialidad(idCuenta);
@@ -59,6 +69,8 @@ public class ParcialidadImpl implements IParcialidad {
     public ResponseEntity<ParcialidadEntity> ingresoParcialidad(updateParcialidadDto dto) {
         final CuentaEntity count = cuentaRepository.findById(dto.getIdCuenta()).orElse(null);
         final ParcialidadEntity part = parcialidadRepository.findById(dto.getIdParcialidad()).orElse(null);
+        final TransporteAgriEntity AgriTransporte = Atransporte.findById(part.getIdTransporte().getIdTransporte()).orElse(null);
+        final TransportistaAgriEntity AgriTransportista = Atransportista.findById(part.getIdTransportista().getIdTransportista()).orElse(null);
 
         if (part != null) {
             if (count != null) {
@@ -72,6 +84,16 @@ public class ParcialidadImpl implements IParcialidad {
                             part.setFechaRecepcionParcialidad(new Date());
                             parcialidadRepository.save(part);
 
+                            AgriTransporte.setDisponible(true);
+                            AgriTransporte.setUsuarioModifica(dto.getUsuarioModifico());
+                            AgriTransporte.setFechaModifico(new Date());
+                            Atransporte.save(AgriTransporte);
+
+                            AgriTransportista.setDisponible(true);
+                            AgriTransportista.setUsuarioModifica(dto.getUsuarioModifico());
+                            AgriTransportista.setFechaModifico(new Date());
+                            Atransportista.save(AgriTransportista);
+
                             //Metodo para guardar en bitacora del Beneficio
                             bitacora.save(
                                     HistoricoBitacoraEntity.builder()
@@ -83,16 +105,16 @@ public class ParcialidadImpl implements IParcialidad {
                                             .fechaAccion(new Date())
                                             .build()
                             );
-                            
+
                             //Metodo para crear la cuenta en PESO CABAL
-                                cuentaBeneficio.save(PesoCuentaEntity.builder()
-                                        .idCuenta(count.getIdCuenta())
-                                        .idPesaje(count.getIdPesaje())
-                                        .idEstado(new PesoEstadoEntity(2))
-                                        .usuarioAgrega(dto.getUsuarioModifico())
-                                        .fechaCreacion(new Date())
-                                        .build()
-                                );
+                            cuentaBeneficio.save(PesoCuentaEntity.builder()
+                                    .idCuenta(count.getIdCuenta())
+                                    .idPesaje(count.getIdPesaje())
+                                    .idEstado(new PesoEstadoEntity(2))
+                                    .usuarioAgrega(dto.getUsuarioModifico())
+                                    .fechaCreacion(new Date())
+                                    .build()
+                            );
 
                             //Metodo para crear la parcialidad en PESO CABAL
                             pesoParcialidadRepository.save(
@@ -136,7 +158,7 @@ public class ParcialidadImpl implements IParcialidad {
                                 HttpStatus.NOT_FOUND);
                     }
                 } else {
-                    return new ResponseEntity("La parcialidad: "+ dto.getIdParcialidad()+  " ya fue recibida" ,
+                    return new ResponseEntity("La parcialidad: " + dto.getIdParcialidad() + " ya fue recibida",
                             HttpStatus.NOT_FOUND);
                 }
             } else {

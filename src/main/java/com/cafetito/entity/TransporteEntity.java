@@ -32,6 +32,7 @@ public class TransporteEntity implements Serializable{
     private boolean activo;
     private String observaciones;
     private String estado;
+    private Boolean disponible;
     private Date fechaCreacion;
 
     public TransporteEntity() {
@@ -41,12 +42,13 @@ public class TransporteEntity implements Serializable{
         this.idTransporte = idTransporte;
     }
 
-    public TransporteEntity(String idTransporte, AgricultorEntity nitAgricultor, boolean activo, String observaciones, String estado, Date fechaCreacion) {
+    public TransporteEntity(String idTransporte, AgricultorEntity nitAgricultor, boolean activo, String observaciones, String estado, Boolean disponible, Date fechaCreacion) {
         this.idTransporte = idTransporte;
         this.nitAgricultor = nitAgricultor;
         this.activo = activo;
         this.observaciones = observaciones;
         this.estado = estado;
+        this.disponible = disponible;
         this.fechaCreacion = fechaCreacion;
     }
 
@@ -107,8 +109,13 @@ public class TransporteEntity implements Serializable{
         this.estado = estado;
     }
 
-   
-    
-    
-    
+     @Column(name = "disponible")
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
+    }
+
 }

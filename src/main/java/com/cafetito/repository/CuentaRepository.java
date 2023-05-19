@@ -22,6 +22,9 @@ public interface CuentaRepository extends JpaRepository<CuentaEntity, Integer> {
 
     @Query("SELECT cu FROM CuentaEntity cu WHERE nit_agricultor = :nitAgricultor")
     List<CuentaEntity> listarCuentas(@Param("nitAgricultor") String nitAgricultor);
+    
+    @Query("SELECT cu FROM CuentaEntity cu WHERE nit_agricultor = :nitAgricultor AND id_estado = :state")
+    List<CuentaEntity> listarCuentasEstado(@Param("nitAgricultor") String nitAgricultor, @Param("state") Integer state);
 
     @Query(value = "SELECT count(cu)+1 FROM CuentaEntity cu")
     int requestNexVal();

@@ -50,6 +50,7 @@ public class TransportistaAgriImpl implements ITransportistaAgri{
                        .nombre(dto.getNombre())
                        .fechaNacimiento(dto.getFechaNacimiento())
                        .activo(true)
+                       .disponible(true)
                        .fechaCreacion(new Date())
                        .build()
        );
