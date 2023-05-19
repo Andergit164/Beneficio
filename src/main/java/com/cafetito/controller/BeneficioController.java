@@ -170,7 +170,7 @@ public class BeneficioController {
     @RequestMapping(value = "/updateCarrier/{DPI}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TransportistaEntity> updateCarrier(
-            @PathVariable("DPI") int DPI,
+            @PathVariable("DPI") String DPI,
             @RequestBody(required = true) updateTransDto dto) {
         return transportista.activarInactivarTransportista(DPI, dto);
     }
@@ -178,7 +178,7 @@ public class BeneficioController {
     @RequestMapping(value = "/deleteCarrier/{DPI}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TransportistaEntity> deleteCarrier(
-            @PathVariable("DPI") Integer DPI) {
+            @PathVariable("DPI") String DPI) {
         return transportista.deleteTransportista(DPI);
     }
 

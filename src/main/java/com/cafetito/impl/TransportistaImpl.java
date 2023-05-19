@@ -64,7 +64,7 @@ public class TransportistaImpl implements ITransportista {
     }
 
     @Override
-    public ResponseEntity<TransportistaEntity> activarInactivarTransportista(Integer dpi, updateTransDto dto) {
+    public ResponseEntity<TransportistaEntity> activarInactivarTransportista(String dpi, updateTransDto dto) {
         final TransportistaEntity updateTransportista = transportistaRepository.findById(dpi).orElse(null);
         if (updateTransportista != null) {
             updateTransportista.setActivo(dto.getActivo());
@@ -88,7 +88,7 @@ public class TransportistaImpl implements ITransportista {
     }
 
     @Override
-    public ResponseEntity<TransportistaEntity> deleteTransportista(Integer dpi) {
+    public ResponseEntity<TransportistaEntity> deleteTransportista(String dpi) {
           final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElse(null);
         if (deleteTransportista != null) {
             deleteTransportista.setActivo(false);

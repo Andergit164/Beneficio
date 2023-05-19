@@ -21,8 +21,8 @@ public interface ITransportista {
     
     public abstract List<TransportistaEntity> listCarriers(String nitAgricultor);
     
-    ResponseEntity<TransportistaEntity> activarInactivarTransportista(Integer dpi, updateTransDto dto);
+    ResponseEntity<TransportistaEntity> activarInactivarTransportista(String dpi, updateTransDto dto);
     
-    ResponseEntity<TransportistaEntity> deleteTransportista(Integer dpi);
+    ResponseEntity<TransportistaEntity> deleteTransportista(String dpi);
     
 }

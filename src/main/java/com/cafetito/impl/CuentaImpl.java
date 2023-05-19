@@ -219,7 +219,7 @@ public class CuentaImpl implements ICuenta {
 
             } else {
                 return new ResponseEntity("La cuenta se encuentra en estado: "
-                        + updateAccount.getIdEstado().getNombre() + " nos es posible Cerrar la cueta",
+                        + updateAccount.getIdEstado().getNombre() + " nos es posible Cerrar la cuenta",
                         HttpStatus.NOT_FOUND);
             }
         } else {
