@@ -28,19 +28,19 @@ import lombok.Builder;
 @Builder
 @Entity
 @Table(name = "cuenta", schema = "public")
-public class CuentaEntity implements Serializable{
-    
+public class CuentaEntity implements Serializable {
+
     private int idCuenta;
     private AgricultorEntity nitAgricultor;
     private int idPesaje;
-    private EstadosEntity idEstado; 
+    private EstadosEntity idEstado;
     private Date fechaCreacion;
     private Double pesoEnviado;
     private Double pesoTotalObtenido;
-    private Double diferenciaTotal; 
+    private Double diferenciaTotal;
     private String comentario;
     private int totalParcialidades;
-    private boolean tolerancia;
+    private Boolean tolerancia;
     private String resultadoTolerancia;
 
     public CuentaEntity() {
@@ -50,7 +50,7 @@ public class CuentaEntity implements Serializable{
         this.idCuenta = idCuenta;
     }
 
-    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario, int totalParcialidades, boolean tolerancia, String resultadoTolerancia) {
+    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario, int totalParcialidades, Boolean tolerancia, String resultadoTolerancia) {
         this.idCuenta = idCuenta;
         this.nitAgricultor = nitAgricultor;
         this.idPesaje = idPesaje;
@@ -66,7 +66,7 @@ public class CuentaEntity implements Serializable{
     }
 
     @Id
-    @Column(name = "id_cuenta", unique=true, nullable=false)
+    @Column(name = "id_cuenta", unique = true, nullable = false)
     public int getIdCuenta() {
         return idCuenta;
     }
@@ -120,11 +120,11 @@ public class CuentaEntity implements Serializable{
     public void setDiferenciaTotal(Double diferenciaTotal) {
         this.diferenciaTotal = diferenciaTotal;
     }
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_estado")
     //@Column(name = "id_estado")
-      public EstadosEntity getIdEstado() {
+    public EstadosEntity getIdEstado() {
         return idEstado;
     }
 
@@ -136,7 +136,7 @@ public class CuentaEntity implements Serializable{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nit_agricultor")
     //@Column(name = "nit_agricultor")
-     public AgricultorEntity getNitAgricultor() {
+    public AgricultorEntity getNitAgricultor() {
         return nitAgricultor;
     }
 
@@ -163,15 +163,15 @@ public class CuentaEntity implements Serializable{
     }
 
     @Column(name = "tolerancia")
-    public boolean isTolerancia() {
+    public Boolean getTolerancia() {
         return tolerancia;
     }
 
-    public void setTolerancia(boolean tolerancia) {
+    public void setTolerancia(Boolean tolerancia) {
         this.tolerancia = tolerancia;
     }
 
-     @Column(name = "resultado_tolerancia")
+    @Column(name = "resultado_tolerancia")
     public String getResultadoTolerancia() {
         return resultadoTolerancia;
     }
@@ -179,7 +179,6 @@ public class CuentaEntity implements Serializable{
     public void setResultadoTolerancia(String resultadoTolerancia) {
         this.resultadoTolerancia = resultadoTolerancia;
     }
-    
 
     @Override
     public String toString() {
