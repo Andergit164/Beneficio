@@ -30,6 +30,7 @@ public class BeneficioDSConfig {
     @Autowired
     private Environment env;
 
+    @Primary
     @Bean(name = "beneficioDataSource")
     public DataSource beneficioDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -41,6 +42,7 @@ public class BeneficioDSConfig {
         return dataSource;
     }
 
+    @Primary
     @Bean(name = "beneficioEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -60,6 +62,7 @@ public class BeneficioDSConfig {
         return em;
     }
 
+    @Primary
     @Bean(name = "beneficioTransactionManager")
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
