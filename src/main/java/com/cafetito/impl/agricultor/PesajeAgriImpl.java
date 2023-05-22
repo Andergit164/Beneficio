@@ -16,6 +16,7 @@ import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.peso.PesajeAgriRepository;
 import com.cafetito.service.agricultor.IPesajeAgri;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class PesajeAgriImpl implements IPesajeAgri{
         ); 
         
         //Metodo utilizado para crear la cuenta en el Beneficio
-        cuentaRepository.save(
+        final CuentaEntity account = cuentaRepository.save(
                 CuentaEntity.builder()
                         .idCuenta(this.idCuenta)
                         .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
@@ -78,6 +79,7 @@ public class PesajeAgriImpl implements IPesajeAgri{
                         .estadoNuevo(1)
                         .usuarioAgrego(dto.getUsuarioAgrego())
                         .fechaAccion(new Date())
+                        .data(new Gson().toJson(account))
                         .build()
         );
         

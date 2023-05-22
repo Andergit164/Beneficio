@@ -17,6 +17,7 @@ import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.service.ICuenta;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +84,7 @@ public class CuentaImpl implements ICuenta {
                                 .estadoNuevo(5)
                                 .usuarioAgrego("localhost")
                                 .fechaAccion(new Date())
+                                .data(new Gson().toJson(updateState))
                                 .build()
                 );
 
@@ -136,6 +138,7 @@ public class CuentaImpl implements ICuenta {
                                     .activo(true)
                                     .usuarioAgrego("localhost")
                                     .fechaAccion(new Date())
+                                    .data(new Gson().toJson(updateAccount))
                                     .build()
                     );
                 } else {
@@ -158,6 +161,7 @@ public class CuentaImpl implements ICuenta {
                                         .activo(false)
                                         .usuarioAgrego("localhost")
                                         .fechaAccion(new Date())
+                                        .data(new Gson().toJson(updateAccount))
                                         .build()
                         );
                     }
@@ -180,6 +184,7 @@ public class CuentaImpl implements ICuenta {
                                         .activo(false)
                                         .usuarioAgrego("localhost")
                                         .fechaAccion(new Date())
+                                        .data(new Gson().toJson(updateAccount))
                                         .build()
                         );
                     }
@@ -203,7 +208,7 @@ public class CuentaImpl implements ICuenta {
 
     @Override
     public ResponseEntity<CuentaEntity> declineAccount(RechazoDto dto) {
-        final CuentaEntity updateAccount = cuentaRepository.findById(dto.getIdCuenta()).orElse(null);
+        final CuentaEntity updateAccount = cuentaRepository.findById(dto.getId()).orElse(null);
 
         if (updateAccount != null) {
             if (updateAccount.getIdEstado().getIdEstado() == 1) {
@@ -215,7 +220,7 @@ public class CuentaImpl implements ICuenta {
                 //Metodo para guardar en bitacora del Beneficio
                 bitacora.save(
                         HistoricoBitacoraEntity.builder()
-                                .idRegistro(String.valueOf(dto.getIdCuenta()))
+                                .idRegistro(String.valueOf(dto.getId()))
                                 .accion("UPDATE")
                                 .tabla("cuenta")
                                 .estadoAnterior(1)
@@ -223,6 +228,7 @@ public class CuentaImpl implements ICuenta {
                                 .activo(false)
                                 .usuarioAgrego(dto.getUsuarioAgrego())
                                 .fechaAccion(new Date())
+                                .data(new Gson().toJson(updateAccount))
                                 .build()
                 );
 

@@ -215,6 +215,13 @@ public class BeneficioController {
         return parcialidad.showPart(idParcialidad);
     }
 
+     @RequestMapping(value = "/decline/part", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ParcialidadEntity> declinePart(
+            @RequestBody RechazoDto dto) {
+        return parcialidad.declineAccount(dto);
+    }
+    
 //    @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
 //    @ResponseStatus(HttpStatus.CREATED)
 //    public String createCountPart(
@@ -235,7 +242,7 @@ public class BeneficioController {
         return cuenta.stateConfirmedAccount(idCuenta);
     }
 
-    @RequestMapping(value = "/decline/account/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/decline/account", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CuentaEntity> declineAccount(
             @RequestBody RechazoDto dto) {

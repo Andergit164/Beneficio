@@ -23,6 +23,7 @@ import com.cafetito.repository.peso.PesajeAgriRepository;
 import com.cafetito.repository.peso.TransporteAgriRepository;
 import com.cafetito.repository.peso.TransportistaAgriRepository;
 import com.cafetito.service.agricultor.IParcialidadAgri;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +114,7 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
             Atransportista.save(AgriTransportista);
 
             //Metodo utilizado para crear una parcialidad en el Beneficio
-            parcialidadBeneficio.save(
+            final ParcialidadEntity part = parcialidadBeneficio.save(
                     ParcialidadEntity.builder()
                             .idParcialidad(this.idParcialidadBeneficio)
                             .idCuenta(new CuentaEntity(dto.getIdCuenta()))
@@ -131,6 +132,20 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
             beneficioCount.setPesoEnviado(this.pesoTotal);
             beneficioCuenta.save(beneficioCount);
             this.pesoTotal = 0.0;
+            
+            //Metodo utilizado para guardar en bitacora la modificacion de la cuenta en el BENEFICIO
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(String.valueOf(this.idParcialidadBeneficio))
+                            .accion("UPDATE")
+                            .tabla("cuenta")
+                            .estadoAnterior(beneficioCount.getIdEstado().getIdEstado())
+                            .estadoNuevo(beneficioCount.getIdEstado().getIdEstado())
+                            .usuarioAgrego(dto.getUsuarioAgrego())
+                            .fechaAccion(new Date())
+                            .data(new Gson().toJson(beneficioCount))
+                            .build()
+            );
 
             //Metodo utilizado para guardar en bitacora la creacion de la parcialidad en el beneficio
             bitacora.save(
@@ -141,6 +156,7 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                             .activo(false)
                             .usuarioAgrego(dto.getUsuarioAgrego())
                             .fechaAccion(new Date())
+                            .data(new Gson().toJson(part))
                             .build()
             );
             

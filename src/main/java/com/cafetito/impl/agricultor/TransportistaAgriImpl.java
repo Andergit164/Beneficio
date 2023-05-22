@@ -19,6 +19,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cafetito.service.agricultor.ITransportistaAgri;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -56,7 +57,7 @@ public class TransportistaAgriImpl implements ITransportistaAgri{
        );
        
        //Metodo para crear un transportista en el Beneficio.
-       transportistaRepository.save(
+       final TransportistaEntity carrier = transportistaRepository.save(
                 TransportistaEntity.builder()
                         .idTransportista(dto.getIdTransportista())
                         .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
@@ -75,6 +76,7 @@ public class TransportistaAgriImpl implements ITransportistaAgri{
                         .activo(false)
                         .usuarioAgrego("localHost")
                         .fechaAccion(new Date())
+                        .data(new Gson().toJson(carrier))
                         .build()
         );
        } catch (Exception e) {

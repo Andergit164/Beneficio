@@ -13,6 +13,7 @@ import com.cafetito.entity.TransportistaEntity;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.TransportistaRepository;
 import com.cafetito.service.ITransportista;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,7 @@ public class TransportistaImpl implements ITransportista {
                                 .activo(dto.getActivo())
                                 .usuarioAgrego(dto.getUsuarioModifico())
                                 .fechaAccion(new Date())
+                                .data(new Gson().toJson(updateTransportista))
                                 .build()
                 );
             } else {
@@ -114,6 +116,7 @@ public class TransportistaImpl implements ITransportista {
                             .activo(false)
                             .usuarioAgrego("localHost")
                             .fechaAccion(new Date())
+                            .data(new Gson().toJson(deleteTransportista))
                             .build()
             );
         } else {

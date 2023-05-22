@@ -13,6 +13,7 @@ import com.cafetito.entity.TransporteEntity;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.TransporteRepository;
 import com.cafetito.service.ITransporte;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,7 @@ public class TransporteImpl implements ITransporte {
                                 .activo(dto.getActivo())
                                 .usuarioAgrego(dto.getUsuarioModifico())
                                 .fechaAccion(new Date())
+                                .data(new Gson().toJson(updateTransporte))
                                 .build()
                 );
             } else {
@@ -114,6 +116,7 @@ public class TransporteImpl implements ITransporte {
                             .activo(false)
                             .usuarioAgrego("localHost")
                             .fechaAccion(new Date())
+                            .data(new Gson().toJson(deleteTransporte))
                             .build()
             );
         } else {

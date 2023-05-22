@@ -5,6 +5,7 @@
  */
 package com.cafetito.impl;
 
+import com.cafetito.dtos.RechazoDto;
 import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.EstadosEntity;
@@ -23,6 +24,7 @@ import com.cafetito.repository.peso.PesoParcialidadRepository;
 import com.cafetito.repository.peso.TransporteAgriRepository;
 import com.cafetito.repository.peso.TransportistaAgriRepository;
 import com.cafetito.service.IParcialidad;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -104,6 +106,7 @@ public class ParcialidadImpl implements IParcialidad {
                                             .activo(true)
                                             .usuarioAgrego(dto.getUsuarioModifico())
                                             .fechaAccion(new Date())
+                                            .data(new Gson().toJson(part))
                                             .build()
                             );
 
@@ -147,6 +150,7 @@ public class ParcialidadImpl implements IParcialidad {
                                                 .estadoNuevo(2)
                                                 .usuarioAgrego(dto.getUsuarioModifico())
                                                 .fechaAccion(new Date())
+                                                .data(new Gson().toJson(count))
                                                 .build()
                                 );
                             }
@@ -170,13 +174,45 @@ public class ParcialidadImpl implements IParcialidad {
             return new ResponseEntity("No se encontro la parcialidad ingresada.",
                     HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity("Parcialidad recibida correctamente." ,
+        return new ResponseEntity("Parcialidad recibida correctamente.",
                 HttpStatus.OK);
     }
 
     @Override
     public Optional<ParcialidadEntity> showPart(int idParcialidad) {
-      return parcialidadRepository.findById(idParcialidad);
+        return parcialidadRepository.findById(idParcialidad);
+    }
+
+    @Override
+    public ResponseEntity<ParcialidadEntity> declineAccount(RechazoDto dto) {
+        final ParcialidadEntity declinePart = parcialidadRepository.findById(dto.getId()).orElse(null);
+
+        if (declinePart != null) {
+
+            declinePart.setComentario(dto.getComentario());
+            declinePart.setValido(false);
+            declinePart.setRecibido("Rechazado");
+            parcialidadRepository.save(declinePart);
+
+            //Metodo para guardar en bitacora del Beneficio
+            bitacora.save(
+                    HistoricoBitacoraEntity.builder()
+                            .idRegistro(String.valueOf(dto.getId()))
+                            .accion("UPDATE")
+                            .tabla("parcialidad")
+                            .activo(true)
+                            .usuarioAgrego(dto.getUsuarioAgrego())
+                            .fechaAccion(new Date())
+                            .data(new Gson().toJson(declinePart))
+                            .build()
+            );
+
+        } else {
+            return new ResponseEntity("No se encontro la parcialidad ingresada.",
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity("Parcialidad rechazada correctamente",
+                HttpStatus.OK);
     }
 }
 

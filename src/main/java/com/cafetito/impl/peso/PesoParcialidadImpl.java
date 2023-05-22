@@ -19,6 +19,7 @@ import com.cafetito.repository.ParcialidadRepository;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.repository.peso.PesoParcialidadRepository;
 import com.cafetito.service.peso.IPesoParcialidad;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                                     .activo(true)
                                     .usuarioAgrego(dto.getUsuarioModifico())
                                     .fechaAccion(new Date())
+                                    .data(new Gson().toJson(beneficioPart))
                                     .build()
                     );
                     
@@ -112,6 +114,18 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                     beneficioCount.setDiferenciaTotal(this.diferenciaCuenta);
                     beneficioCuenta.save(beneficioCount);
                     this.totalPesado = 0.0;
+                    
+                    //Metodo para guardar en bitacora del Beneficio
+                        bitacora.save(
+                                HistoricoBitacoraEntity.builder()
+                                        .idRegistro(String.valueOf(dto.getIdCuenta()))
+                                        .accion("UPDATE")
+                                        .tabla("cuenta")
+                                        .usuarioAgrego(dto.getUsuarioModifico())
+                                        .fechaAccion(new Date())
+                                        .data(new Gson().toJson(beneficioCount))
+                                        .build()
+                        );
 
                     //Si es primer pesaje cambia el estado de la cuenta a "Pesaje Iniciado" PESO CABAL
                     if (count.getIdEstado().getIdEstado() == 2) {
@@ -136,6 +150,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                                         .estadoNuevo(3)
                                         .usuarioAgrego(dto.getUsuarioModifico())
                                         .fechaAccion(new Date())
+                                        .data(new Gson().toJson(beneficioCount))
                                         .build()
                         );
                     }
@@ -156,6 +171,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                                         .estadoNuevo(4)
                                         .usuarioAgrego(dto.getUsuarioModifico())
                                         .fechaAccion(new Date())
+                                        .data(new Gson().toJson(beneficioCount))
                                         .build()
                         );
                     }

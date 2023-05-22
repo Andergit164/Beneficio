@@ -40,6 +40,7 @@ public class ParcialidadEntity implements Serializable {
     private double diferenciaPeso;
     private Date fechaPesoBascula;
     private String tipoMedida;
+    private String comentario;
 
     public ParcialidadEntity() {
     }
@@ -48,7 +49,7 @@ public class ParcialidadEntity implements Serializable {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula, String tipoMedida) {
+    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula, String tipoMedida, String comentario) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
@@ -62,6 +63,7 @@ public class ParcialidadEntity implements Serializable {
         this.diferenciaPeso = diferenciaPeso;
         this.fechaPesoBascula = fechaPesoBascula;
         this.tipoMedida = tipoMedida;
+        this.comentario = comentario;
     }
 
     @Id
@@ -186,7 +188,14 @@ public class ParcialidadEntity implements Serializable {
     public void setTipoMedida(String tipoMedida) {
         this.tipoMedida = tipoMedida;
     }
-    
-    
 
+    @Column(name = "comentario")
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+    
 }

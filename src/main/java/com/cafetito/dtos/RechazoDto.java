@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RechazoDto implements Serializable{
     
-    private Integer idCuenta;
+    private Integer id;
     private String comentario;
     private String usuarioAgrego;
     

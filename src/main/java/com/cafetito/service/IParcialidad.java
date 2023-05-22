@@ -6,6 +6,7 @@
 package com.cafetito.service;
 
 import com.cafetito.dtos.ParcialidadDto;
+import com.cafetito.dtos.RechazoDto;
 import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.entity.ParcialidadEntity;
 import java.util.List;
@@ -23,6 +24,8 @@ public interface IParcialidad {
      ResponseEntity<ParcialidadEntity> ingresoParcialidad(updateParcialidadDto dto);
      
      Optional<ParcialidadEntity> showPart(int idParcialidad);
+     
+     ResponseEntity<ParcialidadEntity> declineAccount(RechazoDto dto);
     
 //    String createParcialidad(ParcialidadDto Dto);
     
