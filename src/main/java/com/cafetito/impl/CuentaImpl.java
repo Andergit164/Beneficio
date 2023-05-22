@@ -19,6 +19,7 @@ import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.service.ICuenta;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -272,4 +273,10 @@ public class CuentaImpl implements ICuenta {
     public List<CuentaEntity> listarCuentaAgricultorPorEstado(String nitAgricultor, Integer state) {
        return cuentaRepository.listarCuentasEstado(nitAgricultor, state);
     }
+
+    @Override
+    public Optional<CuentaEntity> showAccount(int idCuenta) {
+       return cuentaRepository.findById(idCuenta);
+    }
+
 }

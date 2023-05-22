@@ -9,6 +9,7 @@ import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.RechazoDto;
 import com.cafetito.entity.CuentaEntity;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -28,6 +29,8 @@ public interface ICuenta {
     ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta);
     
     ResponseEntity<CuentaEntity> stateConfirmedAccount(int idCuenta);
+    
+    Optional<CuentaEntity> showAccount(int idCuenta);
     
     ResponseEntity<CuentaEntity> declineAccount(RechazoDto dto);
 }

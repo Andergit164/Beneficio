@@ -25,6 +25,7 @@ import com.cafetito.service.ITransporte;
 import com.cafetito.service.ITransportista;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import java.util.Optional;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,14 +81,21 @@ public class BeneficioController {
             @PathVariable("nitAgricultor") String nitAgricultor) {
         return cuenta.listarCuentaAgricultor(nitAgricultor);
     }
-    
-     @RequestMapping(value = "/counts/agricultor/{nitAgricultor}/{estado}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/counts/agricultor/{nitAgricultor}/{estado}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Lista las cuenta de un agricultor en base a su nit")
     public List<CuentaEntity> listarCuentasEstado(
             @PathVariable("nitAgricultor") String nitAgricultor,
             @PathVariable("estado") Integer estado) {
         return cuenta.listarCuentaAgricultorPorEstado(nitAgricultor, estado);
+    }
+
+    @RequestMapping(value = "/count/detail/{idCuenta}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<CuentaEntity> showAccount(
+            @PathVariable("idCuenta") int idCuenta) {
+        return cuenta.showAccount(idCuenta);
     }
 
 //    @RequestMapping(value = "/count/create", method = RequestMethod.POST)
@@ -125,7 +133,6 @@ public class BeneficioController {
 //            @RequestBody TransporteDto dto) {
 //        return transporte.saveTransport(dto);
 //    }
-
     @RequestMapping(value = "/transport/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TransporteEntity> listTransport(
@@ -140,7 +147,7 @@ public class BeneficioController {
             @RequestBody(required = true) updateTransDto dto) {
         return transporte.activarInactivarTransporte(placa, dto);
     }
-    
+
     @RequestMapping(value = "/deleteTransport/{placa}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TransporteEntity> deleteTransport(
@@ -159,7 +166,6 @@ public class BeneficioController {
 //            @RequestBody TransportistaDto dto) {
 //        return transportista.createCarrier(dto);
 //    }
-
     @RequestMapping(value = "/carrier/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TransportistaEntity> listCarrier(
@@ -174,7 +180,7 @@ public class BeneficioController {
             @RequestBody(required = true) updateTransDto dto) {
         return transportista.activarInactivarTransportista(DPI, dto);
     }
-    
+
     @RequestMapping(value = "/deleteCarrier/{DPI}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TransportistaEntity> deleteCarrier(
@@ -193,13 +199,20 @@ public class BeneficioController {
             @PathVariable("idCuenta") int idCuenta) {
         return parcialidad.listarParcialidades(idCuenta);
     }
-    
+
     @RequestMapping(value = "/income/parts", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Actuliza el ingreso de la parcialidad")
     public ResponseEntity<ParcialidadEntity> updatePart(
-             @RequestBody updateParcialidadDto dto) {
+            @RequestBody updateParcialidadDto dto) {
         return parcialidad.ingresoParcialidad(dto);
+    }
+
+    @RequestMapping(value = "/part/detail/{idParcialidad}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<ParcialidadEntity> showPart(
+            @PathVariable("idParcialidad") int idParcialidad) {
+        return parcialidad.showPart(idParcialidad);
     }
 
 //    @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
@@ -214,14 +227,14 @@ public class BeneficioController {
             @PathVariable("idCuenta") int idCuenta) {
         return cuenta.stateCloseAccount(idCuenta);
     }
-    
+
     @RequestMapping(value = "/state/confirmed/account/{idCuenta}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CuentaEntity> confirmedAccount(
             @PathVariable("idCuenta") int idCuenta) {
         return cuenta.stateConfirmedAccount(idCuenta);
     }
-    
+
     @RequestMapping(value = "/decline/account/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CuentaEntity> declineAccount(

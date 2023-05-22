@@ -25,6 +25,7 @@ import com.cafetito.repository.peso.TransportistaAgriRepository;
 import com.cafetito.service.IParcialidad;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -171,6 +172,11 @@ public class ParcialidadImpl implements IParcialidad {
         }
         return new ResponseEntity("Parcialidad recibida correctamente." ,
                 HttpStatus.OK);
+    }
+
+    @Override
+    public Optional<ParcialidadEntity> showPart(int idParcialidad) {
+      return parcialidadRepository.findById(idParcialidad);
     }
 }
 
