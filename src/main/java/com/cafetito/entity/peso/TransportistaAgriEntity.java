@@ -62,6 +62,13 @@ public class TransportistaAgriEntity {
     
     @Column(name = "disponible")
     private Boolean disponible;
+    
+    @Column(name = "tipo_licencia")
+    private String tipoLicencia;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_licencia")
+    private Date fechaLicencia;
 
     public TransportistaAgriEntity() {
     }
@@ -70,7 +77,7 @@ public class TransportistaAgriEntity {
         this.idTransportista = idTransportista;
     }
 
-    public TransportistaAgriEntity(String idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible) {
+    public TransportistaAgriEntity(String idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible, String tipoLicencia, Date fechaLicencia) {
         this.idTransportista = idTransportista;
         this.idTransporte = idTransporte;
         this.nombre = nombre;
@@ -81,6 +88,8 @@ public class TransportistaAgriEntity {
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
         this.disponible = disponible;
+        this.tipoLicencia = tipoLicencia;
+        this.fechaLicencia = fechaLicencia;
     }
 
     public String getIdTransportista() {
@@ -162,6 +171,23 @@ public class TransportistaAgriEntity {
     public void setFechaModifico(Date fechaModifico) {
         this.fechaModifico = fechaModifico;
     }
-    
+
+    public String getTipoLicencia() {
+        return tipoLicencia;
+    }
+
+    public void setTipoLicencia(String tipoLicencia) {
+        this.tipoLicencia = tipoLicencia;
+    }
+
+    public Date getFechaLicencia() {
+        return fechaLicencia;
+    }
+
+    public void setFechaLicencia(Date fechaLicencia) {
+        this.fechaLicencia = fechaLicencia;
+    }
+
+
 
 }

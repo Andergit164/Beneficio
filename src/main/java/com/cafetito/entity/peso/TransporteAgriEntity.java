@@ -56,6 +56,9 @@ public class TransporteAgriEntity {
     
     @Column(name = "disponible")
     private Boolean disponible;
+    
+    @Column(name = "linea")
+    private String linea;
 
     public TransporteAgriEntity() {
     }
@@ -64,7 +67,7 @@ public class TransporteAgriEntity {
         this.placa = placa;
     }
 
-    public TransporteAgriEntity(String placa, String marca, String color, int modelo, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible) {
+    public TransporteAgriEntity(String placa, String marca, String color, int modelo, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible, String linea) {
         this.placa = placa;
         this.marca = marca;
         this.color = color;
@@ -75,6 +78,7 @@ public class TransporteAgriEntity {
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
         this.disponible = disponible;
+        this.linea = linea;
     }
 
     public String getPlaca() {
@@ -156,5 +160,12 @@ public class TransporteAgriEntity {
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
-    
+
+    public String getLinea() {
+        return linea;
+    }
+
+    public void setLinea(String linea) {
+        this.linea = linea;
+    } 
 }

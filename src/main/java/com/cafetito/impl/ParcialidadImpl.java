@@ -11,6 +11,7 @@ import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.EstadosEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.ParcialidadEntity;
+import com.cafetito.entity.peso.ParcialidadAgriEntity;
 import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoEstadoEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
@@ -19,6 +20,7 @@ import com.cafetito.entity.peso.TransportistaAgriEntity;
 import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.ParcialidadRepository;
+import com.cafetito.repository.peso.ParcialidadAgriRepository;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.repository.peso.PesoParcialidadRepository;
 import com.cafetito.repository.peso.TransporteAgriRepository;
@@ -62,6 +64,9 @@ public class ParcialidadImpl implements IParcialidad {
 
     @Autowired
     private TransportistaAgriRepository Atransportista;
+    
+    @Autowired
+    private ParcialidadAgriRepository agricultorParcialidad;
 
     @Override
     public List<ParcialidadEntity> listarParcialidades(Integer idCuenta) {
@@ -74,6 +79,7 @@ public class ParcialidadImpl implements IParcialidad {
         final ParcialidadEntity part = parcialidadRepository.findById(dto.getIdParcialidad()).orElse(null);
         final TransporteAgriEntity AgriTransporte = Atransporte.findById(part.getIdTransporte().getIdTransporte()).orElse(null);
         final TransportistaAgriEntity AgriTransportista = Atransportista.findById(part.getIdTransportista().getIdTransportista()).orElse(null);
+        final ParcialidadAgriEntity agricultorPart = agricultorParcialidad.findById(part.getIdParcialidadAgricultor()).orElse(null);
 
         if (part != null) {
             if (count != null) {
@@ -86,6 +92,11 @@ public class ParcialidadImpl implements IParcialidad {
                             part.setRecibido("Ingresado");
                             part.setFechaRecepcionParcialidad(new Date());
                             parcialidadRepository.save(part);
+                            
+                            agricultorPart.setFechaRecepcionParcialidad(new Date());
+                            agricultorPart.setUsuarioModifica(dto.getUsuarioModifico());
+                            agricultorPart.setFechaModifico(new Date());
+                            agricultorParcialidad.save(agricultorPart);
 
                             AgriTransporte.setDisponible(true);
                             AgriTransporte.setUsuarioModifica(dto.getUsuarioModifico());
@@ -200,7 +211,7 @@ public class ParcialidadImpl implements IParcialidad {
                             .idRegistro(String.valueOf(dto.getId()))
                             .accion("UPDATE")
                             .tabla("parcialidad")
-                            .activo(true)
+                            .activo(false)
                             .usuarioAgrego(dto.getUsuarioAgrego())
                             .fechaAccion(new Date())
                             .data(new Gson().toJson(declinePart))

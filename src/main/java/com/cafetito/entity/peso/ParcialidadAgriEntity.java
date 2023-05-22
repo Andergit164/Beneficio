@@ -68,6 +68,10 @@ public class ParcialidadAgriEntity {
     @Column(name = "fecha_modifico")
     private Date fechaModifico;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_recepcion_parcialidad")
+    private Date fechaRecepcionParcialidad;
+    
     public ParcialidadAgriEntity() {
     }
 
@@ -75,7 +79,7 @@ public class ParcialidadAgriEntity {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, TransportistaAgriEntity idTransportista, int idParcialidadBeneficio, double pesoParcialidad, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, TransportistaAgriEntity idTransportista, int idParcialidadBeneficio, double pesoParcialidad, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Date fechaRecepcionParcialidad) {
         this.idParcialidad = idParcialidad;
         this.idPesaje = idPesaje;
         this.idTransporte = idTransporte;
@@ -87,9 +91,8 @@ public class ParcialidadAgriEntity {
         this.fechaCreacion = fechaCreacion;
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
+        this.fechaRecepcionParcialidad = fechaRecepcionParcialidad;
     }
-
-    
 
     public int getIdParcialidad() {
         return idParcialidad;
@@ -177,6 +180,14 @@ public class ParcialidadAgriEntity {
 
     public void setIdParcialidadBeneficio(int idParcialidadBeneficio) {
         this.idParcialidadBeneficio = idParcialidadBeneficio;
+    }
+
+    public Date getFechaRecepcionParcialidad() {
+        return fechaRecepcionParcialidad;
+    }
+
+    public void setFechaRecepcionParcialidad(Date fechaRecepcionParcialidad) {
+        this.fechaRecepcionParcialidad = fechaRecepcionParcialidad;
     }
 
 }

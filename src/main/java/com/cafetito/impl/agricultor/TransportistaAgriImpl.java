@@ -28,11 +28,11 @@ import org.springframework.http.ResponseEntity;
  * @author Anderson
  */
 @Service
-public class TransportistaAgriImpl implements ITransportistaAgri{
-    
+public class TransportistaAgriImpl implements ITransportistaAgri {
+
     @Autowired
     private TransportistaAgriRepository transportista;
-    
+
     @Autowired
     private TransportistaRepository transportistaRepository;
 
@@ -41,56 +41,61 @@ public class TransportistaAgriImpl implements ITransportistaAgri{
 
     @Override
     public ResponseEntity<TransportistaAgriEntity> crearTransportista(TransportistaAgriDto dto) {
-        try{
-            
-        //Metodo para crear un trasportista en el Agricultor.
-       transportista.save(
-               TransportistaAgriEntity.builder()
-                       .idTransportista(dto.getIdTransportista())
-                       .idTransporte(new TransporteAgriEntity(dto.getIdTransporte()))
-                       .nombre(dto.getNombre())
-                       .fechaNacimiento(dto.getFechaNacimiento())
-                       .activo(true)
-                       .disponible(true)
-                       .fechaCreacion(new Date())
-                       .build()
-       );
-       
-       //Metodo para crear un transportista en el Beneficio.
-       final TransportistaEntity carrier = transportistaRepository.save(
-                TransportistaEntity.builder()
-                        .idTransportista(dto.getIdTransportista())
-                        .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
-                        .nombre(dto.getNombre())
-                        .estado("Activo")
-                        .fechaCreacion(new Date())
-                        .build()
-        );
 
-       //Metodo para guradar en bitacora del Beneficio.
-        bitacora.save(
-                HistoricoBitacoraEntity.builder()
-                        .idRegistro(String.valueOf(dto.getIdTransportista()))
-                        .accion("INSERT")
-                        .tabla("transportista")
-                        .activo(false)
-                        .usuarioAgrego("localHost")
-                        .fechaAccion(new Date())
-                        .data(new Gson().toJson(carrier))
-                        .build()
-        );
-       } catch (Exception e) {
-            return new ResponseEntity("Error: " + e, HttpStatus.NOT_FOUND);
+        if (dto.getFechaLicencia().after(new Date())) {
+            try {
+
+                //Metodo para crear un trasportista en el Agricultor.
+                transportista.save(
+                        TransportistaAgriEntity.builder()
+                                .idTransportista(dto.getIdTransportista())
+                                .idTransporte(new TransporteAgriEntity(dto.getIdTransporte()))
+                                .nombre(dto.getNombre())
+                                .fechaNacimiento(dto.getFechaNacimiento())
+                                .activo(true)
+                                .disponible(true)
+                                .tipoLicencia(dto.getTipoLicencia())
+                                .fechaLicencia(dto.getFechaLicencia())
+                                .fechaCreacion(new Date())
+                                .build()
+                );
+
+                //Metodo para crear un transportista en el Beneficio.
+                final TransportistaEntity carrier = transportistaRepository.save(
+                        TransportistaEntity.builder()
+                                .idTransportista(dto.getIdTransportista())
+                                .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
+                                .nombre(dto.getNombre())
+                                .estado("Activo")
+                                .fechaCreacion(new Date())
+                                .build()
+                );
+
+                //Metodo para guradar en bitacora del Beneficio.
+                bitacora.save(
+                        HistoricoBitacoraEntity.builder()
+                                .idRegistro(String.valueOf(dto.getIdTransportista()))
+                                .accion("INSERT")
+                                .tabla("transportista")
+                                .activo(false)
+                                .usuarioAgrego(dto.getUsuarioAgrego())
+                                .fechaAccion(new Date())
+                                .data(new Gson().toJson(carrier))
+                                .build()
+                );
+            } catch (Exception e) {
+                return new ResponseEntity("Error: " + e, HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return new ResponseEntity("La licencia se encuentra vencida", HttpStatus.METHOD_NOT_ALLOWED);
         }
 
         return new ResponseEntity("Transportista Creado", HttpStatus.CREATED);
     }
+
     @Override
     public List<TransportistaAgriEntity> listarTransportistas() {
         return transportista.findAll();
     }
-    
 
-    
-    
 }

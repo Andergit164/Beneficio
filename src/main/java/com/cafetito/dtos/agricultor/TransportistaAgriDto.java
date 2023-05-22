@@ -26,6 +26,8 @@ public class TransportistaAgriDto implements Serializable{
     private String idTransporte;
     private String nombre;
     private Date fechaNacimiento;
+    private String tipoLicencia;
+    private Date fechaLicencia;
     private String nitAgricultor;
     private String usuarioAgrego;
 }

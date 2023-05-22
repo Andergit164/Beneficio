@@ -26,6 +26,7 @@ public class TransporteAgriDto{
     private String marca;
     private String color;
     private Integer modelo;
+    private String linea;
     private String nitAgricultor;
     private String usuarioAgrego;
 }
