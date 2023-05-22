@@ -56,7 +56,6 @@ public class TransporteImpl implements ITransporte {
 //        );
 //        return null;
 //    }
-
     @Override
     public List<TransporteEntity> listTransport(String nitAgricultor) {
         return transporteRepository.listTransport(nitAgricultor);
@@ -65,30 +64,43 @@ public class TransporteImpl implements ITransporte {
     @Override
     public ResponseEntity<TransporteEntity> activarInactivarTransporte(String placa, updateTransDto dto) {
         final TransporteEntity updateTransporte = transporteRepository.findById(placa).orElse(null);
-        if (updateTransporte != null) {
-            updateTransporte.setActivo(dto.getActivo());
-            updateTransporte.setObservaciones(dto.getObservaciones());
-            transporteRepository.save(updateTransporte);
-
-            bitacora.save(
-                    HistoricoBitacoraEntity.builder()
-                            .idRegistro(updateTransporte.getIdTransporte())
-                            .accion("UPDATE")
-                            .tabla("transporte")
-                            .activo(dto.getActivo())
-                            .usuarioAgrego("localHost")
-                            .fechaAccion(new Date())
-                            .build()
-            );
-        } else {
-            return new ResponseEntity("No se encontro información para la placa: " + placa , HttpStatus.NO_CONTENT);
+        String respuesta;
+        
+        if(updateTransporte.isActivo()){
+            respuesta = "Activo";
+        }else{
+            respuesta = "Inactivo";
         }
-                return new ResponseEntity("Se actualizo correctamente", HttpStatus.OK);
+        
+        if (updateTransporte != null) {
+            if (updateTransporte.isActivo() != dto.getActivo()) {
+
+                updateTransporte.setActivo(dto.getActivo());
+                updateTransporte.setObservaciones(dto.getObservaciones());
+                transporteRepository.save(updateTransporte);
+
+                bitacora.save(
+                        HistoricoBitacoraEntity.builder()
+                                .idRegistro(updateTransporte.getIdTransporte())
+                                .accion("UPDATE")
+                                .tabla("transporte")
+                                .activo(dto.getActivo())
+                                .usuarioAgrego(dto.getUsuarioModifico())
+                                .fechaAccion(new Date())
+                                .build()
+                );
+            } else {
+                return new ResponseEntity("El transporte ya se encuentra : '" + respuesta + "' ", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity("No se encontro información para la placa: " + placa, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity("Transporte actualizado correctamente", HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<TransporteEntity> deleteTransporte(String placa) {
-         final TransporteEntity deleteTransporte = transporteRepository.findById(placa).orElse(null);
+        final TransporteEntity deleteTransporte = transporteRepository.findById(placa).orElse(null);
         if (deleteTransporte != null) {
             deleteTransporte.setActivo(false);
             deleteTransporte.setEstado("Inactivo");
@@ -105,9 +117,9 @@ public class TransporteImpl implements ITransporte {
                             .build()
             );
         } else {
-            return new ResponseEntity("No se encontro información para la placa: " + placa , HttpStatus.NO_CONTENT);
+            return new ResponseEntity("No se encontro información para la placa: " + placa, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity("Transporte Eliminado", HttpStatus.OK);
+        return new ResponseEntity("Transporte eliminado correctamente.", HttpStatus.OK);
     }
 
 }

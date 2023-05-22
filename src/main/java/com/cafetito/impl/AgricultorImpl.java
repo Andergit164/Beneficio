@@ -39,7 +39,9 @@ public class AgricultorImpl implements IAgricultor {
 
     @Override
     public ResponseEntity<AgricultorEntity> crearAgricultor(AgricultorDto dto) {
-        agricultor.save(AgricultorEntity.builder()
+        
+        try{
+            agricultor.save(AgricultorEntity.builder()
                 .nitAgricultor(dto.getNitAgricultor())
                 .nombre(dto.getNombre())
                 .activo(dto.getActivo())
@@ -58,6 +60,11 @@ public class AgricultorImpl implements IAgricultor {
                         .fechaAccion(new Date())
                         .build()
         );
+        }catch(Exception e){
+             return new ResponseEntity("Ocurrió un error: " +e, 
+                HttpStatus.BAD_REQUEST);
+        }
+        
         return new ResponseEntity("Agricultor creado con exito.", 
                 HttpStatus.CREATED);
     }

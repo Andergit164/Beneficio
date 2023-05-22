@@ -130,6 +130,7 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
             beneficioCount.setTotalParcialidades(this.totalParcialidades);
             beneficioCount.setPesoEnviado(this.pesoTotal);
             beneficioCuenta.save(beneficioCount);
+            this.pesoTotal = 0.0;
 
             //Metodo utilizado para guardar en bitacora la creacion de la parcialidad en el beneficio
             bitacora.save(
@@ -142,12 +143,12 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                             .fechaAccion(new Date())
                             .build()
             );
-            this.pesoTotal = 0.0;
+            
         } else {
-            return new ResponseEntity("La cuenta se encuentra en estado: " + beneficioCount.getIdEstado().getNombre() + " nos es posible agregar mas parcialidades",
+            return new ResponseEntity("La cuenta se encuentra en estado: '" + beneficioCount.getIdEstado().getNombre() + "' no es posible agregar más parcialidades",
                     HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity("Parcialidad Ingresada",
+        return new ResponseEntity("Parcialidad ingresada correctamente",
                 HttpStatus.CREATED);
     }
 

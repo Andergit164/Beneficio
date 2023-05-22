@@ -150,26 +150,26 @@ public class ParcialidadImpl implements IParcialidad {
                                 );
                             }
                         } else {
-                            return new ResponseEntity("El transportista: " + part.getIdTransportista().getIdTransportista() + "No se cuentra activo",
+                            return new ResponseEntity("El transportista: '" + part.getIdTransportista().getIdTransportista() + "' no se encuentra activo.",
                                     HttpStatus.NOT_FOUND);
                         }
                     } else {
-                        return new ResponseEntity("El transporte: " + part.getIdTransporte().getIdTransporte() + "No se cuentra activo",
+                        return new ResponseEntity("El transporte: '" + part.getIdTransporte().getIdTransporte() + "' no se cuentra activo.",
                                 HttpStatus.NOT_FOUND);
                     }
                 } else {
-                    return new ResponseEntity("La parcialidad: " + dto.getIdParcialidad() + " ya fue recibida",
+                    return new ResponseEntity("La parcialidad: '" + dto.getIdParcialidad() + "' ya fue recibida.",
                             HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity("No se encontro la cuenta ingresada",
+                return new ResponseEntity("No se encontro la cuenta ingresada.",
                         HttpStatus.NO_CONTENT);
             }
         } else {
-            return new ResponseEntity("No se encontro la parcialidad ingresada",
+            return new ResponseEntity("No se encontro la parcialidad ingresada.",
                     HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity("Parcialida Recibida",
+        return new ResponseEntity("Parcialidad recibida correctamente." ,
                 HttpStatus.OK);
     }
 }

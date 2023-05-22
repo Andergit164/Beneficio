@@ -111,6 +111,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                     beneficioCount.setPesoTotalObtenido(this.totalPesado);
                     beneficioCount.setDiferenciaTotal(this.diferenciaCuenta);
                     beneficioCuenta.save(beneficioCount);
+                    this.totalPesado = 0.0;
 
                     //Si es primer pesaje cambia el estado de la cuenta a "Pesaje Iniciado" PESO CABAL
                     if (count.getIdEstado().getIdEstado() == 2) {
@@ -163,7 +164,8 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                             HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity("La cuenta se encuentra en estado: " + beneficioCount.getIdEstado().getNombre() + " nos es posible ingresar pesajes",
+                return new ResponseEntity("La cuenta se encuentra en estado: '" + beneficioCount.getIdEstado().getNombre() +
+                        "' nos es posible ingresar pesajes",
                         HttpStatus.NOT_FOUND);
             }
         } else {

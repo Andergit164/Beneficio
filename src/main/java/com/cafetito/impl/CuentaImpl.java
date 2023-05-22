@@ -41,6 +41,7 @@ public class CuentaImpl implements ICuenta {
     private PesoCuentaBeneficioRepository cuentaPesoCabal;
 
     Integer id;
+    String resultado;
 
     /**
      * @param nitAgricultor
@@ -91,15 +92,15 @@ public class CuentaImpl implements ICuenta {
                 cuentaPesoCabal.save(pesoAccount);
 
             } else {
-                return new ResponseEntity("La cuenta se encuentra en estado: "
-                        + updateState.getIdEstado().getNombre() + " nos es posible Cerrar la cueta",
+                return new ResponseEntity("La cuenta se encuentra en estado: '"
+                        + updateState.getIdEstado().getNombre() + "'  no es posible Cerrar la cuenta.",
                         HttpStatus.NOT_FOUND);
             }
         } else {
-            return new ResponseEntity("No se encontro la cuenta ingresada",
+            return new ResponseEntity("No se encontro la cuenta ingresada.",
                     HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity("Cuenta Cerrada correctamente",
+        return new ResponseEntity("Cuenta Cerrada correctamente.",
                 HttpStatus.OK);
     }
 
@@ -121,6 +122,7 @@ public class CuentaImpl implements ICuenta {
                     updateAccount.setIdEstado(new EstadosEntity(6));
                     updateAccount.setResultadoTolerancia("Aceptado, en parametro");
                     cuentaRepository.save(updateAccount);
+                    resultado = "Aceptado, en parametro";
 
                     //Metodo para guardar en bitacora del Beneficio
                     bitacora.save(
@@ -142,6 +144,7 @@ public class CuentaImpl implements ICuenta {
                         updateAccount.setTolerancia(false);
                         updateAccount.setResultadoTolerancia("Faltante");
                         cuentaRepository.save(updateAccount);
+                        resultado = "Faltante";
 
                         //Metodo para guardar en bitacora del Beneficio
                         bitacora.save(
@@ -163,6 +166,7 @@ public class CuentaImpl implements ICuenta {
                         updateAccount.setTolerancia(false);
                         updateAccount.setResultadoTolerancia("Sobrante");
                         cuentaRepository.save(updateAccount);
+                        resultado = "Sobrante";
 
                         //Metodo para guardar en bitacora del Beneficio
                         bitacora.save(
@@ -179,16 +183,20 @@ public class CuentaImpl implements ICuenta {
                         );
                     }
                 }
+                
             } else {
-                return new ResponseEntity("La cuenta se encuentra en estado: "
-                        + updateAccount.getIdEstado().getNombre() + " nos es posible Cerrar la cueta",
+                return new ResponseEntity("La cuenta se encuentra en estado: '"
+                        + updateAccount.getIdEstado().getNombre() + "'  no es posible Confirmar la Cuenta.",
                         HttpStatus.NOT_FOUND);
             }
+          
         } else {
-            return new ResponseEntity("No se encontro la cuenta ingresada",
+            return new ResponseEntity("No se encontro la cuenta ingresada.",
                     HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity("Cuenta confirmada correctamente",
+        
+        return new ResponseEntity("Cuenta confirmada correctamente, Resultado: '"+resultado
+                +"' Peso obtenido: ["+updateAccount.getPesoTotalObtenido()+"] Peso mínimo: ["+min+"] Peso máximo: ["+max+"] ",
                 HttpStatus.OK);
     }
 
@@ -218,8 +226,8 @@ public class CuentaImpl implements ICuenta {
                 );
 
             } else {
-                return new ResponseEntity("La cuenta se encuentra en estado: "
-                        + updateAccount.getIdEstado().getNombre() + " nos es posible Cerrar la cuenta",
+                return new ResponseEntity("La cuenta se encuentra en estado: '"
+                        + updateAccount.getIdEstado().getNombre() + "' no es posible rechazar la cuenta.",
                         HttpStatus.NOT_FOUND);
             }
         } else {

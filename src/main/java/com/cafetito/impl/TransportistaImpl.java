@@ -57,7 +57,6 @@ public class TransportistaImpl implements ITransportista {
 //        );
 //        return null;
 //    }
-
     @Override
     public List<TransportistaEntity> listCarriers(String nitAgricultor) {
         return transportistaRepository.listCarriersByAgricultor(nitAgricultor);
@@ -66,30 +65,42 @@ public class TransportistaImpl implements ITransportista {
     @Override
     public ResponseEntity<TransportistaEntity> activarInactivarTransportista(String dpi, updateTransDto dto) {
         final TransportistaEntity updateTransportista = transportistaRepository.findById(dpi).orElse(null);
-        if (updateTransportista != null) {
-            updateTransportista.setActivo(dto.getActivo());
-            updateTransportista.setObservaciones(dto.getObservaciones());
-            transportistaRepository.save(updateTransportista);
+        String respuesta;
 
-            bitacora.save(
-                    HistoricoBitacoraEntity.builder()
-                            .idRegistro(String.valueOf(updateTransportista.getIdTransportista()))
-                            .accion("UPTDATE")
-                            .tabla("transportista")
-                            .activo(dto.getActivo())
-                            .usuarioAgrego("localHost")
-                            .fechaAccion(new Date())
-                            .build()
-            );
+        if (updateTransportista.isActivo()) {
+            respuesta = "Activo";
         } else {
-            return new ResponseEntity("No se encontro información del DIP: " + dpi , HttpStatus.NO_CONTENT);
+            respuesta = "Inactivo";
         }
-                return new ResponseEntity("Se actualizo correctamente", HttpStatus.OK);
+
+        if (updateTransportista != null) {
+            if (updateTransportista.isActivo() != dto.getActivo()) {
+                updateTransportista.setActivo(dto.getActivo());
+                updateTransportista.setObservaciones(dto.getObservaciones());
+                transportistaRepository.save(updateTransportista);
+
+                bitacora.save(
+                        HistoricoBitacoraEntity.builder()
+                                .idRegistro(String.valueOf(updateTransportista.getIdTransportista()))
+                                .accion("UPTDATE")
+                                .tabla("transportista")
+                                .activo(dto.getActivo())
+                                .usuarioAgrego(dto.getUsuarioModifico())
+                                .fechaAccion(new Date())
+                                .build()
+                );
+            } else {
+                return new ResponseEntity("El transportista ya se encuentra : '" + respuesta + "' ", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity("No se encontro información del DIP: " + dpi, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity("Transportista actualizado correctamente", HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<TransportistaEntity> deleteTransportista(String dpi) {
-          final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElse(null);
+        final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElse(null);
         if (deleteTransportista != null) {
             deleteTransportista.setActivo(false);
             deleteTransportista.setEstado("Inactivo");
@@ -106,9 +117,9 @@ public class TransportistaImpl implements ITransportista {
                             .build()
             );
         } else {
-            return new ResponseEntity("No se encontro información del DPI : " + dpi , HttpStatus.NO_CONTENT);
+            return new ResponseEntity("No se encontro información del DPI : " + dpi, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity("Transportista Eliminado", HttpStatus.OK);
+        return new ResponseEntity("Transportista eliminado correctamente", HttpStatus.OK);
     }
 
 }
