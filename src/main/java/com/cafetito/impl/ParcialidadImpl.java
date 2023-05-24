@@ -58,12 +58,6 @@ public class ParcialidadImpl implements IParcialidad {
 
     @Autowired
     private PesoParcialidadRepository pesoParcialidadRepository;
-
-    @Autowired
-    private TransporteAgriRepository Atransporte;
-
-    @Autowired
-    private TransportistaAgriRepository Atransportista;
     
     @Autowired
     private ParcialidadAgriRepository agricultorParcialidad;
@@ -77,8 +71,6 @@ public class ParcialidadImpl implements IParcialidad {
     public ResponseEntity<ParcialidadEntity> ingresoParcialidad(updateParcialidadDto dto) {
         final CuentaEntity count = cuentaRepository.findById(dto.getIdCuenta()).orElse(null);
         final ParcialidadEntity part = parcialidadRepository.findById(dto.getIdParcialidad()).orElse(null);
-        final TransporteAgriEntity AgriTransporte = Atransporte.findById(part.getIdTransporte().getIdTransporte()).orElse(null);
-        final TransportistaAgriEntity AgriTransportista = Atransportista.findById(part.getIdTransportista().getIdTransportista()).orElse(null);
         final ParcialidadAgriEntity agricultorPart = agricultorParcialidad.findById(part.getIdParcialidadAgricultor()).orElse(null);
 
         if (part != null) {
@@ -97,16 +89,6 @@ public class ParcialidadImpl implements IParcialidad {
                             agricultorPart.setUsuarioModifica(dto.getUsuarioModifico());
                             agricultorPart.setFechaModifico(new Date());
                             agricultorParcialidad.save(agricultorPart);
-
-                            AgriTransporte.setDisponible(true);
-                            AgriTransporte.setUsuarioModifica(dto.getUsuarioModifico());
-                            AgriTransporte.setFechaModifico(new Date());
-                            Atransporte.save(AgriTransporte);
-
-                            AgriTransportista.setDisponible(true);
-                            AgriTransportista.setUsuarioModifica(dto.getUsuarioModifico());
-                            AgriTransportista.setFechaModifico(new Date());
-                            Atransportista.save(AgriTransportista);
 
                             //Metodo para guardar en bitacora del Beneficio
                             bitacora.save(

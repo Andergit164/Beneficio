@@ -75,19 +75,6 @@
             <version>1.5.20</version>
             <type>jar</type>
         </dependency>
-   
-<!--        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
-        </dependency>-->
-    
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
