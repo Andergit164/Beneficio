@@ -27,6 +27,7 @@ import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,103 +45,107 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/Agricultor")
 @CrossOrigin(origins = ("*"))
 public class AgricultorController {
-    
+
     @Autowired
     private ITransporteAgri transporte;
-    
+
     @Autowired
     private ITransportistaAgri transportista;
-    
+
     @Autowired
     private IPesajeAgri pesaje;
-    
+
     @Autowired
     private IAgricultorAgri agricultor;
-    
+
     @Autowired
     private IParcialidadAgri parcialidad;
-    
+
     /**
      * @param dto
-     * @return 
+     * @return
      * @url rutas para la entidad transporte
      */
-    
     @RequestMapping(value = "/create/transport", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Crea un nuevo transporte", notes = "Gets crc of all segments")
+    @ApiOperation(value = "Crea un nuevo transporte")
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public ResponseEntity<TransporteAgriEntity> createTransport(
             @RequestBody TransporteAgriDto dto) {
         return transporte.agregarTransporte(dto);
     }
-    
+
     @RequestMapping(value = "/list/transport", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<TransporteAgriEntity> listTransport(){
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
+    public List<TransporteAgriEntity> listTransport() {
         return transporte.listarTransporte();
     }
-    
-     /**
+
+    /**
      * @param dto
-     * @return 
+     * @return
      * @url rutas para la entidad transportista
      */
-    
     @RequestMapping(value = "/create/carrier", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public ResponseEntity<TransportistaAgriEntity> createCarrier(
             @RequestBody TransportistaAgriDto dto) {
         return transportista.crearTransportista(dto);
     }
-    
+
     @RequestMapping(value = "/list/carrier", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<TransportistaAgriEntity> listCarrier(){
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
+    public List<TransportistaAgriEntity> listCarrier() {
         return transportista.listarTransportistas();
     }
-    
+
     /**
      * @param dto
-     * @return 
+     * @return
      * @url rutas para la entidad pesaje
      */
-    
     @RequestMapping(value = "/create/weighing", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Crea un nuevo pesaje")
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public Boolean crearPesaje(
             @RequestBody PesajeAgriDto dto) {
         return pesaje.crearPesaje(dto);
     }
-    
+
     @RequestMapping(value = "/list/weighing", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Listar pesajes")
-    public List<PesajeAgriEntity> listarPesajes(){
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
+    public List<PesajeAgriEntity> listarPesajes() {
         return pesaje.listarPesaje();
     }
-    
-    
+
     /**
      * @param dto
-     * @return 
+     * @return
      * @url rutas para la entidad agricultor
      */
     @RequestMapping(value = "/show/farmer", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Muestra los datos del agricultor")
-    public List<AgricultorAgriEntity> mostrarAgricultor(){
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
+    public List<AgricultorAgriEntity> mostrarAgricultor() {
         return agricultor.listarAgricultor();
     }
-    
-     /**
+
+    /**
      * @param idCuenta
-     * @return 
+     * @return
      * @url rutas para la entidad parcialidad
      */
     @RequestMapping(value = "/count/parts/{idPesaje}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Listar las parcialidades en base a un pesaje")
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public List<ParcialidadAgriEntity> listParts(
             @PathVariable("idPesaje") int idPesaje) {
         return parcialidad.listarParcialidades(idPesaje);
@@ -151,6 +156,7 @@ public class AgricultorController {
     @ApiOperation(value = "Crea una nueva parcialidad")
     @ApiResponses(value = {
         @ApiResponse(code = 500, message = "Ocurrior un error al insertar los datos")})
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public ResponseEntity<ParcialidadAgriEntity> createCountPart(
             @RequestBody ParcialidadAgriDto Dto) {
         return parcialidad.crearParcialidad(Dto);
