@@ -49,7 +49,6 @@ public class TransportistaAgriImpl implements ITransportistaAgri {
                 transportista.save(
                         TransportistaAgriEntity.builder()
                                 .idTransportista(dto.getIdTransportista())
-                                .idTransporte(new TransporteAgriEntity(dto.getIdTransporte()))
                                 .nombre(dto.getNombre())
                                 .fechaNacimiento(dto.getFechaNacimiento())
                                 .activo(true)

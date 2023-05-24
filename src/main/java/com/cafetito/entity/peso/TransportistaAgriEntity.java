@@ -27,25 +27,34 @@ import lombok.Builder;
 @Table(name = "transportista",
         schema = "agricultor")
 public class TransportistaAgriEntity {
-    
+
     @Id
-    @Column(name = "id_transportista", unique=true)
+    @Column(name = "id_transportista", unique = true)
     private String idTransportista;
-  
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_transporte")
-    private TransporteAgriEntity idTransporte;  
-    
+
+    @Column(name = "id_pesaje")
+    private int idPesaje;
+
     @Column(name = "nombre")
     private String nombre;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
-    
+
     @Column(name = "activo")
     private boolean activo;
-    
+
+    @Column(name = "disponible")
+    private Boolean disponible;
+
+    @Column(name = "tipo_licencia")
+    private String tipoLicencia;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_licencia")
+    private Date fechaLicencia;
+
     @Column(name = "usuario_agrego")
     private String usuarioAgrega;
 
@@ -59,16 +68,6 @@ public class TransportistaAgriEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_modifico")
     private Date fechaModifico;
-    
-    @Column(name = "disponible")
-    private Boolean disponible;
-    
-    @Column(name = "tipo_licencia")
-    private String tipoLicencia;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "fecha_licencia")
-    private Date fechaLicencia;
 
     public TransportistaAgriEntity() {
     }
@@ -77,19 +76,19 @@ public class TransportistaAgriEntity {
         this.idTransportista = idTransportista;
     }
 
-    public TransportistaAgriEntity(String idTransportista, TransporteAgriEntity idTransporte, String nombre, Date fechaNacimiento, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible, String tipoLicencia, Date fechaLicencia) {
+    public TransportistaAgriEntity(String idTransportista, int idPesaje, String nombre, Date fechaNacimiento, boolean activo, Boolean disponible, String tipoLicencia, Date fechaLicencia, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idTransportista = idTransportista;
-        this.idTransporte = idTransporte;
+        this.idPesaje = idPesaje;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.activo = activo;
+        this.disponible = disponible;
+        this.tipoLicencia = tipoLicencia;
+        this.fechaLicencia = fechaLicencia;
         this.usuarioAgrega = usuarioAgrega;
         this.fechaCreacion = fechaCreacion;
         this.usuarioModifica = usuarioModifica;
         this.fechaModifico = fechaModifico;
-        this.disponible = disponible;
-        this.tipoLicencia = tipoLicencia;
-        this.fechaLicencia = fechaLicencia;
     }
 
     public String getIdTransportista() {
@@ -100,20 +99,12 @@ public class TransportistaAgriEntity {
         this.idTransportista = idTransportista;
     }
 
-    public Boolean getDisponible() {
-        return disponible;
+    public int getIdPesaje() {
+        return idPesaje;
     }
 
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public TransporteAgriEntity getIdTransporte() {
-        return idTransporte;
-    }
-
-    public void setIdTransporte(TransporteAgriEntity idTransporte) {
-        this.idTransporte = idTransporte;
+    public void setIdPesaje(int idPesaje) {
+        this.idPesaje = idPesaje;
     }
 
     public String getNombre() {
@@ -138,6 +129,30 @@ public class TransportistaAgriEntity {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public String getTipoLicencia() {
+        return tipoLicencia;
+    }
+
+    public void setTipoLicencia(String tipoLicencia) {
+        this.tipoLicencia = tipoLicencia;
+    }
+
+    public Date getFechaLicencia() {
+        return fechaLicencia;
+    }
+
+    public void setFechaLicencia(Date fechaLicencia) {
+        this.fechaLicencia = fechaLicencia;
     }
 
     public String getUsuarioAgrega() {
@@ -172,22 +187,6 @@ public class TransportistaAgriEntity {
         this.fechaModifico = fechaModifico;
     }
 
-    public String getTipoLicencia() {
-        return tipoLicencia;
-    }
-
-    public void setTipoLicencia(String tipoLicencia) {
-        this.tipoLicencia = tipoLicencia;
-    }
-
-    public Date getFechaLicencia() {
-        return fechaLicencia;
-    }
-
-    public void setFechaLicencia(Date fechaLicencia) {
-        this.fechaLicencia = fechaLicencia;
-    }
-
-
+    
 
 }

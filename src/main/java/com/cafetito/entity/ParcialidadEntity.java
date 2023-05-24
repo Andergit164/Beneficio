@@ -41,6 +41,7 @@ public class ParcialidadEntity implements Serializable {
     private Date fechaPesoBascula;
     private String tipoMedida;
     private String comentario;
+    private CatalogoEntity medidaPeso;
 
     public ParcialidadEntity() {
     }
@@ -49,7 +50,7 @@ public class ParcialidadEntity implements Serializable {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula, String tipoMedida, String comentario) {
+    public ParcialidadEntity(int idParcialidad, CuentaEntity idCuenta, TransporteEntity idTransporte, TransportistaEntity idTransportista, int idParcialidadAgricultor, boolean valido, String recibido, Date fechaRecepcionParcialidad, double pesoEnviado, double pesoBascula, double diferenciaPeso, Date fechaPesoBascula, String tipoMedida, String comentario, CatalogoEntity medidaPeso) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
@@ -64,6 +65,7 @@ public class ParcialidadEntity implements Serializable {
         this.fechaPesoBascula = fechaPesoBascula;
         this.tipoMedida = tipoMedida;
         this.comentario = comentario;
+        this.medidaPeso = medidaPeso;
     }
 
     @Id
@@ -116,7 +118,7 @@ public class ParcialidadEntity implements Serializable {
         this.fechaRecepcionParcialidad = fechaRecepcionParcialidad;
     }
 
-    @Column(name = "peso_enviado_kg")
+    @Column(name = "peso_enviado")
     public double getPesoEnviado() {
         return pesoEnviado;
     }
@@ -125,7 +127,7 @@ public class ParcialidadEntity implements Serializable {
         this.pesoEnviado = pesoEnviado;
     }
 
-    @Column(name = "peso_bascula_kg")
+    @Column(name = "peso_bascula")
     public double getPesoBascula() {
         return pesoBascula;
     }
@@ -134,7 +136,7 @@ public class ParcialidadEntity implements Serializable {
         this.pesoBascula = pesoBascula;
     }
 
-    @Column(name = "diferencia_kg")
+    @Column(name = "diferencia")
     public double getDiferenciaPeso() {
         return diferenciaPeso;
     }
@@ -197,5 +199,17 @@ public class ParcialidadEntity implements Serializable {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medida_peso")
+    public CatalogoEntity getMedidaPeso() {
+        return medidaPeso;
+    }
+
+    public void setMedidaPeso(CatalogoEntity medidaPeso) {
+        this.medidaPeso = medidaPeso;
+    }
+    
+    
     
 }

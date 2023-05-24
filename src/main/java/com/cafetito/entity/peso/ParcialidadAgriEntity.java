@@ -48,8 +48,12 @@ public class ParcialidadAgriEntity {
     @Column(name = "id_parcialidad_beneficio")
     private int idParcialidadBeneficio;
     
-    @Column(name = "peso_parcialidad_kg")
+    @Column(name = "peso_parcialidad")
     private double pesoParcialidad;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medida_peso")
+    private CatalogoAgriEntity medidaPeso;
     
     @Column(name = "tipo_medida")
     private String tipoMedida;
@@ -79,13 +83,14 @@ public class ParcialidadAgriEntity {
         this.idParcialidad = idParcialidad;
     }
 
-    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, TransportistaAgriEntity idTransportista, int idParcialidadBeneficio, double pesoParcialidad, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Date fechaRecepcionParcialidad) {
+    public ParcialidadAgriEntity(int idParcialidad, PesajeAgriEntity idPesaje, TransporteAgriEntity idTransporte, TransportistaAgriEntity idTransportista, int idParcialidadBeneficio, double pesoParcialidad, CatalogoAgriEntity medidaPeso, String tipoMedida, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Date fechaRecepcionParcialidad) {
         this.idParcialidad = idParcialidad;
         this.idPesaje = idPesaje;
         this.idTransporte = idTransporte;
         this.idTransportista = idTransportista;
         this.idParcialidadBeneficio = idParcialidadBeneficio;
         this.pesoParcialidad = pesoParcialidad;
+        this.medidaPeso = medidaPeso;
         this.tipoMedida = tipoMedida;
         this.usuarioAgrega = usuarioAgrega;
         this.fechaCreacion = fechaCreacion;
@@ -188,6 +193,14 @@ public class ParcialidadAgriEntity {
 
     public void setFechaRecepcionParcialidad(Date fechaRecepcionParcialidad) {
         this.fechaRecepcionParcialidad = fechaRecepcionParcialidad;
+    }
+
+    public CatalogoAgriEntity getMedidaPeso() {
+        return medidaPeso;
+    }
+
+    public void setMedidaPeso(CatalogoAgriEntity medidaPeso) {
+        this.medidaPeso = medidaPeso;
     }
 
 }

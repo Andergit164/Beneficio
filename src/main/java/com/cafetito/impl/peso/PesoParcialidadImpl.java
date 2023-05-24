@@ -52,7 +52,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
     Double totalPesado = 0.0;
     Double diferencia = 0.0;
     Double diferenciaCuenta = 0.0;
-    
+
     @Override
     public List<PesoParcialidadEntity> listarParcialidades(Integer idCuenta) {
         return pesoParcialidadRepository.listParcialidad(idCuenta);
@@ -60,7 +60,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
 
     @Override
     public ResponseEntity<PesoParcialidadEntity> actualiarPeso(PesoParcialidadDto dto) {
-        
+
         Integer parcialidadesPesadas;
 
         final PesoParcialidadEntity updateWeight = pesoParcialidadRepository.findById(dto.getIdParcialidad()).orElse(null);
@@ -70,75 +70,55 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
 
         if (updateWeight != null) {
             if (beneficioCount.getIdEstado().getIdEstado() == 2 || beneficioCount.getIdEstado().getIdEstado() == 3 || beneficioCount.getIdEstado().getIdEstado() == 4) {
-
                 if (updateWeight.isAceptado()) {
+                    if (updateWeight.getMedidaPeso().getCodigo() == dto.getCodigoPeso()) {
 
-                    //Se ingresa el pesa obtenido por la bascula a PESO CABAL
-                    updateWeight.setObservaciones(dto.getObservaciones());
-                    updateWeight.setPesoObtenido(dto.getPesoObtenido());
-                    updateWeight.setFechaPeso(new Date());
-                    updateWeight.setBoleta(true);
-                    updateWeight.setFechaBoleta(new Date());
-                    updateWeight.setUsuarioModifica(dto.getUsuarioModifico());
-                    updateWeight.setFechaModifico(new Date());
-                    pesoParcialidadRepository.save(updateWeight);
+                        //Se ingresa el pesa obtenido por la bascula a PESO CABAL
+                        updateWeight.setObservaciones(dto.getObservaciones());
+                        updateWeight.setPesoObtenido(dto.getPesoObtenido());
+                        updateWeight.setFechaPeso(new Date());
+                        updateWeight.setBoleta(true);
+                        updateWeight.setFechaBoleta(new Date());
+                        updateWeight.setUsuarioModifica(dto.getUsuarioModifico());
+                        updateWeight.setFechaModifico(new Date());
+                        pesoParcialidadRepository.save(updateWeight);
 
-                    //Se ingresa el pesaje obtenido por peso cabal al BENEFICIO
-                    beneficioPart.setPesoBascula(dto.getPesoObtenido());
-                    beneficioPart.setFechaPesoBascula(new Date());
-                    beneficioPart.setRecibido("Pesaje Realizado");
-                    this.diferencia = (dto.getPesoObtenido() - beneficioPart.getPesoEnviado());
-                    if (this.diferencia < 0) { this.diferencia = this.diferencia * (-1); }
-                    beneficioPart.setDiferenciaPeso(this.diferencia);
-                    beneficioParcialidad.save(beneficioPart);
+                        //Se ingresa el pesaje obtenido por peso cabal al BENEFICIO
+                        beneficioPart.setPesoBascula(dto.getPesoObtenido());
+                        beneficioPart.setFechaPesoBascula(new Date());
+                        beneficioPart.setRecibido("Pesaje Realizado");
+                        this.diferencia = (dto.getPesoObtenido() - beneficioPart.getPesoEnviado());
+                        if (this.diferencia < 0) {
+                            this.diferencia = this.diferencia * (-1);
+                        }
+                        beneficioPart.setDiferenciaPeso(this.diferencia);
+                        beneficioParcialidad.save(beneficioPart);
 
-                    //Metodo para guardar en bitacora del Beneficio
-                    bitacora.save(
-                            HistoricoBitacoraEntity.builder()
-                                    .idRegistro(String.valueOf(dto.getIdCuenta()))
-                                    .accion("UPDATE")
-                                    .tabla("parcialidad")
-                                    .activo(true)
-                                    .usuarioAgrego(dto.getUsuarioModifico())
-                                    .fechaAccion(new Date())
-                                    .data(new Gson().toJson(beneficioPart))
-                                    .build()
-                    );
-                    
-                    //Metodo para ingresar el total pesado a la cuenta de BENEFICIO
-                    this.listParcialidadPesadas(dto.getIdCuenta()).forEach(pesaje -> {
-                    this.totalPesado +=  pesaje.getPesoBascula();});
-                    this.diferenciaCuenta = this.totalPesado - beneficioCount.getPesoEnviado();
-                    if(this.diferenciaCuenta < 0){this.diferenciaCuenta = this.diferenciaCuenta * (-1); }
-                    beneficioCount.setPesoTotalObtenido(this.totalPesado);
-                    beneficioCount.setDiferenciaTotal(this.diferenciaCuenta);
-                    beneficioCuenta.save(beneficioCount);
-                    this.totalPesado = 0.0;
-                    
-                    //Metodo para guardar en bitacora del Beneficio
+                        //Metodo para guardar en bitacora del Beneficio
                         bitacora.save(
                                 HistoricoBitacoraEntity.builder()
                                         .idRegistro(String.valueOf(dto.getIdCuenta()))
                                         .accion("UPDATE")
-                                        .tabla("cuenta")
+                                        .tabla("parcialidad")
+                                        .activo(true)
                                         .usuarioAgrego(dto.getUsuarioModifico())
                                         .fechaAccion(new Date())
-                                        .data(new Gson().toJson(beneficioCount))
+                                        .data(new Gson().toJson(beneficioPart))
                                         .build()
                         );
 
-                    //Si es primer pesaje cambia el estado de la cuenta a "Pesaje Iniciado" PESO CABAL
-                    if (count.getIdEstado().getIdEstado() == 2) {
-                        count.setIdEstado(new PesoEstadoEntity(3));
-                        count.setUsuarioModifica(dto.getUsuarioModifico());
-                        count.setFechaModifico(new Date());
-                        pesoCuenta.save(count);
-                    }
-
-                    //Si es primer pesaje cambia el estado de la cuenta a "Pesaje Iniciado" BENEFICIO
-                    if (beneficioCount.getIdEstado().getIdEstado() == 2) {
-                        beneficioCount.setIdEstado(new EstadosEntity(3));
+                        //Metodo para ingresar el total pesado a la cuenta de BENEFICIO
+                        this.listParcialidadPesadas(dto.getIdCuenta()).forEach(pesaje -> {
+                            this.totalPesado += pesaje.getPesoBascula();
+                        });
+                        this.diferenciaCuenta = this.totalPesado - beneficioCount.getPesoEnviado();
+                        if (this.diferenciaCuenta < 0) {
+                            this.diferenciaCuenta = this.diferenciaCuenta * (-1);
+                        }
+                        beneficioCount.setPesoTotalObtenido(this.totalPesado);
+                        beneficioCount.setDiferenciaTotal(this.diferenciaCuenta);
                         beneficioCuenta.save(beneficioCount);
+                        this.totalPesado = 0.0;
 
                         //Metodo para guardar en bitacora del Beneficio
                         bitacora.save(
@@ -146,42 +126,72 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                                         .idRegistro(String.valueOf(dto.getIdCuenta()))
                                         .accion("UPDATE")
                                         .tabla("cuenta")
-                                        .estadoAnterior(2)
-                                        .estadoNuevo(3)
                                         .usuarioAgrego(dto.getUsuarioModifico())
                                         .fechaAccion(new Date())
                                         .data(new Gson().toJson(beneficioCount))
                                         .build()
                         );
-                    }
 
-                    parcialidadesPesadas = getCountPartsWeighing(dto.getIdCuenta());
-                    //Metodo encargado de validar si ya se pesaron todas las parcialidades para asignar el estado "Pesaje Finalizadoi"
-                    if (beneficioCount.getTotalParcialidades() == parcialidadesPesadas) {
-                        beneficioCount.setIdEstado(new EstadosEntity(4));
-                        beneficioCuenta.save(beneficioCount);
+                        //Si es primer pesaje cambia el estado de la cuenta a "Pesaje Iniciado" PESO CABAL
+                        if (count.getIdEstado().getIdEstado() == 2) {
+                            count.setIdEstado(new PesoEstadoEntity(3));
+                            count.setUsuarioModifica(dto.getUsuarioModifico());
+                            count.setFechaModifico(new Date());
+                            pesoCuenta.save(count);
+                        }
 
-                        //Metodo para guardar en bitacora del Beneficio
-                        bitacora.save(
-                                HistoricoBitacoraEntity.builder()
-                                        .idRegistro(String.valueOf(dto.getIdCuenta()))
-                                        .accion("UPDATE")
-                                        .tabla("cuenta")
-                                        .estadoAnterior(3)
-                                        .estadoNuevo(4)
-                                        .usuarioAgrego(dto.getUsuarioModifico())
-                                        .fechaAccion(new Date())
-                                        .data(new Gson().toJson(beneficioCount))
-                                        .build()
-                        );
+                        //Si es primer pesaje cambia el estado de la cuenta a "Pesaje Iniciado" BENEFICIO
+                        if (beneficioCount.getIdEstado().getIdEstado() == 2) {
+                            beneficioCount.setIdEstado(new EstadosEntity(3));
+                            beneficioCuenta.save(beneficioCount);
+
+                            //Metodo para guardar en bitacora del Beneficio
+                            bitacora.save(
+                                    HistoricoBitacoraEntity.builder()
+                                            .idRegistro(String.valueOf(dto.getIdCuenta()))
+                                            .accion("UPDATE")
+                                            .tabla("cuenta")
+                                            .estadoAnterior(2)
+                                            .estadoNuevo(3)
+                                            .usuarioAgrego(dto.getUsuarioModifico())
+                                            .fechaAccion(new Date())
+                                            .data(new Gson().toJson(beneficioCount))
+                                            .build()
+                            );
+                        }
+
+                        parcialidadesPesadas = getCountPartsWeighing(dto.getIdCuenta());
+                        //Metodo encargado de validar si ya se pesaron todas las parcialidades para asignar el estado "Pesaje Finalizadoi"
+                        if (beneficioCount.getTotalParcialidades() == parcialidadesPesadas) {
+                            beneficioCount.setIdEstado(new EstadosEntity(4));
+                            beneficioCuenta.save(beneficioCount);
+
+                            //Metodo para guardar en bitacora del Beneficio
+                            bitacora.save(
+                                    HistoricoBitacoraEntity.builder()
+                                            .idRegistro(String.valueOf(dto.getIdCuenta()))
+                                            .accion("UPDATE")
+                                            .tabla("cuenta")
+                                            .estadoAnterior(3)
+                                            .estadoNuevo(4)
+                                            .usuarioAgrego(dto.getUsuarioModifico())
+                                            .fechaAccion(new Date())
+                                            .data(new Gson().toJson(beneficioCount))
+                                            .build()
+                            );
+                        }
+                    } else {
+                        return new ResponseEntity("El tipo de medida seleccionado, "
+                                + "no coincide con el tipo de medida de la parcialidad: [ " + updateWeight.getMedidaPeso().getNombre() + " ]",
+                                HttpStatus.BAD_REQUEST);
                     }
                 } else {
                     return new ResponseEntity("La parcialidad no se encuentra aceptada",
                             HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity("La cuenta se encuentra en estado: '" + beneficioCount.getIdEstado().getNombre() +
-                        "' nos es posible ingresar pesajes",
+                return new ResponseEntity("La cuenta se encuentra en estado: '" + beneficioCount.getIdEstado().getNombre()
+                        + "' nos es posible ingresar pesajes",
                         HttpStatus.NOT_FOUND);
             }
         } else {
@@ -198,7 +208,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
         part = beneficioParcialidad.requestCountParts(idCuenta);
         return part;
     }
-    
+
     //metodo para obtener los pesos de las parcialidades ya pesadas
     @Override
     public List<ParcialidadEntity> listParcialidadPesadas(Integer idCuenta) {

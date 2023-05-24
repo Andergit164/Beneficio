@@ -14,11 +14,13 @@ import com.cafetito.dtos.TransportistaDto;
 import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.AgricultorEntity;
+import com.cafetito.entity.CatalogoEntity;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.ParcialidadEntity;
 import com.cafetito.entity.TransporteEntity;
 import com.cafetito.entity.TransportistaEntity;
 import com.cafetito.service.IAgricultor;
+import com.cafetito.service.ICatalogo;
 import com.cafetito.service.ICuenta;
 import com.cafetito.service.IParcialidad;
 import com.cafetito.service.ITransporte;
@@ -64,6 +66,9 @@ public class BeneficioController {
 
     @Autowired
     private IParcialidad parcialidad;
+    
+    @Autowired
+    private ICatalogo icatalogo;
 
     @GetMapping(path = "/status")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
@@ -267,6 +272,15 @@ public class BeneficioController {
     public ResponseEntity<CuentaEntity> declineAccount(
             @RequestBody RechazoDto dto) {
         return cuenta.declineAccount(dto);
+    }
+    
+    @RequestMapping(value = "/catalogue/{catalogo}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Lista los catalogos por su codigo_catalogo")
+    @PreAuthorize("hasRole('ROLE_BENEFICIO') or hasRole('ROLE_AGRICULTOR') or hasRole('ROLE_PESOCABAL')")
+    public List<CatalogoEntity> listarCatalogo(
+            @PathVariable("catalogo") Integer catalogo) {
+        return icatalogo.listarCatalogo(catalogo);
     }
 
 //    @PutMapping(path = "/State/{noExpedienteTributa}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -6,11 +6,13 @@
 package com.cafetito.impl.agricultor;
 
 import com.cafetito.dtos.agricultor.ParcialidadAgriDto;
+import com.cafetito.entity.CatalogoEntity;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.ParcialidadEntity;
 import com.cafetito.entity.TransporteEntity;
 import com.cafetito.entity.TransportistaEntity;
+import com.cafetito.entity.peso.CatalogoAgriEntity;
 import com.cafetito.entity.peso.ParcialidadAgriEntity;
 import com.cafetito.entity.peso.PesajeAgriEntity;
 import com.cafetito.entity.peso.TransporteAgriEntity;
@@ -88,6 +90,7 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                             .idParcialidadBeneficio(this.idParcialidadBeneficio)
                             .pesoParcialidad(dto.getPesoParcialidad())
                             .tipoMedida(dto.getTipoMedida())
+                            .medidaPeso(new CatalogoAgriEntity(pesajeAgri.getMedidaPeso().getCodigo()))
                             .fechaCreacion(new Date())
                             .usuarioAgrega(dto.getUsuarioAgrego())
                             .build()
@@ -124,6 +127,7 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
                             .pesoEnviado(dto.getPesoParcialidad())
                             .valido(false)
                             .tipoMedida(dto.getTipoMedida())
+                            .medidaPeso(new CatalogoEntity(pesajeAgri.getMedidaPeso().getCodigo()))
                             .recibido("Espera de ingreso")
                             .build()
             );

@@ -27,6 +27,9 @@ public class TransporteAgriEntity {
     @Id
     @Column(name = "placa", unique = true)
     private String placa;
+    
+    @Column(name = "id_pesaje")
+    private int idPesaje;
 
     @Column(name = "marca")
     private String marca;
@@ -67,8 +70,9 @@ public class TransporteAgriEntity {
         this.placa = placa;
     }
 
-    public TransporteAgriEntity(String placa, String marca, String color, int modelo, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible, String linea) {
+    public TransporteAgriEntity(String placa, int idPesaje, String marca, String color, int modelo, boolean activo, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico, Boolean disponible, String linea) {
         this.placa = placa;
+        this.idPesaje = idPesaje;
         this.marca = marca;
         this.color = color;
         this.modelo = modelo;
@@ -168,4 +172,14 @@ public class TransporteAgriEntity {
     public void setLinea(String linea) {
         this.linea = linea;
     } 
+
+    public int getIdPesaje() {
+        return idPesaje;
+    }
+
+    public void setIdPesaje(int idPesaje) {
+        this.idPesaje = idPesaje;
+    }
+    
+    
 }

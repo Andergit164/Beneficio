@@ -42,6 +42,7 @@ public class CuentaEntity implements Serializable {
     private int totalParcialidades;
     private Boolean tolerancia;
     private String resultadoTolerancia;
+    private CatalogoEntity medidaPeso;
 
     public CuentaEntity() {
     }
@@ -50,7 +51,7 @@ public class CuentaEntity implements Serializable {
         this.idCuenta = idCuenta;
     }
 
-    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario, int totalParcialidades, Boolean tolerancia, String resultadoTolerancia) {
+    public CuentaEntity(int idCuenta, AgricultorEntity nitAgricultor, int idPesaje, EstadosEntity idEstado, Date fechaCreacion, Double pesoEnviado, Double pesoTotalObtenido, Double diferenciaTotal, String comentario, int totalParcialidades, Boolean tolerancia, String resultadoTolerancia, CatalogoEntity medidaPeso) {
         this.idCuenta = idCuenta;
         this.nitAgricultor = nitAgricultor;
         this.idPesaje = idPesaje;
@@ -63,6 +64,7 @@ public class CuentaEntity implements Serializable {
         this.totalParcialidades = totalParcialidades;
         this.tolerancia = tolerancia;
         this.resultadoTolerancia = resultadoTolerancia;
+        this.medidaPeso = medidaPeso;
     }
 
     @Id
@@ -94,7 +96,7 @@ public class CuentaEntity implements Serializable {
         this.fechaCreacion = fechaCreacion;
     }
 
-    @Column(name = "peso_enviado_kg")
+    @Column(name = "peso_enviado")
     public Double getPesoEnviado() {
         return pesoEnviado;
     }
@@ -103,7 +105,7 @@ public class CuentaEntity implements Serializable {
         this.pesoEnviado = pesoEnviado;
     }
 
-    @Column(name = "peso_total_obtenido_kg")
+    @Column(name = "peso_total_obtenido")
     public Double getPesoTotalObtenido() {
         return pesoTotalObtenido;
     }
@@ -112,7 +114,7 @@ public class CuentaEntity implements Serializable {
         this.pesoTotalObtenido = pesoTotalObtenido;
     }
 
-    @Column(name = "diferencia_total_kg")
+    @Column(name = "diferencia_total")
     public Double getDiferenciaTotal() {
         return diferenciaTotal;
     }
@@ -180,6 +182,16 @@ public class CuentaEntity implements Serializable {
         this.resultadoTolerancia = resultadoTolerancia;
     }
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medida_peso")
+    public CatalogoEntity getMedidaPeso() {
+        return medidaPeso;
+    }
+
+    public void setMedidaPeso(CatalogoEntity medidaPeso) {
+        this.medidaPeso = medidaPeso;
+    }
+    
     @Override
     public String toString() {
         return "CuentaEntity{" + "idCuenta=" + idCuenta + ", idPesaje=" + idPesaje + ", idEstado=" + idEstado + ", fechaCreacion=" + fechaCreacion + ", pesoEnviado=" + pesoEnviado + ", pesoTotalObtenido=" + pesoTotalObtenido + ", diferenciaTotal=" + diferenciaTotal + ", nitAgricultor=" + nitAgricultor + '}';

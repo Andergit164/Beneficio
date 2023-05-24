@@ -12,6 +12,7 @@ import com.cafetito.entity.EstadosEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.ParcialidadEntity;
 import com.cafetito.entity.peso.ParcialidadAgriEntity;
+import com.cafetito.entity.peso.PesoCatalogoEntity;
 import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoEstadoEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
@@ -54,7 +55,7 @@ public class ParcialidadImpl implements IParcialidad {
     private CuentaRepository cuentaRepository;
 
     @Autowired
-    private PesoCuentaBeneficioRepository cuentaBeneficio;
+    private PesoCuentaBeneficioRepository pesoCuenta;
 
     @Autowired
     private PesoParcialidadRepository pesoParcialidadRepository;
@@ -104,10 +105,11 @@ public class ParcialidadImpl implements IParcialidad {
                             );
 
                             //Metodo para crear la cuenta en PESO CABAL
-                            cuentaBeneficio.save(PesoCuentaEntity.builder()
+                            pesoCuenta.save(PesoCuentaEntity.builder()
                                     .idCuenta(count.getIdCuenta())
                                     .idPesaje(count.getIdPesaje())
                                     .idEstado(new PesoEstadoEntity(2))
+                                    .medidaPeso(new PesoCatalogoEntity(count.getMedidaPeso().getCodigo()))
                                     .usuarioAgrega(dto.getUsuarioModifico())
                                     .fechaCreacion(new Date())
                                     .build()
@@ -122,6 +124,7 @@ public class ParcialidadImpl implements IParcialidad {
                                             .idTransportista(part.getIdTransportista().getIdTransportista())
                                             .tipoMedida(part.getTipoMedida())
                                             .aceptado(true)
+                                            .medidaPeso(new PesoCatalogoEntity(count.getMedidaPeso().getCodigo()))
                                             .usuarioAgrega(dto.getUsuarioModifico())
                                             .fechaCreacion(new Date())
                                             .build()

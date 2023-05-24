@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class PesajeAgriDto implements Serializable{
    
     private String nitAgricultor;
+    private Integer codigoPeso;
     private String usuarioAgrego;
 
 }

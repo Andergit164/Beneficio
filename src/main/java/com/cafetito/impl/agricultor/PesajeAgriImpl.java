@@ -7,10 +7,12 @@ package com.cafetito.impl.agricultor;
 
 import com.cafetito.dtos.agricultor.PesajeAgriDto;
 import com.cafetito.entity.AgricultorEntity;
+import com.cafetito.entity.CatalogoEntity;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.EstadosEntity;
 import com.cafetito.entity.HistoricoBitacoraEntity;
 import com.cafetito.entity.peso.AgricultorAgriEntity;
+import com.cafetito.entity.peso.CatalogoAgriEntity;
 import com.cafetito.entity.peso.PesajeAgriEntity;
 import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
@@ -53,6 +55,7 @@ public class PesajeAgriImpl implements IPesajeAgri{
                         .nitAgricultor(new AgricultorAgriEntity(dto.getNitAgricultor()))
                         .idCuenta(this.idCuenta)
                         .fechaCreacion(new Date())
+                        .medidaPeso(new CatalogoAgriEntity(dto.getCodigoPeso()))
                         .usuarioAgrega(dto.getUsuarioAgrego())
                         .build()
                         
@@ -65,6 +68,7 @@ public class PesajeAgriImpl implements IPesajeAgri{
                         .nitAgricultor(new AgricultorEntity(dto.getNitAgricultor()))
                         .idPesaje(this.idPesaje)
                         .idEstado(new EstadosEntity(1))
+                        .medidaPeso(new CatalogoEntity(dto.getCodigoPeso()))
                         .fechaCreacion(new Date())
                         .build()
         );

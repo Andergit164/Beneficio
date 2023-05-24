@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 public class TransportistaAgriDto implements Serializable{
     
     private String idTransportista;
-    private String idTransporte;
     private String nombre;
     private Date fechaNacimiento;
     private String tipoLicencia;

@@ -39,6 +39,10 @@ public class PesoCuentaEntity implements Serializable {
     @JoinColumn(name = "id_estado")
     private PesoEstadoEntity idEstado;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medida_peso")
+    private PesoCatalogoEntity medidaPeso;
+
     @Column(name = "usuario_agrego")
     private String usuarioAgrega;
 
@@ -60,10 +64,11 @@ public class PesoCuentaEntity implements Serializable {
         this.idCuenta = idCuenta;
     }
 
-    public PesoCuentaEntity(int idCuenta, int idPesaje, PesoEstadoEntity idEstado, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public PesoCuentaEntity(int idCuenta, int idPesaje, PesoEstadoEntity idEstado, PesoCatalogoEntity medidaPeso, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idCuenta = idCuenta;
         this.idPesaje = idPesaje;
         this.idEstado = idEstado;
+        this.medidaPeso = medidaPeso;
         this.usuarioAgrega = usuarioAgrega;
         this.fechaCreacion = fechaCreacion;
         this.usuarioModifica = usuarioModifica;
@@ -92,6 +97,14 @@ public class PesoCuentaEntity implements Serializable {
 
     public void setIdEstado(PesoEstadoEntity idEstado) {
         this.idEstado = idEstado;
+    }
+
+    public PesoCatalogoEntity getMedidaPeso() {
+        return medidaPeso;
+    }
+
+    public void setMedidaPeso(PesoCatalogoEntity medidaPeso) {
+        this.medidaPeso = medidaPeso;
     }
 
     public String getUsuarioAgrega() {
@@ -126,6 +139,4 @@ public class PesoCuentaEntity implements Serializable {
         this.fechaModifico = fechaModifico;
     }
 
-    
-    
 }

@@ -40,8 +40,12 @@ public class PesajeAgriEntity implements Serializable {
 
     @Column(name = "id_cuenta")
     private int idCuenta;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medida_peso")
+    private CatalogoAgriEntity medidaPeso;
 
-    @Column(name = "peso_total_kg")
+    @Column(name = "peso_total")
     private double pesoTotal;
 
     @Column(name = "total_parcialidades")
@@ -68,10 +72,11 @@ public class PesajeAgriEntity implements Serializable {
         this.idPesaje = idPesaje;
     }
 
-    public PesajeAgriEntity(int idPesaje, AgricultorAgriEntity nitAgricultor, int idCuenta, double pesoTotal, int totalParcialidades, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public PesajeAgriEntity(int idPesaje, AgricultorAgriEntity nitAgricultor, int idCuenta, CatalogoAgriEntity medidaPeso, double pesoTotal, int totalParcialidades, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idPesaje = idPesaje;
         this.nitAgricultor = nitAgricultor;
         this.idCuenta = idCuenta;
+        this.medidaPeso = medidaPeso;
         this.pesoTotal = pesoTotal;
         this.totalParcialidades = totalParcialidades;
         this.usuarioAgrega = usuarioAgrega;
@@ -150,6 +155,14 @@ public class PesajeAgriEntity implements Serializable {
 
     public void setFechaModifico(Date fechaModifico) {
         this.fechaModifico = fechaModifico;
+    }
+
+    public CatalogoAgriEntity getMedidaPeso() {
+        return medidaPeso;
+    }
+
+    public void setMedidaPeso(CatalogoAgriEntity medidaPeso) {
+        this.medidaPeso = medidaPeso;
     }
 
 }

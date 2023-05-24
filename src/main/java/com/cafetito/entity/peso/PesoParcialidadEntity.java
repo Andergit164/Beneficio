@@ -42,6 +42,10 @@ public class PesoParcialidadEntity implements Serializable {
     @Column(name = "id_transportista")
     private String idTransportista;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medida_peso")
+    private PesoCatalogoEntity medidaPeso;
+
     @Column(name = "tipo_medida")
     private String tipoMedida;
 
@@ -86,11 +90,12 @@ public class PesoParcialidadEntity implements Serializable {
         this.idParcialidad = idParcialidad;
     }
 
-    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, String idTransportista, String tipoMedida, boolean aceptado, String observaciones, Double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
+    public PesoParcialidadEntity(int idParcialidad, PesoCuentaEntity idCuenta, String idTransporte, String idTransportista, PesoCatalogoEntity medidaPeso, String tipoMedida, boolean aceptado, String observaciones, Double pesoObtenido, Date fechaPeso, boolean boleta, Date fechaBoleta, String usuarioAgrega, Date fechaCreacion, String usuarioModifica, Date fechaModifico) {
         this.idParcialidad = idParcialidad;
         this.idCuenta = idCuenta;
         this.idTransporte = idTransporte;
         this.idTransportista = idTransportista;
+        this.medidaPeso = medidaPeso;
         this.tipoMedida = tipoMedida;
         this.aceptado = aceptado;
         this.observaciones = observaciones;
@@ -134,6 +139,14 @@ public class PesoParcialidadEntity implements Serializable {
 
     public void setIdTransportista(String idTransportista) {
         this.idTransportista = idTransportista;
+    }
+
+    public PesoCatalogoEntity getMedidaPeso() {
+        return medidaPeso;
+    }
+
+    public void setMedidaPeso(PesoCatalogoEntity medidaPeso) {
+        this.medidaPeso = medidaPeso;
     }
 
     public String getTipoMedida() {
@@ -224,4 +237,5 @@ public class PesoParcialidadEntity implements Serializable {
         this.fechaModifico = fechaModifico;
     }
 
+    
 }
