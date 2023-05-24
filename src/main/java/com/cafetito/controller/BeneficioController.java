@@ -79,7 +79,7 @@ public class BeneficioController {
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Lista las cuenta de un agricultor en base a su nit")
-    @PreAuthorize("hasRole('ROLE_BENEFICIO')")
+    @PreAuthorize("hasRole('ROLE_BENEFICIO') or hasRole('ROLE_AGRICULTOR')")
     public List<CuentaEntity> listarCuentas(
             @PathVariable("nitAgricultor") String nitAgricultor) {
         return cuenta.listarCuentaAgricultor(nitAgricultor);
