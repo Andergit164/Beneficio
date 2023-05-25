@@ -22,6 +22,7 @@ import com.cafetito.service.agricultor.ITransportistaAgri;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class AgricultorController {
      */
     @RequestMapping(value = "/create/transport", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Crea un nuevo transporte")
+    @Operation( summary = "Crear un nuevo transporte")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public ResponseEntity<TransporteAgriEntity> createTransport(
             @RequestBody TransporteAgriDto dto) {
@@ -77,6 +78,7 @@ public class AgricultorController {
 
     @RequestMapping(value = "/list/transport", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista todos los transportes")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public List<TransporteAgriEntity> listTransport() {
         return transporte.listarTransporte();
@@ -89,6 +91,7 @@ public class AgricultorController {
      */
     @RequestMapping(value = "/create/carrier", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation( summary = "Crear un transportista")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public ResponseEntity<TransportistaAgriEntity> createCarrier(
             @RequestBody TransportistaAgriDto dto) {
@@ -97,6 +100,7 @@ public class AgricultorController {
 
     @RequestMapping(value = "/list/carrier", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista todos los transportistas")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public List<TransportistaAgriEntity> listCarrier() {
         return transportista.listarTransportistas();
@@ -109,7 +113,7 @@ public class AgricultorController {
      */
     @RequestMapping(value = "/create/weighing", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Crea un nuevo pesaje")
+    @Operation( summary = "Crear un nuevo pesaje")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public Boolean crearPesaje(
             @RequestBody PesajeAgriDto dto) {
@@ -118,7 +122,7 @@ public class AgricultorController {
 
     @RequestMapping(value = "/list/weighing", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listar pesajes")
+    @Operation( summary = "Lista los pesajes")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public List<PesajeAgriEntity> listarPesajes() {
         return pesaje.listarPesaje();
@@ -131,7 +135,7 @@ public class AgricultorController {
      */
     @RequestMapping(value = "/show/farmer", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Muestra los datos del agricultor")
+    @Operation( summary = "Muestra los datos del agricultor")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public List<AgricultorAgriEntity> mostrarAgricultor() {
         return agricultor.listarAgricultor();
@@ -144,7 +148,7 @@ public class AgricultorController {
      */
     @RequestMapping(value = "/count/parts/{idPesaje}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Listar las parcialidades en base a un pesaje")
+    @Operation( summary = "Lista las parcialidades de un pesaje")
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public List<ParcialidadAgriEntity> listParts(
             @PathVariable("idPesaje") int idPesaje) {
@@ -153,12 +157,30 @@ public class AgricultorController {
 
     @RequestMapping(value = "/count/parts/create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Crea una nueva parcialidad")
+    @Operation( summary = "Crear una nueva parcialidad")
     @ApiResponses(value = {
         @ApiResponse(code = 500, message = "Ocurrior un error al insertar los datos")})
     @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
     public ResponseEntity<ParcialidadAgriEntity> createCountPart(
             @RequestBody ParcialidadAgriDto Dto) {
         return parcialidad.crearParcialidad(Dto);
+    }
+    
+    @RequestMapping(value = "/assignment/transport/{idPesaje}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista de transportes disponible o que pertenezcan a un pesaje")
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
+    public List<TransporteAgriEntity> transportAssignment(
+            @PathVariable("idPesaje") Integer idPesaje) {
+        return transporte.transportForAssignment(idPesaje);
+    }
+    
+    @RequestMapping(value = "/assignment/carrier/{idPesaje}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista de transportistas disponible o que pertenezcan a un pesaje")
+    @PreAuthorize("hasRole('ROLE_AGRICULTOR')")
+    public List<TransportistaAgriEntity> carrierAssignment(
+            @PathVariable("idPesaje") Integer idPesaje) {
+        return transportista.carrierForAssignment(idPesaje);
     }
 }

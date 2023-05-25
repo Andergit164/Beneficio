@@ -18,4 +18,5 @@ public interface ITransportistaAgri {
     
     public abstract ResponseEntity<TransportistaAgriEntity> crearTransportista(TransportistaAgriDto dto);
     public abstract List <TransportistaAgriEntity> listarTransportistas();
+    public abstract List <TransportistaAgriEntity> carrierForAssignment(Integer idPesaje);
 }

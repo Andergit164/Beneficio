@@ -7,6 +7,7 @@ package com.cafetito.impl;
 
 import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.RechazoDto;
+import com.cafetito.dtos.UserLoggedDto;
 import com.cafetito.entity.AgricultorEntity;
 import com.cafetito.entity.CuentaEntity;
 import com.cafetito.entity.EstadosEntity;
@@ -66,7 +67,7 @@ public class CuentaImpl implements ICuenta {
 //        return cuentaRepository.requestNexVal();
 //    }
     @Override
-    public ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta) {
+    public ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta, UserLoggedDto dto) {
         final CuentaEntity updateState = cuentaRepository.findById(idCuenta).orElse(null);
         final PesoCuentaEntity pesoAccount = cuentaPesoCabal.findById(idCuenta).orElse(null);
         if (updateState != null) {
@@ -82,7 +83,7 @@ public class CuentaImpl implements ICuenta {
                                 .tabla("cuenta")
                                 .estadoAnterior(4)
                                 .estadoNuevo(5)
-                                .usuarioAgrego("localhost")
+                                .usuarioAgrego(dto.getUsuarioModifico())
                                 .fechaAccion(new Date())
                                 .data(new Gson().toJson(updateState))
                                 .build()
@@ -90,7 +91,7 @@ public class CuentaImpl implements ICuenta {
 
                 //Metodo para actualizar al estado Cuenta Cerrada de la cuenta en PESO CABAL
                 pesoAccount.setIdEstado(new PesoEstadoEntity(5));
-                pesoAccount.setUsuarioModifica("localhost");
+                pesoAccount.setUsuarioModifica(dto.getUsuarioModifico());
                 pesoAccount.setFechaModifico(new Date());
                 cuentaPesoCabal.save(pesoAccount);
 
@@ -108,7 +109,7 @@ public class CuentaImpl implements ICuenta {
     }
 
     @Override
-    public ResponseEntity<CuentaEntity> stateConfirmedAccount(int idCuenta) {
+    public ResponseEntity<CuentaEntity> stateConfirmedAccount(int idCuenta, UserLoggedDto dto) {
         final CuentaEntity updateAccount = cuentaRepository.findById(idCuenta).orElse(null);
         Double max = 0.0;
         Double min = 0.0;
@@ -136,7 +137,7 @@ public class CuentaImpl implements ICuenta {
                                     .estadoAnterior(5)
                                     .estadoNuevo(6)
                                     .activo(true)
-                                    .usuarioAgrego("localhost")
+                                    .usuarioAgrego(dto.getUsuarioModifico())
                                     .fechaAccion(new Date())
                                     .data(new Gson().toJson(updateAccount))
                                     .build()
@@ -159,7 +160,7 @@ public class CuentaImpl implements ICuenta {
                                         .estadoAnterior(5)
                                         .estadoNuevo(6)
                                         .activo(false)
-                                        .usuarioAgrego("localhost")
+                                        .usuarioAgrego(dto.getUsuarioModifico())
                                         .fechaAccion(new Date())
                                         .data(new Gson().toJson(updateAccount))
                                         .build()
@@ -182,7 +183,7 @@ public class CuentaImpl implements ICuenta {
                                         .estadoAnterior(5)
                                         .estadoNuevo(6)
                                         .activo(false)
-                                        .usuarioAgrego("localhost")
+                                        .usuarioAgrego(dto.getUsuarioModifico())
                                         .fechaAccion(new Date())
                                         .data(new Gson().toJson(updateAccount))
                                         .build()

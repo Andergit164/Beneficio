@@ -6,7 +6,10 @@
 package com.cafetito.repository.peso;
 
 import com.cafetito.entity.peso.TransporteAgriEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,4 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface TransporteAgriRepository extends JpaRepository<TransporteAgriEntity, String>{
     
+    @Query("SELECT te FROM TransporteAgriEntity te WHERE disponible = true OR id_pesaje = :idPesaje")
+    List<TransporteAgriEntity> transportForAssign(@Param("idPesaje") Integer idPesaje);
 }

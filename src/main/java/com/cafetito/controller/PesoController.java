@@ -11,6 +11,7 @@ import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
 import com.cafetito.service.peso.ICuentaBeneficio;
 import com.cafetito.service.peso.IPesoParcialidad;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class PesoController {
      */
     @RequestMapping(value = "/count/parts/{idCuenta}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista las parcialidades de una cuenta")
     @PreAuthorize("hasRole('ROLE_PESOCABAL')")
     public List<PesoParcialidadEntity> listParts(
             @PathVariable("idCuenta") int idCuenta) {
@@ -56,6 +58,7 @@ public class PesoController {
     
     @RequestMapping(value = "/update/weigth", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Ingresar pesaje a una parcialidad")
     @PreAuthorize("hasRole('ROLE_PESOCABAL')")
     public ResponseEntity<PesoParcialidadEntity> updateState(
             @RequestBody PesoParcialidadDto dto) {
@@ -70,6 +73,7 @@ public class PesoController {
     
     @RequestMapping(value = "/count", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista las cuenta de peso cabal")
     @PreAuthorize("hasRole('ROLE_PESOCABAL')")
     public List<PesoCuentaEntity> listCounts() {
         return cuenta.listarCuentas();

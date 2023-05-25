@@ -11,6 +11,7 @@ import com.cafetito.dtos.ParcialidadDto;
 import com.cafetito.dtos.RechazoDto;
 import com.cafetito.dtos.TransporteDto;
 import com.cafetito.dtos.TransportistaDto;
+import com.cafetito.dtos.UserLoggedDto;
 import com.cafetito.dtos.updateParcialidadDto;
 import com.cafetito.dtos.updateTransDto;
 import com.cafetito.entity.AgricultorEntity;
@@ -26,6 +27,7 @@ import com.cafetito.service.IParcialidad;
 import com.cafetito.service.ITransporte;
 import com.cafetito.service.ITransportista;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import java.util.Optional;
 import javax.ws.rs.Produces;
@@ -83,7 +85,7 @@ public class BeneficioController {
      */
     @RequestMapping(value = "/count/agricultor/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Lista las cuenta de un agricultor en base a su nit")
+    @Operation( summary = "Lista las cuentas de un agricultor por NIT")
     @PreAuthorize("hasRole('ROLE_BENEFICIO') or hasRole('ROLE_AGRICULTOR')")
     public List<CuentaEntity> listarCuentas(
             @PathVariable("nitAgricultor") String nitAgricultor) {
@@ -92,7 +94,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/counts/agricultor/{nitAgricultor}/{estado}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Lista las cuenta de un agricultor en base a su nit")
+    @Operation( summary = "Lista las cuenta de un agricultor por NIT y estado")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<CuentaEntity> listarCuentasEstado(
             @PathVariable("nitAgricultor") String nitAgricultor,
@@ -102,6 +104,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/count/detail/{idCuenta}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Muestra la información de una cuenta")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public Optional<CuentaEntity> showAccount(
             @PathVariable("idCuenta") int idCuenta) {
@@ -120,6 +123,7 @@ public class BeneficioController {
      */
     @RequestMapping(value = "/farmer/listar", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista los agricultores")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<List<AgricultorEntity>> listarAgricultores() {
         List<AgricultorEntity> farmers = agricultor.listaAgricultores();
@@ -128,6 +132,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/create/farmer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation( summary = "Crear un agricultor")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<AgricultorEntity> crearAgricultor(
             @RequestBody AgricultorDto dto) {
@@ -147,6 +152,7 @@ public class BeneficioController {
 //    }
     @RequestMapping(value = "/transport/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista los transportes de un agricultor")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<TransporteEntity> listTransport(
             @PathVariable("nitAgricultor") String nitAgricultor) {
@@ -155,6 +161,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/updateTransport/{placa}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Activar o Inactivar un transporte")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<TransporteEntity> updateTransport(
             @PathVariable("placa") String placa,
@@ -164,6 +171,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/deleteTransport/{placa}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Borrar lógicamente un transporte")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<TransporteEntity> deleteTransport(
             @PathVariable("placa") String placa) {
@@ -183,6 +191,7 @@ public class BeneficioController {
 //    }
     @RequestMapping(value = "/carrier/list/{nitAgricultor}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista los transportistas de un agricultor")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<TransportistaEntity> listCarrier(
             @PathVariable("nitAgricultor") String nitAgricultor) {
@@ -191,6 +200,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/updateCarrier/{DPI}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Activar o Inactivar un transportista")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<TransportistaEntity> updateCarrier(
             @PathVariable("DPI") String DPI,
@@ -200,6 +210,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/deleteCarrier/{DPI}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Borrar lógicamente un transportista")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<TransportistaEntity> deleteCarrier(
             @PathVariable("DPI") String DPI) {
@@ -213,6 +224,7 @@ public class BeneficioController {
      */
     @RequestMapping(value = "/count/parts/{idCuenta}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Lista las parcialidades de una cuenta")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public List<ParcialidadEntity> listParts(
             @PathVariable("idCuenta") int idCuenta) {
@@ -221,7 +233,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/income/parts", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Actuliza el ingreso de la parcialidad")
+    @Operation( summary = "Aceptar el ingreso de una parcialidad")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<ParcialidadEntity> updatePart(
             @RequestBody updateParcialidadDto dto) {
@@ -230,6 +242,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/part/detail/{idParcialidad}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Muestra el detalle de una parcialidad")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public Optional<ParcialidadEntity> showPart(
             @PathVariable("idParcialidad") int idParcialidad) {
@@ -238,6 +251,7 @@ public class BeneficioController {
 
     @RequestMapping(value = "/decline/part", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Rechazar una parcialidad")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<ParcialidadEntity> declinePart(
             @RequestBody RechazoDto dto) {
@@ -252,22 +266,27 @@ public class BeneficioController {
 //    }
     @RequestMapping(value = "/state/close/account/{idCuenta}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Actualizar el estado de una cuenta a 'Cuenta Cerrada'")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<CuentaEntity> closeAccount(
-            @PathVariable("idCuenta") int idCuenta) {
-        return cuenta.stateCloseAccount(idCuenta);
+            @PathVariable("idCuenta") int idCuenta,
+            @RequestBody UserLoggedDto dto) {
+        return cuenta.stateCloseAccount(idCuenta, dto);
     }
 
     @RequestMapping(value = "/state/confirmed/account/{idCuenta}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Actualizar el estado de una cuenta a 'Cuenta Confirmada'")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<CuentaEntity> confirmedAccount(
-            @PathVariable("idCuenta") int idCuenta) {
-        return cuenta.stateConfirmedAccount(idCuenta);
+            @PathVariable("idCuenta") int idCuenta,
+            @RequestBody UserLoggedDto dto) {
+        return cuenta.stateConfirmedAccount(idCuenta, dto);
     }
 
     @RequestMapping(value = "/decline/account", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Operation( summary = "Rechazar una cuenta")
     @PreAuthorize("hasRole('ROLE_BENEFICIO')")
     public ResponseEntity<CuentaEntity> declineAccount(
             @RequestBody RechazoDto dto) {
@@ -276,7 +295,7 @@ public class BeneficioController {
     
     @RequestMapping(value = "/catalogue/{catalogo}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Lista los catalogos por su codigo_catalogo")
+    @Operation( summary = "Lista los catalogos por su codigo_catalogo")
     @PreAuthorize("hasRole('ROLE_BENEFICIO') or hasRole('ROLE_AGRICULTOR') or hasRole('ROLE_PESOCABAL')")
     public List<CatalogoEntity> listarCatalogo(
             @PathVariable("catalogo") Integer catalogo) {

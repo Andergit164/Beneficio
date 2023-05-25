@@ -55,6 +55,7 @@ public class TransportistaAgriImpl implements ITransportistaAgri {
                                 .disponible(true)
                                 .tipoLicencia(dto.getTipoLicencia())
                                 .fechaLicencia(dto.getFechaLicencia())
+                                .usuarioAgrega(dto.getUsuarioAgrego())
                                 .fechaCreacion(new Date())
                                 .build()
                 );
@@ -95,6 +96,11 @@ public class TransportistaAgriImpl implements ITransportistaAgri {
     @Override
     public List<TransportistaAgriEntity> listarTransportistas() {
         return transportista.findAll();
+    }
+
+    @Override
+    public List<TransportistaAgriEntity> carrierForAssignment(Integer idPesaje) {
+       return transportista.carrierForAssign(idPesaje);
     }
 
 }

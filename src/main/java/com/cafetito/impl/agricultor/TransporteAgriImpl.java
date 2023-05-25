@@ -53,6 +53,7 @@ public class TransporteAgriImpl implements ITransporteAgri {
                             .linea(dto.getLinea())
                             .activo(true)
                             .disponible(true)
+                            .usuarioAgrega(dto.getUsuarioAgrego())
                             .fechaCreacion(new Date())
                             .build()
             );
@@ -89,6 +90,11 @@ public class TransporteAgriImpl implements ITransporteAgri {
     @Override
     public List<TransporteAgriEntity> listarTransporte() {
         return transporte.findAll();
+    }
+
+    @Override
+    public List<TransporteAgriEntity> transportForAssignment(Integer idPesaje) {
+        return transporte.transportForAssign(idPesaje);
     }
 
 }

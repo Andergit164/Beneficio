@@ -13,11 +13,15 @@ import com.cafetito.entity.ParcialidadEntity;
 import com.cafetito.entity.peso.PesoCuentaEntity;
 import com.cafetito.entity.peso.PesoEstadoEntity;
 import com.cafetito.entity.peso.PesoParcialidadEntity;
+import com.cafetito.entity.peso.TransporteAgriEntity;
+import com.cafetito.entity.peso.TransportistaAgriEntity;
 import com.cafetito.repository.CuentaRepository;
 import com.cafetito.repository.HistoricoBitacoraRepository;
 import com.cafetito.repository.ParcialidadRepository;
 import com.cafetito.repository.peso.PesoCuentaBeneficioRepository;
 import com.cafetito.repository.peso.PesoParcialidadRepository;
+import com.cafetito.repository.peso.TransporteAgriRepository;
+import com.cafetito.repository.peso.TransportistaAgriRepository;
 import com.cafetito.service.peso.IPesoParcialidad;
 import com.google.gson.Gson;
 import java.util.Date;
@@ -49,6 +53,12 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
     @Autowired
     private HistoricoBitacoraRepository bitacora;
 
+    @Autowired
+    private TransporteAgriRepository agriTransporte;
+
+    @Autowired
+    private TransportistaAgriRepository agriTransportista;
+
     Double totalPesado = 0.0;
     Double diferencia = 0.0;
     Double diferenciaCuenta = 0.0;
@@ -67,6 +77,8 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
         final PesoCuentaEntity count = pesoCuenta.findById(dto.getIdCuenta()).orElse(null);
         final CuentaEntity beneficioCount = beneficioCuenta.findById(dto.getIdCuenta()).orElse(null);
         final ParcialidadEntity beneficioPart = beneficioParcialidad.findById(dto.getIdParcialidad()).orElse(null);
+        final TransportistaAgriEntity ATransportista = agriTransportista.findById(beneficioPart.getIdTransportista().getIdTransportista()).orElse(null);
+        final TransporteAgriEntity ATransporte = agriTransporte.findById(beneficioPart.getIdTransporte().getIdTransporte()).orElse(null);
 
         if (updateWeight != null) {
             if (beneficioCount.getIdEstado().getIdEstado() == 2 || beneficioCount.getIdEstado().getIdEstado() == 3 || beneficioCount.getIdEstado().getIdEstado() == 4) {
@@ -161,7 +173,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                         }
 
                         parcialidadesPesadas = getCountPartsWeighing(dto.getIdCuenta());
-                        //Metodo encargado de validar si ya se pesaron todas las parcialidades para asignar el estado "Pesaje Finalizadoi"
+                        //Metodo encargado de validar si ya se pesaron todas las parcialidades para asignar el estado "Pesaje Finalizado"
                         if (beneficioCount.getTotalParcialidades() == parcialidadesPesadas) {
                             beneficioCount.setIdEstado(new EstadosEntity(4));
                             beneficioCuenta.save(beneficioCount);
@@ -179,6 +191,21 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                                             .data(new Gson().toJson(beneficioCount))
                                             .build()
                             );
+                            
+                            count.setIdEstado(new PesoEstadoEntity(4));
+                            count.setUsuarioModifica(dto.getUsuarioModifico());
+                            count.setFechaModifico(new Date());
+                            pesoCuenta.save(count);
+                            
+                            ATransporte.setDisponible(true);
+                            ATransporte.setUsuarioModifica(dto.getUsuarioModifico());
+                            ATransporte.setFechaModifico(new Date());
+                            agriTransporte.save(ATransporte);
+                            
+                            ATransportista.setDisponible(true);
+                            ATransportista.setUsuarioModifica(dto.getUsuarioModifico());
+                            ATransportista.setFechaModifico(new Date());
+                            agriTransportista.save(ATransportista);
                         }
                     } else {
                         return new ResponseEntity("El tipo de medida seleccionado, "

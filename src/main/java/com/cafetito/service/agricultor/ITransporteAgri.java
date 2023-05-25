@@ -19,4 +19,5 @@ public interface ITransporteAgri {
     
     ResponseEntity<TransporteAgriEntity> agregarTransporte(TransporteAgriDto dto);
     public abstract List <TransporteAgriEntity> listarTransporte();
+    public abstract List <TransporteAgriEntity> transportForAssignment(Integer idPesaje);
 }

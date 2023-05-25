@@ -7,6 +7,7 @@ package com.cafetito.service;
 
 import com.cafetito.dtos.CuentaDto;
 import com.cafetito.dtos.RechazoDto;
+import com.cafetito.dtos.UserLoggedDto;
 import com.cafetito.entity.CuentaEntity;
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +27,9 @@ public interface ICuenta {
     
 //    String createCuenta(CuentaDto cuentaDto);
     
-    ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta);
+    ResponseEntity<CuentaEntity> stateCloseAccount(int idCuenta, UserLoggedDto dto);
     
-    ResponseEntity<CuentaEntity> stateConfirmedAccount(int idCuenta);
+    ResponseEntity<CuentaEntity> stateConfirmedAccount(int idCuenta, UserLoggedDto dto);
     
     Optional<CuentaEntity> showAccount(int idCuenta);
     
