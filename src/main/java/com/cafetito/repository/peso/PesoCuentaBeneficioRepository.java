@@ -18,6 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PesoCuentaBeneficioRepository extends JpaRepository<PesoCuentaEntity, Integer>{
     
-    @Query("SELECT p FROM PesoCuentaEntity p WHERE id_estado = 2 or id_estado = 3")
+    @Query("SELECT p FROM PesoCuentaEntity p WHERE id_estado = 2 or id_estado = 3 or id_estado = 4")
     List<PesoCuentaEntity> listCuentas();
 }

@@ -75,8 +75,8 @@ public class ParcialidadAgriImpl implements IParcialidadAgri {
         final TransportistaAgriEntity AgriTransportista = Atransportista.findById(dto.getIdTransportista()).orElse(null);
 
         if (beneficioCount.getIdEstado().getIdEstado() == 1) {
-            if (AgriTransporte.getDisponible()) {
-                if (AgriTransportista.getDisponible()) {
+            if (AgriTransporte.getDisponible() || AgriTransporte.getIdPesaje() == dto.getIdPesaje()) {
+                if (AgriTransportista.getDisponible() || AgriTransportista.getIdPesaje() == dto.getIdPesaje()) {
 
                     this.idParcialidadAgricultor = getIdAgricultor();
                     this.idParcialidadBeneficio = getIdBeneficio();

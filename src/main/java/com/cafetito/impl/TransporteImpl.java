@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -64,7 +65,7 @@ public class TransporteImpl implements ITransporte {
 
     @Override
     public ResponseEntity<TransporteEntity> activarInactivarTransporte(String placa, updateTransDto dto) {
-        final TransporteEntity updateTransporte = transporteRepository.findById(placa).orElse(null);
+        final TransporteEntity updateTransporte = transporteRepository.findById(placa).orElseThrow(() -> new ResponseStatusException(HttpStatus.NO_CONTENT, "No se encontró información para la placa"));
         String respuesta;
         
         if(updateTransporte.isActivo()){
@@ -95,7 +96,7 @@ public class TransporteImpl implements ITransporte {
                 return new ResponseEntity("El transporte ya se encuentra : '" + respuesta + "' ", HttpStatus.BAD_REQUEST);
             }
         } else {
-            return new ResponseEntity("No se encontro información para la placa: " + placa, HttpStatus.NO_CONTENT);
+            return new ResponseEntity("No se encontró información para la placa: " + placa, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity("Transporte actualizado correctamente", HttpStatus.OK);
     }
@@ -120,7 +121,7 @@ public class TransporteImpl implements ITransporte {
                             .build()
             );
         } else {
-            return new ResponseEntity("No se encontro información para la placa: " + placa, HttpStatus.NO_CONTENT);
+            return new ResponseEntity("No se encontró información para la placa: " + placa, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity("Transporte eliminado correctamente.", HttpStatus.OK);
     }

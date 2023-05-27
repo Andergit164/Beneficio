@@ -72,7 +72,6 @@ public class AgricultorImpl implements IAgricultor {
             return new ResponseEntity("Ocurrió un error: " + e,
                     HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity("Agricultor creado con exito.",
                 HttpStatus.CREATED);
     }

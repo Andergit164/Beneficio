@@ -90,7 +90,7 @@ public class TransportistaAgriImpl implements ITransportistaAgri {
             return new ResponseEntity("La licencia se encuentra vencida", HttpStatus.METHOD_NOT_ALLOWED);
         }
 
-        return new ResponseEntity("Transportista Creado", HttpStatus.CREATED);
+        return new ResponseEntity("Transportista Creado con éxito", HttpStatus.CREATED);
     }
 
     @Override

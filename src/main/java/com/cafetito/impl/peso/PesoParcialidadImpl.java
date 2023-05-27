@@ -208,7 +208,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                             agriTransportista.save(ATransportista);
                         }
                     } else {
-                        return new ResponseEntity("El tipo de medida seleccionado, "
+                        return new ResponseEntity("El tipo de medida seleccionado "
                                 + "no coincide con el tipo de medida de la parcialidad: [ " + updateWeight.getMedidaPeso().getNombre() + " ]",
                                 HttpStatus.BAD_REQUEST);
                     }
@@ -222,7 +222,7 @@ public class PesoParcialidadImpl implements IPesoParcialidad {
                         HttpStatus.NOT_FOUND);
             }
         } else {
-            return new ResponseEntity("No se encontro la parcialidad ingresada",
+            return new ResponseEntity("No se encontró la parcialidad ingresada",
                     HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity("Ingreso de pesaje exitoso",

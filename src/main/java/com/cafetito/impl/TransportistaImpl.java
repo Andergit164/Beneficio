@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -102,7 +103,7 @@ public class TransportistaImpl implements ITransportista {
 
     @Override
     public ResponseEntity<TransportistaEntity> deleteTransportista(String dpi) {
-        final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElse(null);
+        final TransportistaEntity deleteTransportista = transportistaRepository.findById(dpi).orElseThrow(() -> new ResponseStatusException(HttpStatus.NO_CONTENT, "No se encontró información del DPI"));
         if (deleteTransportista != null) {
             deleteTransportista.setActivo(false);
             deleteTransportista.setEstado("Inactivo");
@@ -120,7 +121,7 @@ public class TransportistaImpl implements ITransportista {
                             .build()
             );
         } else {
-            return new ResponseEntity("No se encontro información del DPI : " + dpi, HttpStatus.NO_CONTENT);
+            return new ResponseEntity("No se encontró información del DPI : " + dpi, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity("Transportista eliminado correctamente", HttpStatus.OK);
     }

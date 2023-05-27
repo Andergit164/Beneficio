@@ -155,7 +155,7 @@ public class ParcialidadImpl implements IParcialidad {
                                     HttpStatus.NOT_FOUND);
                         }
                     } else {
-                        return new ResponseEntity("El transporte: '" + part.getIdTransporte().getIdTransporte() + "' no se cuentra activo.",
+                        return new ResponseEntity("El transporte: '" + part.getIdTransporte().getIdTransporte() + "' no se encuentra activo.",
                                 HttpStatus.NOT_FOUND);
                     }
                 } else {
@@ -163,11 +163,11 @@ public class ParcialidadImpl implements IParcialidad {
                             HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity("No se encontro la cuenta ingresada.",
+                return new ResponseEntity("No se encontró la cuenta ingresada.",
                         HttpStatus.NO_CONTENT);
             }
         } else {
-            return new ResponseEntity("No se encontro la parcialidad ingresada.",
+            return new ResponseEntity("No se encontró la parcialidad ingresada.",
                     HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity("Parcialidad recibida correctamente.",
